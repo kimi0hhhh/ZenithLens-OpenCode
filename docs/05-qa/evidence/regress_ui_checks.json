@@ -1,0 +1,119 @@
+{
+  "total": 10,
+  "pass": 10,
+  "fail": 0,
+  "dom_rows": [
+    {
+      "code": "017412",
+      "tier": "A",
+      "mv": "¥4,817.61"
+    },
+    {
+      "code": "022485",
+      "tier": "A",
+      "mv": "¥4,710.64"
+    },
+    {
+      "code": "000217",
+      "tier": "A",
+      "mv": "¥4,233.07"
+    },
+    {
+      "code": "002963",
+      "tier": "A",
+      "mv": "¥3,900.99"
+    },
+    {
+      "code": "008087",
+      "tier": "A",
+      "mv": "¥3,187.75"
+    },
+    {
+      "code": "017193",
+      "tier": "A",
+      "mv": "¥1,576.99"
+    },
+    {
+      "code": "014881",
+      "tier": "A",
+      "mv": "¥1,454.74"
+    },
+    {
+      "code": "011840",
+      "tier": "A",
+      "mv": "¥982.90"
+    },
+    {
+      "code": "018897",
+      "tier": "A",
+      "mv": "¥626.04"
+    },
+    {
+      "code": "016786",
+      "tier": "A",
+      "mv": "¥41.17"
+    }
+  ],
+  "checks": [
+    {
+      "id": "D-01-a",
+      "desc": "#eg-cmp 显示 92.00%",
+      "pass": true,
+      "detail": "cmp_text='有效覆盖\\n92.00% → 100.00%\\nP 标准差\\n0.352 → 0.103\\n极端格数\\n54 → 0 格\\n走前 Δ\\n待复现 → 待复现'"
+    },
+    {
+      "id": "D-01-b",
+      "desc": "#eg-cmp 显示 100.00%",
+      "pass": true,
+      "detail": "cmp_text='有效覆盖\\n92.00% → 100.00%\\nP 标准差\\n0.352 → 0.103\\n极端格数\\n54 → 0 格\\n走前 Δ\\n待复现 → 待复现'"
+    },
+    {
+      "id": "D-01-c",
+      "desc": "引擎页不再出现 0.9%（少乘 100）",
+      "pass": true,
+      "detail": "has_0.9=0"
+    },
+    {
+      "id": "D-02-a",
+      "desc": "naive 低样本角标 low_sample_marks > 0",
+      "pass": true,
+      "detail": "low_sample_marks=46"
+    },
+    {
+      "id": "D-02-b",
+      "desc": "存在「低样本·仅供审计」角标元素",
+      "pass": true,
+      "detail": "low-mark=23"
+    },
+    {
+      "id": "D-03-a",
+      "desc": "meta[name=api-contract]=v5",
+      "pass": true,
+      "detail": "meta='v5'"
+    },
+    {
+      "id": "D-03-b",
+      "desc": "侧栏字段口径标注 v5 且无 v4",
+      "pass": true,
+      "detail": "side_foot='数据快照 2026-08-25\\n滞后 18 个自然日\\n\\nOpenCode 独立实现 · 前端产品壳 v2\\n字段口径 = 09-api-contract v5'"
+    },
+    {
+      "id": "D-03-c",
+      "desc": "设置页脚标注 v5 且无 v4",
+      "pass": true,
+      "detail": "set_foot='极境 ZenithLens · 前端壳 v2 · OpenCode 独立实现 · 字段口径 09-api-contract v5 · 风格参照 legacy v2 壳（代码独立编写）'"
+    },
+    {
+      "id": "D-04-a",
+      "desc": "分析页预测表档位列直读 predictions.tier（10/10 且全部 A-D）",
+      "pass": true,
+      "detail": "rows=10 tier_mismatch=[] tiers=['A', 'A', 'A', 'A', 'A', 'A', 'A', 'A', 'A', 'A']"
+    },
+    {
+      "id": "D-04-b",
+      "desc": "分析页市值列与 predictions.market_value 逐只一致",
+      "pass": true,
+      "detail": "mv_mismatch=[]"
+    }
+  ]
+}

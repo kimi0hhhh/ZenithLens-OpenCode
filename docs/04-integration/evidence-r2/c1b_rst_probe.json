@@ -1,0 +1,10 @@
+{
+ "port": 8799,
+ "storm_requests": 48,
+ "traceback_after_storm": 0,
+ "noise_hits": 1,
+ "traceback_after_normal_refresh": 0,
+ "health_after_storm_ok": true,
+ "normal_refresh_ok": true,
+ "err_log_lines": 8
+}

@@ -1,0 +1,14 @@
+{
+  "ok": true,
+  "data": {
+    "cv_mode": "walk_forward",
+    "random_split": false,
+    "purge_gap": "H+2",
+    "placebo_min_pp": 0.02,
+    "holdout_days": 60,
+    "holdout_start_date": null,
+    "ledger_policy": "insert_only"
+  },
+  "error": null,
+  "as_of": "2026-09-12"
+}

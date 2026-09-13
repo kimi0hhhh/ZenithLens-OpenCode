@@ -1,0 +1,80 @@
+{
+ "watch": [
+  "data/snapshot/proxy_quality.json",
+  "data/snapshot/review_scores.json",
+  "data/snapshot/accuracy.json",
+  "data/snapshot/valuation_history.jsonl",
+  "data/health.json",
+  "data/health-log.jsonl",
+  "data/holdings.json",
+  "data/qdii_correction.json",
+  "data/review/tier_reviews.jsonl",
+  "data/review/qdii_review.jsonl",
+  "ledger/shadow_signals.jsonl",
+  "ledger/backfill.jsonl"
+ ],
+ "run1": {
+  "tag": "run1",
+  "rc": 0,
+  "ran": 199,
+  "ok": true,
+  "log": "C:\\Users\\10719\\Documents\\ZenithLens-OpenCode\\docs\\04-integration\\evidence-r2\\backend-tests-run1.log"
+ },
+ "run2": {
+  "tag": "run2",
+  "rc": 0,
+  "ran": 199,
+  "ok": true,
+  "log": "C:\\Users\\10719\\Documents\\ZenithLens-OpenCode\\docs\\04-integration\\evidence-r2\\backend-tests-run2.log"
+ },
+ "guard": {
+  "run1_before_eq_after": true,
+  "run1_after_eq_run2_before": true,
+  "run2_before_eq_after": true
+ },
+ "hashes": {
+  "before1": {
+   "data/snapshot/proxy_quality.json": "d430c8c9043682c22db32c66f6fb02d3d1860c57b305a6639b7d4f81141319c4",
+   "data/snapshot/review_scores.json": "39585d485fab9e4d5e6dc8bbc0cbdda1c05b32f35d92be54f1bf456bfab8e0c3",
+   "data/snapshot/accuracy.json": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+   "data/snapshot/valuation_history.jsonl": "6327acc51157eae4943bf5931fce4d327337b006bd4d69b7be4c0156759e8cbf",
+   "data/health.json": "3424d5089cfa50aa84cffb0450a76a162d24b92a6a7e1314aace78014e27ad40",
+   "data/health-log.jsonl": "19ef65b24bb11e0513ef940061ba3ee78700228e787f2488c63ec77f01aa43b1",
+   "data/holdings.json": "8060f293ba3a32f814f1556ee8ee23be82704d8f8d929672f3ad0f5131834c19",
+   "data/qdii_correction.json": "a45c529e4914e36c3c4f073439f69861ad02105338fb653bbc99406ae1f47a3a",
+   "data/review/tier_reviews.jsonl": "69beeaf445ec4e92901e3e8b95fc79c45519ce19b07a2b99a8347bb8f62de197",
+   "data/review/qdii_review.jsonl": "791a2ae7f450d55b91236538153f45237f6f0f21f8ed054e42d63fd610e5ae75",
+   "ledger/shadow_signals.jsonl": "68fb76e2e5c1887e3f48f57c644e5524e1560935fc0ea8c1404d7b128ac10cb4",
+   "ledger/backfill.jsonl": "91c92dd43b7f29e7e4ac6281caf08a96bd916faf069d1d69eae2e1f1a2e04f10"
+  },
+  "after1": {
+   "data/snapshot/proxy_quality.json": "d430c8c9043682c22db32c66f6fb02d3d1860c57b305a6639b7d4f81141319c4",
+   "data/snapshot/review_scores.json": "39585d485fab9e4d5e6dc8bbc0cbdda1c05b32f35d92be54f1bf456bfab8e0c3",
+   "data/snapshot/accuracy.json": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+   "data/snapshot/valuation_history.jsonl": "6327acc51157eae4943bf5931fce4d327337b006bd4d69b7be4c0156759e8cbf",
+   "data/health.json": "3424d5089cfa50aa84cffb0450a76a162d24b92a6a7e1314aace78014e27ad40",
+   "data/health-log.jsonl": "19ef65b24bb11e0513ef940061ba3ee78700228e787f2488c63ec77f01aa43b1",
+   "data/holdings.json": "8060f293ba3a32f814f1556ee8ee23be82704d8f8d929672f3ad0f5131834c19",
+   "data/qdii_correction.json": "a45c529e4914e36c3c4f073439f69861ad02105338fb653bbc99406ae1f47a3a",
+   "data/review/tier_reviews.jsonl": "69beeaf445ec4e92901e3e8b95fc79c45519ce19b07a2b99a8347bb8f62de197",
+   "data/review/qdii_review.jsonl": "791a2ae7f450d55b91236538153f45237f6f0f21f8ed054e42d63fd610e5ae75",
+   "ledger/shadow_signals.jsonl": "68fb76e2e5c1887e3f48f57c644e5524e1560935fc0ea8c1404d7b128ac10cb4",
+   "ledger/backfill.jsonl": "91c92dd43b7f29e7e4ac6281caf08a96bd916faf069d1d69eae2e1f1a2e04f10"
+  },
+  "after2": {
+   "data/snapshot/proxy_quality.json": "d430c8c9043682c22db32c66f6fb02d3d1860c57b305a6639b7d4f81141319c4",
+   "data/snapshot/review_scores.json": "39585d485fab9e4d5e6dc8bbc0cbdda1c05b32f35d92be54f1bf456bfab8e0c3",
+   "data/snapshot/accuracy.json": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+   "data/snapshot/valuation_history.jsonl": "6327acc51157eae4943bf5931fce4d327337b006bd4d69b7be4c0156759e8cbf",
+   "data/health.json": "3424d5089cfa50aa84cffb0450a76a162d24b92a6a7e1314aace78014e27ad40",
+   "data/health-log.jsonl": "19ef65b24bb11e0513ef940061ba3ee78700228e787f2488c63ec77f01aa43b1",
+   "data/holdings.json": "8060f293ba3a32f814f1556ee8ee23be82704d8f8d929672f3ad0f5131834c19",
+   "data/qdii_correction.json": "a45c529e4914e36c3c4f073439f69861ad02105338fb653bbc99406ae1f47a3a",
+   "data/review/tier_reviews.jsonl": "69beeaf445ec4e92901e3e8b95fc79c45519ce19b07a2b99a8347bb8f62de197",
+   "data/review/qdii_review.jsonl": "791a2ae7f450d55b91236538153f45237f6f0f21f8ed054e42d63fd610e5ae75",
+   "ledger/shadow_signals.jsonl": "68fb76e2e5c1887e3f48f57c644e5524e1560935fc0ea8c1404d7b128ac10cb4",
+   "ledger/backfill.jsonl": "91c92dd43b7f29e7e4ac6281caf08a96bd916faf069d1d69eae2e1f1a2e04f10"
+  }
+ },
+ "diffs": []
+}

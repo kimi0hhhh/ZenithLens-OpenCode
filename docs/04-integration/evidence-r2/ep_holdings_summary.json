@@ -1,0 +1,18 @@
+{
+ "ok": true,
+ "data": {
+  "total_value": 53370.09,
+  "fallback_value": 0.0,
+  "total_value_with_fallback": 53370.09,
+  "covered_cost_amount": 47321.07,
+  "today_pnl_amt": -499.46,
+  "total_pnl_amt": 6049.02,
+  "return_rate": 0.1278,
+  "covered_count": 22,
+  "total_count": 22,
+  "coverage_note": "可信估值覆盖 22/22 只（全部覆盖）；无未知行按成本计",
+  "as_of": "2026-09-12"
+ },
+ "error": null,
+ "as_of": "2026-09-12"
+}

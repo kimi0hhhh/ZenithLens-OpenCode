@@ -1,0 +1,15 @@
+{
+  "ok": true,
+  "data": {
+    "sharpe": 0.8282,
+    "var95_rate": 0.0274,
+    "downside_vol_rate": 0.185,
+    "max_drawdown_rate": 0.1742,
+    "sample_days": 250,
+    "stale": true,
+    "computed_at": "2026-09-12T04:07:04+08:00",
+    "note": "历史模拟法；VaR95 与回撤以正数表示损失幅度；年化按 √252；无风险利率取 0。慢接口，展开才计算。"
+  },
+  "error": null,
+  "as_of": "2026-09-12"
+}

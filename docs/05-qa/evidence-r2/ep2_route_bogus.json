@@ -1,0 +1,12 @@
+{
+ "ok": false,
+ "data": null,
+ "error": {
+  "code": "E_VALIDATION",
+  "message": "data_kind 取值为 backtest/shadow_live",
+  "detail": {
+   "data_kind": "bogus"
+  }
+ },
+ "as_of": "2026-09-13"
+}

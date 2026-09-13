@@ -1,0 +1,103 @@
+{
+  "total": 16,
+  "pass": 16,
+  "fail": 0,
+  "checks": [
+    {
+      "id": "C-00",
+      "desc": "基线持仓 22 只",
+      "pass": true,
+      "detail": "rows=22 total=53092.77"
+    },
+    {
+      "id": "C-01",
+      "desc": "POST /holdings 建档返回 201",
+      "pass": true,
+      "detail": "status=201 code=999998"
+    },
+    {
+      "id": "C-02",
+      "desc": "建档后 22→23",
+      "pass": true,
+      "detail": "rows=23"
+    },
+    {
+      "id": "C-03",
+      "desc": "重复代码冲突 E_CONFLICT",
+      "pass": true,
+      "detail": "status=409 code=E_CONFLICT"
+    },
+    {
+      "id": "C-04",
+      "desc": "非法代码 E_VALIDATION",
+      "pass": true,
+      "detail": "status=400 code=E_VALIDATION"
+    },
+    {
+      "id": "C-05",
+      "desc": "PUT 更新名称/份额",
+      "pass": true,
+      "detail": "name=QA临时测试基金-改"
+    },
+    {
+      "id": "C-06",
+      "desc": "GET 单条回读更新后值",
+      "pass": true,
+      "detail": "name=QA临时测试基金-改 shares=2.0"
+    },
+    {
+      "id": "C-07",
+      "desc": "不存在代码 E_NOT_FOUND",
+      "pass": true,
+      "detail": "status=404"
+    },
+    {
+      "id": "C-08",
+      "desc": "DELETE 返回 deleted_code",
+      "pass": true,
+      "detail": "data={'deleted_code': '999998'}"
+    },
+    {
+      "id": "C-09",
+      "desc": "删除后还原 22 只且总额一致",
+      "pass": true,
+      "detail": "rows=22 total=53092.77"
+    },
+    {
+      "id": "C-10",
+      "desc": "重复删除 E_NOT_FOUND",
+      "pass": true,
+      "detail": "status=404"
+    },
+    {
+      "id": "C-11",
+      "desc": "llm.base_url PUT→GET 往返持久化",
+      "pass": true,
+      "detail": "b1=https://api.deepseek.com/v1"
+    },
+    {
+      "id": "C-12",
+      "desc": "非法 base_url E_VALIDATION",
+      "pass": true,
+      "detail": "status=400 detail={'llm.base_url': 'must match ^https?://.+ when non-empty'}"
+    },
+    {
+      "id": "C-13",
+      "desc": "base_url 已还原为初值",
+      "pass": true,
+      "detail": "now='' init=''"
+    },
+    {
+      "id": "C-14PUT",
+      "desc": "PUT /ledger/entries 应无编辑路由",
+      "pass": true,
+      "detail": "status=404"
+    },
+    {
+      "id": "C-14DELETE",
+      "desc": "DELETE /ledger/entries 应无编辑路由",
+      "pass": true,
+      "detail": "status=404"
+    }
+  ]
+}

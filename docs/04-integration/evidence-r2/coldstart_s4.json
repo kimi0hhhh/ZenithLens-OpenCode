@@ -1,0 +1,151 @@
+{
+ "ready_sec": 1.15,
+ "holdings_1s_ms": 256,
+ "holdings_6s_ms": 339,
+ "holdings_rows": [
+  22,
+  22
+ ],
+ "review_backtest": {
+  "t1_status": "filled",
+  "t1_values": {
+   "hit_rate": 0.5263,
+   "baseline_rate": 0.5415,
+   "delta_pp": -0.0152,
+   "open_count": 61
+  },
+  "t3": {
+   "baseline_status": "pending",
+   "formula": "gate_only"
+  },
+  "t15": {
+   "baseline_status": "pending",
+   "formula": "gate+ddsm"
+  },
+  "hero": {
+   "window": "T1",
+   "hit_rate": 0.5263,
+   "baseline_rate": 0.5415,
+   "delta_pp": -0.0152,
+   "open_count": 61,
+   "sample_period": "2025-05-26..2026-06-22",
+   "data_kind": "backtest",
+   "label": "生产配置走前回测 · T+1 · 全样本窗"
+  }
+ },
+ "review_shadow_live": [
+  [
+   "T1",
+   "filled"
+  ],
+  [
+   "T3",
+   "pending"
+  ],
+  [
+   "T15",
+   "pending"
+  ]
+ ],
+ "sina": {
+  "status": "ok",
+  "note": "仅探测·非主链（近 7 日失败 6 次）"
+ },
+ "checks": [
+  {
+   "check": "ready（/health ok）",
+   "pass": true,
+   "detail": "1.15s"
+  },
+  {
+   "check": "ready+1s /holdings 200",
+   "pass": true,
+   "detail": "st=200"
+  },
+  {
+   "check": "ready+1s /holdings <1s",
+   "pass": true,
+   "detail": "256ms rows=22"
+  },
+  {
+   "check": "ready+6s /holdings 200 且 <1s",
+   "pass": true,
+   "detail": "339ms rows=22"
+  },
+  {
+   "check": "backtest 3 行",
+   "pass": true,
+   "detail": "['T1', 'T3', 'T15']"
+  },
+  {
+   "check": "T1 非空（filled）",
+   "pass": true,
+   "detail": "{'hit_rate': 0.5263, 'baseline_rate': 0.5415, 'delta_pp': -0.0152, 'open_count': 61, 'baseline_status': 'filled'}"
+  },
+  {
+   "check": "T3 pending + null + open_count=0",
+   "pass": true,
+   "detail": "{'hit_rate': None, 'baseline_rate': None, 'open_count': 0}"
+  },
+  {
+   "check": "T15 pending + null + open_count=0",
+   "pass": true,
+   "detail": "{'hit_rate': None, 'baseline_rate': None, 'open_count': 0}"
+  },
+  {
+   "check": "全文 baseline_status ∈ {filled,pending}（无 ok）",
+   "pass": true,
+   "detail": ""
+  },
+  {
+   "check": "sample_window 恒 full",
+   "pass": true,
+   "detail": ""
+  },
+  {
+   "check": "hero == T1 值/状态",
+   "pass": true,
+   "detail": ""
+  },
+  {
+   "check": "note 含 pending_cv + 待验证",
+   "pass": true,
+   "detail": "回测=生产配置全链（E1/E3→DDSM→双否决→出口）走前（purge=H+2 / holdout 60）；T1 主值取 full 全样本窗（六样本窗归因子页"
+  },
+  {
+   "check": "T3/T15 formula 保留定式标签",
+   "pass": true,
+   "detail": "['gate_only', 'gate+ddsm']"
+  },
+  {
+   "check": "production_definition.formula = gate+ddsm+veto",
+   "pass": true,
+   "detail": "gate+ddsm+veto"
+  },
+  {
+   "check": "T1 row formula == 计算定义 formula",
+   "pass": true,
+   "detail": "gate+ddsm+veto vs gate+ddsm+veto"
+  },
+  {
+   "check": "B1-8 n_test<20 → hold / n_test=20 → pass / 缺省兼容",
+   "pass": true,
+   "detail": "('hold', 'pass', 'pass')"
+  },
+  {
+   "check": "B1-8 samples 死参已移除",
+   "pass": true,
+   "detail": ""
+  },
+  {
+   "check": "shadow_live 3 行 / T3/T15 pending",
+   "pass": true,
+   "detail": "[('T1', 'filled'), ('T3', 'pending'), ('T15', 'pending')]"
+  },
+  {
+   "check": "S2 sina note 含「仅探测·非主链」",
+   "pass": true,
+   "detail": "ok | 仅探测·非主链（近 7 日失败 6 次）"
+  }
+ ]
+}

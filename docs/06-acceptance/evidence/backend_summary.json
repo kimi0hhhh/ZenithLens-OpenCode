@@ -1,0 +1,884 @@
+{
+  "endpoints": {
+    "runtime": {
+      "status": 200,
+      "ok": true
+    },
+    "holdings": {
+      "status": 200,
+      "ok": true
+    },
+    "holdings/summary": {
+      "status": 200,
+      "ok": true
+    },
+    "holdings/coverage": {
+      "status": 200,
+      "ok": true
+    },
+    "holdings/risk": {
+      "status": 200,
+      "ok": true
+    },
+    "valuations": {
+      "status": 200,
+      "ok": true
+    },
+    "valuations/precision": {
+      "status": 200,
+      "ok": true
+    },
+    "predictions": {
+      "status": 200,
+      "ok": true
+    },
+    "predictions/017193": {
+      "status": 200,
+      "ok": true
+    },
+    "portfolio/forecast": {
+      "status": 200,
+      "ok": true
+    },
+    "signals/state": {
+      "status": 200,
+      "ok": true
+    },
+    "review/scores": {
+      "status": 200,
+      "ok": true
+    },
+    "review/reconciliation": {
+      "status": 200,
+      "ok": true
+    },
+    "review/cv-config": {
+      "status": 200,
+      "ok": true
+    },
+    "ledger": {
+      "status": 200,
+      "ok": true
+    },
+    "ledger/shadow": {
+      "status": 200,
+      "ok": true
+    },
+    "ledger/chain": {
+      "error": "HTTP Error 400: Bad Request"
+    },
+    "factors/pans": {
+      "status": 200,
+      "ok": true
+    },
+    "factors/books": {
+      "status": 200,
+      "ok": true
+    },
+    "factors/score-chain": {
+      "status": 200,
+      "ok": true
+    },
+    "factors/lifecycle": {
+      "status": 200,
+      "ok": true
+    },
+    "factors/governance-cycle": {
+      "status": 200,
+      "ok": true
+    },
+    "factors/dig-records": {
+      "status": 200,
+      "ok": true
+    },
+    "engine/status": {
+      "status": 200,
+      "ok": true
+    },
+    "engine/inputs?code=017193": {
+      "status": 200,
+      "ok": true
+    },
+    "engine/ddsm/cube?code=017193": {
+      "status": 200,
+      "ok": true
+    },
+    "engine/frozen-params": {
+      "status": 200,
+      "ok": true
+    },
+    "engine/registry": {
+      "status": 200,
+      "ok": true
+    },
+    "engine/training-status": {
+      "status": 200,
+      "ok": true
+    },
+    "engine/arena": {
+      "status": 200,
+      "ok": true
+    },
+    "engine/shadow-review": {
+      "status": 200,
+      "ok": true
+    },
+    "settings": {
+      "status": 200,
+      "ok": true
+    },
+    "settings/holdings-data": {
+      "status": 200,
+      "ok": true
+    },
+    "data-sources/health": {
+      "status": 200,
+      "ok": true
+    },
+    "about": {
+      "status": 200,
+      "ok": true
+    },
+    "meta/definitions": {
+      "status": 200,
+      "ok": true
+    }
+  },
+  "key": {
+    "holdings_modes": {
+      "null": 22
+    },
+    "holdings_null_pct": [
+      "025500",
+      "018957",
+      "024239",
+      "025857",
+      "021528",
+      "017193",
+      "016786",
+      "457001",
+      "013566",
+      "014881",
+      "163208",
+      "018897",
+      "022485",
+      "014320",
+      "011840",
+      "008087",
+      "017412",
+      "016665",
+      "012922",
+      "021662",
+      "000217",
+      "002963"
+    ],
+    "holdings_count": 22,
+    "summary": {
+      "total_value": 53092.77,
+      "fallback_value": 0.0,
+      "total_value_with_fallback": 53092.77,
+      "covered_cost_amount": 47321.07,
+      "today_pnl_amt": -290.25,
+      "total_pnl_amt": 5771.7,
+      "return_rate": 0.122,
+      "covered_count": 22,
+      "total_count": 22,
+      "coverage_note": "可信估值覆盖 22/22 只（全部覆盖）；无未知行按成本计",
+      "as_of": "2026-09-12"
+    },
+    "precision": {
+      "groups": [
+        {
+          "confidence": "high",
+          "count": 10,
+          "market_value": 25531.9,
+          "label": "高",
+          "weight_ratio": 0.4809
+        },
+        {
+          "confidence": "unknown",
+          "count": 12,
+          "market_value": 27560.86,
+          "label": "无",
+          "weight_ratio": 0.5191
+        }
+      ],
+      "weighted_mae_rate": 0.002,
+      "industry_baseline_mae_rate": 0.008,
+      "window_days": 40,
+      "mode_distribution": [
+        {
+          "mode": "proxy",
+          "mode_label": "代理近似",
+          "count": 10,
+          "market_value": 25531.9,
+          "weight_ratio": 0.4809
+        },
+        {
+          "mode": "unknown",
+          "mode_label": "未知",
+          "count": 12,
+          "market_value": 27560.86,
+          "weight_ratio": 0.5191
+        }
+      ]
+    },
+    "pred_017193": {
+      "gate": "none",
+      "p_up": 0.7381,
+      "ddsm_state": [
+        4,
+        0,
+        3
+      ],
+      "veto_crowd": true,
+      "veto_klow2": false,
+      "signal": "gray",
+      "windows": {
+        "T1": {
+          "window": "T1",
+          "formula": "gate+ddsm+veto",
+          "formula_source": "brief_5.1",
+          "validation_status": "brief_mandated",
+          "validated": true,
+          "direction": "gray",
+          "provisional_direction": "gray",
+          "p": 0.7381,
+          "provisional_p": null,
+          "open": false,
+          "hit_rate": null,
+          "baseline_rate": null,
+          "delta_pp": null
+        },
+        "T3": {
+          "window": "T3",
+          "formula": "gate_only",
+          "formula_source": "arch_baseline_v1",
+          "validation_status": "pending_cv",
+          "validated": false,
+          "direction": "gray",
+          "provisional_direction": "gray",
+          "p": null,
+          "provisional_p": null,
+          "open": false,
+          "hit_rate": null,
+          "baseline_rate": null,
+          "delta_pp": null
+        },
+        "T15": {
+          "window": "T15",
+          "formula": "gate+ddsm",
+          "formula_source": "arch_baseline_v1",
+          "validation_status": "pending_cv",
+          "validated": false,
+          "direction": "gray",
+          "provisional_direction": "gray",
+          "p": 0.7987,
+          "provisional_p": 0.7987,
+          "open": false,
+          "hit_rate": null,
+          "baseline_rate": null,
+          "delta_pp": null
+        }
+      },
+      "metrics": null
+    },
+    "forecast": {
+      "windows": [
+        {
+          "window": "T1",
+          "weighted_p": null,
+          "weighting_basis": "market_value",
+          "weighting_policy_note": "按可信市值加权；灰（未开口）从分子分母同剔；未采用置信度加权（未经方法论验证，ADR-0005 拒绝）。",
+          "coverage_ratio": 0.0,
+          "coverage_value": 0.0,
+          "open_value": 0.0,
+          "total_value": 53092.77,
+          "open_count": 0,
+          "min_coverage_ratio": 0.3,
+          "min_open_count": 3,
+          "coverage_threshold_met": false,
+          "excluded_ratio": 1.0,
+          "threshold_source": "brief_5.1",
+          "direction": "gray",
+          "direction_reason": "no_open",
+          "weighted_p_threshold": 0.52,
+          "tier_excluded": [
+            "D"
+          ],
+          "engine_status": "online",
+          "as_of": "2026-09-12"
+        },
+        {
+          "window": "T3",
+          "weighted_p": null,
+          "weighting_basis": "market_value",
+          "weighting_policy_note": "按可信市值加权；灰（未开口）从分子分母同剔；未采用置信度加权（未经方法论验证，ADR-0005 拒绝）。",
+          "coverage_ratio": 0.0,
+          "coverage_value": 0.0,
+          "open_value": 0.0,
+          "total_value": 53092.77,
+          "open_count": 0,
+          "min_coverage_ratio": 0.3,
+          "min_open_count": 3,
+          "coverage_threshold_met": false,
+          "excluded_ratio": 1.0,
+          "threshold_source": "architecture",
+          "direction": "gray",
+          "direction_reason": "no_open",
+          "weighted_p_threshold": 0.52,
+          "tier_excluded": [
+            "D"
+          ],
+          "engine_status": "online",
+          "as_of": "2026-09-12"
+        },
+        {
+          "window": "T15",
+          "weighted_p": null,
+          "weighting_basis": "market_value",
+          "weighting_policy_note": "按可信市值加权；灰（未开口）从分子分母同剔；未采用置信度加权（未经方法论验证，ADR-0005 拒绝）。",
+          "coverage_ratio": 0.0,
+          "coverage_value": 0.0,
+          "open_value": 0.0,
+          "total_value": 53092.77,
+          "open_count": 0,
+          "min_coverage_ratio": 0.3,
+          "min_open_count": 3,
+          "coverage_threshold_met": false,
+          "excluded_ratio": 1.0,
+          "threshold_source": "architecture",
+          "direction": "gray",
+          "direction_reason": "no_open",
+          "weighted_p_threshold": 0.52,
+          "tier_excluded": [
+            "D"
+          ],
+          "engine_status": "online",
+          "as_of": "2026-09-12"
+        }
+      ],
+      "engine_status": "online",
+      "as_of": "2026-09-12"
+    },
+    "signals_state": {
+      "state": "no_open",
+      "gates": [
+        {
+          "gate": "E3",
+          "gate_key": "E3",
+          "label": "无量急跌",
+          "formula": "ret < -0.02 且 vr < 0.8",
+          "role": "primary",
+          "effect_pp": 3.9,
+          "t_value": 2.33,
+          "note": "主力事件"
+        },
+        {
+          "gate": "E1",
+          "gate_key": "E1",
+          "label": "跳空",
+          "formula": "low[t] > high[t-1]",
+          "role": "secondary",
+          "effect_pp": 0.88,
+          "t_value": null,
+          "note": "辅助事件"
+        }
+      ],
+      "excluded_gates": [
+        {
+          "gate": "none",
+          "gate_key": "E2",
+          "label": "放量上涨",
+          "formula": "—",
+          "role": "excluded",
+          "effect_pp": -3.09,
+          "t_value": null,
+          "note": "已证伪，禁止并入"
+        },
+        {
+          "gate": "none",
+          "gate_key": "E4",
+          "label": "点火",
+          "formula": "—",
+          "role": "excluded",
+          "effect_pp": -2.72,
+          "t_value": null,
+          "note": "已证伪，禁止并入"
+        }
+      ]
+    },
+    "review_scores": {
+      "scores": [
+        {
+          "window": "T1",
+          "formula": "gate+ddsm+veto",
+          "hit_rate": null,
+          "open_count": 0,
+          "baseline_rate": null,
+          "baseline_status": "pending",
+          "delta_pp": null,
+          "cv_mode": "walk_forward",
+          "purge_gap": "H+2",
+          "holdout_days": 60,
+          "data_kind": "backtest",
+          "sample_period": null,
+          "as_of": "2026-09-12"
+        },
+        {
+          "window": "T3",
+          "formula": "gate_only",
+          "hit_rate": null,
+          "open_count": 0,
+          "baseline_rate": null,
+          "baseline_status": "pending",
+          "delta_pp": null,
+          "cv_mode": "walk_forward",
+          "purge_gap": "H+2",
+          "holdout_days": 60,
+          "data_kind": "backtest",
+          "sample_period": null,
+          "as_of": "2026-09-12"
+        },
+        {
+          "window": "T15",
+          "formula": "gate+ddsm",
+          "hit_rate": null,
+          "open_count": 0,
+          "baseline_rate": null,
+          "baseline_status": "pending",
+          "delta_pp": null,
+          "cv_mode": "walk_forward",
+          "purge_gap": "H+2",
+          "holdout_days": 60,
+          "data_kind": "backtest",
+          "sample_period": null,
+          "as_of": "2026-09-12"
+        }
+      ],
+      "hero": {
+        "window": "T1",
+        "hit_rate": null,
+        "baseline_rate": null,
+        "delta_pp": null,
+        "label": "回测待产出（不填估计值）"
+      }
+    },
+    "cv_config": {
+      "cv_mode": "walk_forward",
+      "random_split": false,
+      "purge_gap": "H+2",
+      "placebo_min_pp": 0.02,
+      "holdout_days": 60,
+      "holdout_start_date": null,
+      "ledger_policy": "insert_only"
+    },
+    "ledger_shadow": {
+      "rows": [],
+      "total": 0,
+      "summary": {
+        "total_records": 0,
+        "open_signals": 0,
+        "veto_abstains": 0,
+        "backfilled_count": 0,
+        "hit_rate": null,
+        "baseline_rate": 0.583
+      },
+      "progress": {
+        "status": "not_started",
+        "consecutive_days": 0,
+        "target_days": 60,
+        "progress_ratio": 0.0,
+        "start_date": null,
+        "target_date": null,
+        "gap_days": 0,
+        "hit_rate": null,
+        "baseline_rate": 0.583,
+        "deviation_pp": null,
+        "note": "连续 60 个交易日无漏单且偏差 <2pp 才具上线资格；台账尚未启动。"
+      },
+      "field_list": [
+        "date",
+        "code",
+        "gate",
+        "p_up",
+        "ddsm_state",
+        "veto_crowd",
+        "veto_klow2",
+        "signal",
+        "t1_real",
+        "t3_real",
+        "t15_real",
+        "created_at"
+      ],
+      "retention_policy": "first_of_day_immutable_full_archive",
+      "first_of_day_immutable": true,
+      "archive_manifest_at": null,
+      "insert_only_note": "收盘时点固定写盘：同一 (date, code) 仅允许一条，写入即冻结；事后不可编辑/删除；到期实际涨跌由独立 backfill.jsonl 回填，只写 t1_real/t3_real/t15_real，不改原行。",
+      "as_of": "2026-09-12"
+    },
+    "engine_status": {
+      "status": "online",
+      "pid": 19492,
+      "port": 8791,
+      "version": "oc-s3-v1",
+      "active_engine_version": "oc-s3-v1",
+      "started_at": "2026-09-12T04:04:13+08:00",
+      "last_heartbeat_at": "2026-09-12T04:07:06+08:00",
+      "last_success_at": "2026-09-12",
+      "snapshot_as_of": "2026-09-12",
+      "shadow_status": "idle",
+      "shadow_consecutive_days": 0,
+      "shadow_target_days": 60,
+      "training_assets": 9,
+      "index_only_assets": 0,
+      "state_grid_total_cells": 125,
+      "state_grid_filled_cells": 125,
+      "state_grid_coverage_pct": 1.0,
+      "avg_samples_per_cell": 21.168,
+      "min_samples_cell": 10,
+      "last_retrain_at": null,
+      "next_retrain_at": "2026-10-01",
+      "data_freshness_snapshot_date": "2026-09-11",
+      "data_freshness_days_behind": 1
+    },
+    "inputs_017193": {
+      "ddsm_3d": [
+        {
+          "feature": "r2",
+          "group": "ddsm_3d",
+          "label": "趋势线性度 R²",
+          "raw": 0.7255,
+          "raw_unit": "比率",
+          "z": 1.407,
+          "level": 4,
+          "level_label": "5/5",
+          "ic_sign": "-",
+          "signed_z": -1.407,
+          "formula": "近 L=5 个交易日对数收益对时间线性回归的 R²"
+        },
+        {
+          "feature": "om",
+          "group": "ddsm_3d",
+          "label": "隔夜动量",
+          "raw": -0.0328,
+          "raw_unit": "比率",
+          "z": -2.063,
+          "level": 0,
+          "level_label": "1/5",
+          "ic_sign": "-",
+          "signed_z": 2.063,
+          "formula": "open[t]/close[t-1] − 1"
+        },
+        {
+          "feature": "vr",
+          "group": "ddsm_3d",
+          "label": "量比",
+          "raw": 1.1368,
+          "raw_unit": "倍数",
+          "z": 0.134,
+          "level": 3,
+          "level_label": "4/5",
+          "ic_sign": "-",
+          "signed_z": -0.134,
+          "formula": "volume[t] / mean(volume[t-20..t-1])"
+        }
+      ],
+      "crowd_6d": [
+        {
+          "feature": "mom5",
+          "group": "crowd_6d",
+          "label": "5 日动量",
+          "raw": -0.069,
+          "raw_unit": "比率",
+          "z": -1.383,
+          "level": null,
+          "level_label": null,
+          "ic_sign": "-",
+          "signed_z": 1.383,
+          "formula": "close[t]/close[t-5] − 1"
+        },
+        {
+          "feature": "vr",
+          "group": "crowd_6d",
+          "label": "量比",
+          "raw": 1.1368,
+          "raw_unit": "倍数",
+          "z": 0.134,
+          "level": null,
+          "level_label": null,
+          "ic_sign": "-",
+          "signed_z": -0.134,
+          "formula": "volume[t] / mean(volume[t-20..t-1])"
+        },
+        {
+          "feature": "dev",
+          "group": "crowd_6d",
+          "label": "乖离率",
+          "raw": -0.0791,
+          "raw_unit": "比率",
+          "z": -1.675,
+          "level": null,
+          "level_label": null,
+          "ic_sign": "-",
+          "signed_z": 1.675,
+          "formula": "close[t]/MA20(close) − 1"
+        },
+        {
+          "feature": "vpcorr",
+          "group": "crowd_6d",
+          "label": "量价相关",
+          "raw": -0.0478,
+          "raw_unit": "相关系数",
+          "z": -1.074,
+          "level": null,
+          "level_label": null,
+          "ic_sign": "-",
+          "signed_z": 1.074,
+          "formula": "近 20 日 return 与 volume_change 相关系数"
+        },
+        {
+          "feature": "volat",
+          "group": "crowd_6d",
+          "label": "波动率",
+          "raw": 0.0211,
+          "raw_unit": "比率",
+          "z": -0.444,
+          "level": null,
+          "level_label": null,
+          "ic_sign": "-",
+          "signed_z": 0.444,
+          "formula": "近 20 日日收益标准差"
+        },
+        {
+          "feature": "skew",
+          "group": "crowd_6d",
+          "label": "偏度",
+          "raw": 0.0655,
+          "raw_unit": "比率",
+          "z": 0.182,
+          "level": null,
+          "level_label": null,
+          "ic_sign": "-",
+          "signed_z": -0.182,
+          "formula": "近 20 日日收益偏度"
+        }
+      ],
+      "crowd": {
+        "composite_z": 0.71,
+        "quantile": 0.9171,
+        "quantile_level": 5,
+        "quantile_threshold": 0.6,
+        "is_veto": true,
+        "status": "veto",
+        "klow2": 0.7667,
+        "klow2_quantile": null,
+        "klow2_level": null,
+        "klow2_threshold": 0.4,
+        "klow2_is_veto": false,
+        "klow2_status": "pass"
+      },
+      "code": "017193",
+      "name": "天弘中证工业有色金属主题ETF发起联接C",
+      "train_as_of": "2026-09-11",
+      "snapshot_at": "2026-09-12T04:07:06+08:00"
+    },
+    "cube": {
+      "production_layer": "ddsm",
+      "research_layer": "naive",
+      "default_layer": "ddsm",
+      "valid_coverage_naive_pct": null,
+      "valid_coverage_ddsm_pct": null,
+      "p_std_ddsm": null,
+      "p_std_naive": null,
+      "extreme_count_ddsm": null,
+      "extreme_count_naive": null,
+      "walkforward_delta_pp": null,
+      "legend": [
+        {
+          "min_p": 0.0,
+          "max_p": 0.45,
+          "label": "P<0.45 看跌"
+        },
+        {
+          "min_p": 0.45,
+          "max_p": 0.52,
+          "label": "0.45–0.52 中性"
+        },
+        {
+          "min_p": 0.52,
+          "max_p": 0.58,
+          "label": "0.52–0.58 弱看涨"
+        },
+        {
+          "min_p": 0.58,
+          "max_p": 1.0,
+          "label": ">0.58 强看涨"
+        },
+        {
+          "min_p": null,
+          "max_p": null,
+          "label": "无样本"
+        }
+      ]
+    },
+    "frozen": {
+      "k_noise": 4,
+      "p_perturb": 0.25,
+      "min_n": 15,
+      "shrink": 10,
+      "band": 0.02,
+      "veto_crowd_quantile": 0.6,
+      "veto_klow2_quantile": 0.4,
+      "min_coverage_ratio": 0.3,
+      "min_open_count": 3,
+      "weighting_basis": "market_value",
+      "gate_e1": "low[t] > high[t-1]",
+      "gate_e3": "ret < -0.02 且 vr < 0.8",
+      "purge_gap": "H+2",
+      "window_weights": [
+        {
+          "window": "d15",
+          "weight": 8
+        },
+        {
+          "window": "d30",
+          "weight": 22
+        },
+        {
+          "window": "d60",
+          "weight": 15
+        },
+        {
+          "window": "m6",
+          "weight": 10
+        },
+        {
+          "window": "m24",
+          "weight": 30
+        },
+        {
+          "window": "full",
+          "weight": 15
+        }
+      ],
+      "window_min_days": [
+        {
+          "window": "d15",
+          "n_w": 5
+        },
+        {
+          "window": "d30",
+          "n_w": 10
+        },
+        {
+          "window": "d60",
+          "n_w": 15
+        },
+        {
+          "window": "m6",
+          "n_w": 30
+        },
+        {
+          "window": "m24",
+          "n_w": 60
+        },
+        {
+          "window": "full",
+          "n_w": 120
+        }
+      ],
+      "license_lines": [
+        {
+          "license": "candidate",
+          "min_independent_days": 50,
+          "window_k": null
+        },
+        {
+          "license": "probation",
+          "min_independent_days": 60,
+          "window_k": 0.5
+        },
+        {
+          "license": "renew_t2",
+          "min_independent_days": 70,
+          "window_k": 0.7
+        },
+        {
+          "license": "full_t3",
+          "min_independent_days": 80,
+          "window_k": 0.7
+        }
+      ],
+      "change_policy": "任何一项改动必须重走六关"
+    },
+    "arena": {
+      "color_scheme": "performance_rank",
+      "rows": 0,
+      "legend": [
+        {
+          "color": "red",
+          "label": "该窗最高"
+        },
+        {
+          "color": "green",
+          "label": "该窗最低"
+        },
+        {
+          "color": "blue",
+          "label": "居中"
+        },
+        {
+          "color": "yellow",
+          "label": "▲ 警示（Δ 低于裸算法基准）"
+        },
+        {
+          "color": "base",
+          "label": "基准行不着色"
+        }
+      ]
+    },
+    "shadow_review": {
+      "status": "idle",
+      "rolling_days": 60,
+      "hit_rate": null,
+      "baseline_rate": 0.583,
+      "deviation_pp": null,
+      "threshold_pp": 0.02,
+      "message": "影子盘尚未启动，先积累连续记录再评估上线资格。",
+      "checked_at": "2026-09-12T04:07:06+08:00",
+      "note": "回测再漂亮也只是回测，最后保险是影子盘。"
+    },
+    "settings": {
+      "privacy": {
+        "masked": false,
+        "mask_holdings_only": false
+      },
+      "llm": {
+        "enabled": false,
+        "provider": "deepseek",
+        "base_url": "",
+        "model": "",
+        "api_key_set": false,
+        "temperature": 0,
+        "output_format": "json",
+        "mode": "shadow"
+      },
+      "port": 8791,
+      "auto_refresh": true,
+      "refresh_interval_sec": 300,
+      "theme": "light",
+      "is_default": false
+    },
+    "about": {
+      "product_name": "极境 ZenithLens",
+      "version": "0.1.0",
+      "api_version": "v1",
+      "python_min": "3.8",
+      "deployment": "local_single_user",
+      "storage_note": "全部本地存储，数据不出本机",
+      "disclaimer": "不构成投资建议",
+      "built_at": "2026-09-12T04:04:13+08:00"
+    }
+  }
+}

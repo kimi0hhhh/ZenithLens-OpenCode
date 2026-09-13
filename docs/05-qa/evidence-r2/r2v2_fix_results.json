@@ -1,0 +1,130 @@
+{
+ "total": 25,
+ "results": [
+  {
+   "case": "R2-D2",
+   "status": "PASS",
+   "detail": "main_source.path='data/holdings.json'（契约字面；无盘符/反斜杠）exists=True count=22"
+  },
+  {
+   "case": "S-c",
+   "status": "PASS",
+   "detail": "scan_factors 回执=因子扫描未接入：无扫描器实现，本次未执行扫描、未产出候选"
+  },
+  {
+   "case": "R2-D3a",
+   "status": "PASS",
+   "detail": "maintain_nav_history 串行提交 → 202/done"
+  },
+  {
+   "case": "R2-D3b",
+   "status": "PASS",
+   "detail": "运行中同型再提交 → 409/E_CONFLICT：E_CONFLICT（可读文案=同型任务进行中：tsk_20260913_023206_d71c；可 GET /tasks 查询）"
+  },
+  {
+   "case": "R2-D3c",
+   "status": "PASS",
+   "detail": "完成后可再提交并 done=done"
+  },
+  {
+   "case": "C1",
+   "status": "PASS",
+   "detail": "2026-09-11|012922 → 6 步序=True；exit=0.52=True；p_up 对账=0.5886==0.5886；source=recomputed"
+  },
+  {
+   "case": "C3",
+   "status": "PASS",
+   "detail": "available=12 行 source=['recomputed']；unavailable 行=0（null+空链=True）"
+  },
+  {
+   "case": "C4",
+   "status": "PASS",
+   "detail": "chain 调用前后 shadow_signals.jsonl sha256 不变=True（68fb76e2e5c1…）"
+  },
+  {
+   "case": "A-3-后端",
+   "status": "PASS",
+   "detail": "读时同源重算可用（chain_source=recomputed 实测 ×12；无 _chain 存量时 stored 由单测覆盖）"
+  },
+  {
+   "case": "CHAIN-3态",
+   "status": "PASS_PHASE",
+   "detail": "stored=单测（test_ledger_chain_recompute 5/5）；recomputed=真机 ×12；null/unavailable=0 行（由单测覆盖）"
+  },
+  {
+   "case": "S-e",
+   "status": "PASS",
+   "detail": "holdings 档 5 只：top_n=20×5；included_markets 含 HK×1"
+  },
+  {
+   "case": "F-6",
+   "status": "PASS",
+   "detail": "method 恒定 eastmoney_f10_top10_weighted 且 top_n∈{10,20}：5/5"
+  },
+  {
+   "case": "F-1",
+   "status": "PASS",
+   "detail": "bootstrap_percentiles_measured={\"p50\": -12.4, \"p90\": 26.6, \"p95\": 38.27, \"p99\": 50.0, \"p995\": 50.0}；real_engine=True（前端消费见 CDP）"
+  },
+  {
+   "case": "R2-D4-data",
+   "status": "PASS",
+   "detail": "archive_merged=False（UI 后缀须联动为 （主文件））"
+  },
+  {
+   "case": "R2-D4",
+   "status": "PASS",
+   "detail": "engine 进度注='按主文件计算（归档不可读） · 可用历史 20 日（主文件） · 滚动窗 20 日 · 基线口径 measured\\n连续 60 个交易日无漏单且偏差 <2pp 才具上线资格；连续天数按归档合并计算。 归档缺失或不可读，本' 联动=True"
+  },
+  {
+   "case": "A1",
+   "status": "PASS",
+   "detail": "点击后新增 /api/v1/ 资源条目=0；谎言文案存在=False；title=本地校验（仅检查配置格式，不会发起网络请求）"
+  },
+  {
+   "case": "S1",
+   "status": "PASS",
+   "detail": "body.masked=True；.amt color=rgba(0, 0, 0, 0)"
+  },
+  {
+   "case": "S4",
+   "status": "PASS",
+   "detail": "打码前后 .amt textContent 不变=True"
+  },
+  {
+   "case": "S2",
+   "status": "PASS",
+   "detail": "body.mask-holdings-only=True；CSS 规则在=True（明细行打码+汇总保留）"
+  },
+  {
+   "case": "S2b",
+   "status": "PASS",
+   "detail": "主关副开：明细行 .amt color=rgba(0, 0, 0, 0)"
+  },
+  {
+   "case": "S3",
+   "status": "PASS",
+   "detail": "刷新水合：masked=False / mask-holdings-only=True（属性持久化回放）"
+  },
+  {
+   "case": "S5-还原",
+   "status": "PASS",
+   "detail": "隐私状态已还原（orig={\"masked\": false, \"mask_holdings_only\": false}）"
+  },
+  {
+   "case": "A-3-前端",
+   "status": "PASS",
+   "detail": "时间线展开（卡片=60）：chain-item=6 触发门=True 不可复现分支在码=False"
+  },
+  {
+   "case": "F-1-ui",
+   "status": "PASS",
+   "detail": "因子页含实测分位文案=True（-12.4=True）"
+  },
+  {
+   "case": "F-5",
+   "status": "PASS",
+   "detail": "meta api-contract=v9.3；DOM 含 v9.3=True（期望 v9.3；v9.4 为注记不改标识）"
+  }
+ ]
+}

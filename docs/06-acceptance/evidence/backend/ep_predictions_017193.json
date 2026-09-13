@@ -1,0 +1,150 @@
+{
+  "ok": true,
+  "data": {
+    "code": "017193",
+    "gate": "none",
+    "gate_label": "未触发",
+    "p_up": 0.7381,
+    "ddsm_state": [
+      4,
+      0,
+      3
+    ],
+    "veto_crowd": true,
+    "veto_crowd_status": "veto",
+    "veto_klow2": false,
+    "veto_klow2_status": "pass",
+    "signal": "gray",
+    "signal_label": "灰",
+    "reason": "gate_not_triggered",
+    "windows": {
+      "T1": {
+        "window": "T1",
+        "formula": "gate+ddsm+veto",
+        "formula_source": "brief_5.1",
+        "validation_status": "brief_mandated",
+        "validated": true,
+        "direction": "gray",
+        "provisional_direction": "gray",
+        "p": 0.7381,
+        "provisional_p": null,
+        "open": false,
+        "hit_rate": null,
+        "baseline_rate": null,
+        "delta_pp": null
+      },
+      "T3": {
+        "window": "T3",
+        "formula": "gate_only",
+        "formula_source": "arch_baseline_v1",
+        "validation_status": "pending_cv",
+        "validated": false,
+        "direction": "gray",
+        "provisional_direction": "gray",
+        "p": null,
+        "provisional_p": null,
+        "open": false,
+        "hit_rate": null,
+        "baseline_rate": null,
+        "delta_pp": null
+      },
+      "T15": {
+        "window": "T15",
+        "formula": "gate+ddsm",
+        "formula_source": "arch_baseline_v1",
+        "validation_status": "pending_cv",
+        "validated": false,
+        "direction": "gray",
+        "provisional_direction": "gray",
+        "p": 0.7987,
+        "provisional_p": 0.7987,
+        "open": false,
+        "hit_rate": null,
+        "baseline_rate": null,
+        "delta_pp": null
+      }
+    },
+    "as_of": "2026-09-12",
+    "tier": "A",
+    "market_value": 1576.99,
+    "chain": [
+      {
+        "step": 1,
+        "key": "gate",
+        "title": "①触发门",
+        "status": "off",
+        "detail": "未触发 E1/E3（E2/E4 已证伪、禁止 OR 合并）",
+        "metrics": {
+          "ret_rate": -0.0405,
+          "vr": 1.1368
+        }
+      },
+      {
+        "step": 2,
+        "key": "ddsm",
+        "title": "②DDSM 档位",
+        "status": "on",
+        "detail": "真实档位 [r2,om,vr] = [4, 0, 3]，P=0.7381",
+        "metrics": {
+          "r2": 0.7255,
+          "om": -0.0328,
+          "ddsm_state": [
+            4,
+            0,
+            3
+          ],
+          "p_up": 0.7381
+        }
+      },
+      {
+        "step": 3,
+        "key": "veto_crowd",
+        "title": "③拥挤度否决",
+        "status": "on",
+        "detail": "六维复合 z=0.71，分位=0.9171（阈值 0.60，最拥挤 40% 否决）",
+        "metrics": {
+          "crowd_z": 0.71,
+          "crowd_quantile": 0.9171,
+          "veto_crowd_status": "veto"
+        }
+      },
+      {
+        "step": 4,
+        "key": "veto_klow2",
+        "title": "④KLOW2 否决",
+        "status": "off",
+        "detail": "下影线比=0.7667（阈值 0.40，最不利 40% 否决）",
+        "metrics": {
+          "klow2": 0.7667,
+          "klow2_quantile": null,
+          "veto_klow2_status": "pass"
+        }
+      },
+      {
+        "step": 5,
+        "key": "exit",
+        "title": "⑤出口判定",
+        "status": "on",
+        "detail": "P=0.7381 vs 阈值 0.5200（单向做多，永不做空）",
+        "metrics": {
+          "p_up": 0.7381,
+          "band": 0.02,
+          "exit_threshold": 0.52
+        }
+      },
+      {
+        "step": 6,
+        "key": "output",
+        "title": "⑥输出/入台账",
+        "status": "off",
+        "detail": "signal=gray，reason=gate_not_triggered",
+        "metrics": {
+          "signal": "gray",
+          "reason": "gate_not_triggered"
+        }
+      }
+    ]
+  },
+  "error": null,
+  "as_of": "2026-09-12"
+}

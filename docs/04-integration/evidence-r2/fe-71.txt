@@ -1,0 +1,35 @@
+D4 5 / A-1 6 / S1 5 / S2 3 / S3 2 / S4 2 / A-3 3 / S-a 2 / F-3 1），逐条见脚本控制台与
+`%TEMP%\opencode\r2_verify_report.txt`；截图 `evidence/zl_r2_state_empty_holdings.png` / `zl_r2_state_error_engine.png`。
+
+#### 7.1 C0 微修（PM 终验 E-1~E-4 · 2026-09-13）
+
+> 输入：`19-pm-acceptance-r2.md` §7.1（体验 4 条）；纪律：C0 最小修改、不动契约字段名/口径、不做清单外重构，文案入 `copy.js` 字典。
+
+| # | 问题（终验） | 改动（文件#函数） | 证据 / 断言（全过） |
+|---|---|---|---|
+| **E-1** | 顶栏日期 UTC 偏差（本地 00:00–08:00 早一天，与本地星期错配） | `format.js#localDate()` 新增本地时区日期 helper；`main.js#renderRuntime` 弃用 `toISOString().slice(0,10)` | `#top-date`=本地日期且非 UTC 日期；断言在 UTC 偏窗内实测：`local=2026-09-13 / utc=2026-09-12`，页面显示 2026-09-13 ✅（原缺陷可捕获） |
+| **E-2** | 副标题「可信估值覆盖 22/22 只」与 R2-25 四层口径冲突 | `holdings.js#renderOverview`：口径词改由字典 `copy.js#COVERAGE_VALUATION_LABEL`（「估值覆盖」）+ `covered_count/total_count` 组装；不再直出后端 `coverage_note` 口径词（字段未动、未改后端）；「未知行按成本计」保留 | `#pa-today-sub` 含「估值覆盖 X/Y 只」且无「可信估值覆盖」✅；精度窗说明（vsum `window_*` chip）未动 |
+| **E-3** | vsum 估算档未知组标签「无」（易误读为零/无样本） | `holdings.js#renderVSum` chips：`confidence==='unknown'` 时改显字典 `CONF_LABEL.unknown`（「无可信估算」）；其余分组标签仍直读后端 | vsum 含「无可信估算」且无裸「无 N 只」✅；mock `groups[].label` 同步镜像后端「高/中/低/无」以保真测试 |
+| **E-4** | 影子盘降级条缺样本数（100.0% vs 55.6% · +44.4pp，实际 n=4） | `review.js#activate` 增只读切片 `scoresLive`（`/review/scores?data_kind=shadow_live`——仅取样本数，非 F-4 的实盘切换入口）；`#renderDegrade` 由 `hero.open_count` 显示「样本 n 笔」，`n<20` 附「样本不足（<20 笔），偏差仅供参考」（`copy.js#SAMPLE_*`）；数据不可得则不显示（不编造） | 降级条含「样本 4 笔」「样本不足」✅（mock 镜像终验 live 形态 n=4 / 100.0% / 55.6%） |
+| 备注 | ① E-4 阈值 `<20` 沿用项目层①判定口径（`15-code-review-r2` §7.1-B1-8：独立触发日/n_test<20 挂档），**仅展示提示、不参与任何计算**；② E-1 同类 `toISOString` 残留仅 `holdings.js:486`（加/减仓默认日期，非清单项）——登记 R3，本轮不扩围；③ `12-interface-request-r2.md` §2 H1 原「副标题用 `coverage_note`」表述已被本条修订，遵 C0 边界未改该文档（R3 同步） | | |
+
+## 自验收
+
+- [x] U-01..U-12 逐项落地并给出证据（12/12）
+- [x] 四态（空/加载/错误/成功）逐页真实可触发；空态含「为什么空 + 下一步」；success 前不渲染数字；error 不回退示例
+- [x] 不倒退清单 10 项全部保持（§3）
+- [x] 数字全部直读 API 字段（无本地推算；缺失一律 `—`/留白；`+0.00%` 负向断言通过）
+- [x] 新增文案先入 `copy.js` 字典再进组件；口径 tooltip 走统一 `METRIC_TIP`/`tipAttr`
+- [x] mock 仅测试隔离、默认关闭、形状同步 v9.1
+- [x] 未修改 `09` 契约与架构文件；未改任何根目录 `.py`；未改 R1 既有工件（新文件 `-r2` 后缀）；未触 `runtime/**`
+- [x] `node --check` 14/14；静态断言 92/92；7 路由冒烟无 console 错误
+- [x] 与 v9.1 字段一致性自查完成（§4），未消费字段显式备案
+- [x] **S5 修复轮（§7）**：R2-D1（A1~A3）/ R2-D4 / BLOCK-A1 / BLOCK-A2（S1~S4）/ BLOCK-A3 前端分支 / S-a / F-5 / F-3 / **C2 文案 + C1 复核 + C0 微修（E-1~E-4）** 全部落地；断言 **137/137 PASS**；F-4 按清单挂账
+- [x] S5 边界：只改 `static/**` 与本报告；未改契约/架构/后端/QA 工件；未触 `runtime/**`
+
+## 下游交接
+
+- **`dev-lead`（评审 · G-FE-01）**：核对 03-ui-v3 §8 触点表 × 本报告 §1 双向清单；重点审差异备案 §6-1/§6-4（来源档映射、引擎空态边界）、§4 未消费字段备案与 **§7 S5 修复记录**（F-5 版本标识取 v9.3 的说明）。
+- **`qa`（S4/S5 用例）**：以 `verify_r2_ui_states.py`（已含 A1~A3 / D4 / A-1 / S1~S4 / A-3 / S-a / F-3 场景桩）为基础扩真后端用例：四态构造触发、`conf_reason` 五值、徽章 7 项 tooltip、vsum 主指标/官方 chip、hit/miss 与 `t1_real` 一致、待回填仅未到期、sticky/focus/Esc、`import_available=false` 禁用、`+0.00%` 负向；S5 回归重点：U2-03-成 / T2-F2-21-C、D2/D3/D4 断言、审计 A1/S1~S4/C2~C3 断言；R1 集成脚本（8791+CDP）可复用。
+- **`backend-dev`（S4 联调）**：按 `12-interface-request-r2.md` §7/§9 字段交付；B1 `shadow_status` 不得双输出；`conf_reason` 按序命中即停；`estimate_quality`/`official_summary` 按 v9.1 §9.1；`progress` 合并口径。
+- **`architect`**：两处差异备案（来源档映射、引擎空态边界）若与裁定不符，请版本 +1 明确；R1 挂账缺口（建议列 `

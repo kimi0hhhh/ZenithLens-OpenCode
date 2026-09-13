@@ -1,0 +1,15 @@
+{
+  "ok": true,
+  "data": {
+    "product_name": "极境 ZenithLens",
+    "version": "0.1.0",
+    "api_version": "v1",
+    "python_min": "3.8",
+    "deployment": "local_single_user",
+    "storage_note": "全部本地存储，数据不出本机",
+    "disclaimer": "不构成投资建议",
+    "built_at": "2026-09-12T03:57:00+08:00"
+  },
+  "error": null,
+  "as_of": "2026-09-12"
+}

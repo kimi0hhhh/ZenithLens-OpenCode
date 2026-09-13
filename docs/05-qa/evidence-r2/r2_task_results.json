@@ -1,0 +1,55 @@
+{
+ "total": 10,
+ "results": [
+  {
+   "case": "C2-04",
+   "status": "PASS",
+   "detail": "band→400 / baseline_method→400 / 未知类型→400（均 E_VALIDATION）"
+  },
+  {
+   "case": "C2-01",
+   "status": "FAIL",
+   "detail": "maintain_nav_history=POST_FAIL；既有日期被覆盖=0；新增点数=0"
+  },
+  {
+   "case": "G2-D02",
+   "status": "FAIL",
+   "detail": "复跑幂等（points 集不变）=True；第二次状态=POST_FAIL"
+  },
+  {
+   "case": "G2-B05",
+   "status": "FAIL",
+   "detail": "recompute=POST_FAIL；归档行=0（含旧 320）；重生成后 320 行；档位一致性(码∈持仓)=False；manifest=None"
+  },
+  {
+   "case": "C2-03",
+   "status": "FAIL",
+   "detail": "二次 recompute 幂等=False（行 320→300）；归档继续追加；INSERT-ONLY 旧记录复读见归档"
+  },
+  {
+   "case": "C2-06",
+   "status": "FAIL",
+   "detail": "recompute 前记录可归档复读：归档 0 行 ≥ 原主文件 320 行"
+  },
+  {
+   "case": "C2-02",
+   "status": "FAIL",
+   "detail": "targets=['022485'] → POST_FAIL；tier_reviews 22→22；summary="
+  },
+  {
+   "case": "C2-05",
+   "status": "PASS",
+   "detail": "无对应 signal 写入 → 400 / E_VALIDATION（合法字段 method/proxy_code 可选随行）"
+  },
+  {
+   "case": "C2-03b",
+   "status": "PASS",
+   "detail": "缓存缺失时 GET /review/scores=200；rows=3；note=回测缓存未生成：等待启动 warmup 或 POST /tasks {type:'run_backtest'}（不填估计值）。T+3/T+15 定式（gate_；恢复后 rows=3"
+  },
+  {
+   "case": "R2-REG-01",
+   "status": "PASS_PHASE",
+   "detail": "裁剪后归档可重建：归档累计 320 行（≥ 主文件 300）；重建脚本路径由 test_shadow_progress_archive 覆盖"
+  }
+ ]
+}

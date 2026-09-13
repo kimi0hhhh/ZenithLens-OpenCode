@@ -1,0 +1,85 @@
+## 15. 修复记录（F2 自碰撞伪影 · crowd6 重评与记录更正 · 2026-09-13）
+
+> 发现：F2 独立性检验把候选与自身别名比对（crowd6 的 `_builtin=crowd` 与现役 `crowd` 同源）→ `max_collinearity=1.0 / collinear_with="crowd"` → 记录 `rejected_f2`，属**假失败**。
+> 范围：只改 `factor_engine.py`（`_f2_independence` / `_incumbent_series` + 身份助手）、`tests/**`、`ledger/adopted_factors.json` 的 crowd6 记录更正（留痕）与本报告；冻结参数与业务判定未动；`runtime/**` 未触。
+
+#### 15.1 伪影成因
+
+- `_incumbent_series` 原排除逻辑 = `name == definition["factor_id"]`；crowd6 的 factor_id 为 `crowd6`，而现役键为 `crowd` → 未排除；crowd6 经 `BUILTINS` 解析后的信号实现与 `crowd` 完全相同 → 自比对 corr≡1.0。
+- 影响面：仅 crowd6 记录（klow2 的 factor_id 与现役键同名，未受影响）；不影响窗口评分 / F1 / F3。
+
+#### 15.2 修法（最小改动）
+
+- 新增 `_candidate_identity_ids(definition)`：身份集合 = `factor_id` / `name` / `_builtin` 键 / 同实现的全部 `BUILTINS` 键名与实现名（crowd6↔crowd 均可识别）。
+- `_incumbent_series`：按身份集合排除自比对；`_f2_independence`：同集合二次过滤（即使调用方直传 `inc_series` 也不会自比）。其余因子比对逻辑不变（阈值/窗口/口径不动）。
+
+#### 15.3 crowd6 重评（真实 bars 只读，2026-09-13）
+
+| 项 | 原记录（2026-09-12） | 重评（修复后） |
+|---|---|---|
+| `max_collinearity` | 1.0（伪影） | **0.0127** |
+| `collinear_with` | `"crowd"`（自身别名） | **`"klow2"`** |
+| `verdict` | `rejected_f2`（假失败） | `rejected_f1`（重评实值；见下注） |
+| klow2 对照 | 0.0398 vs crowd / admitted | 0.0127 vs crowd / admitted（不回归） |
+
+- **注（诚实披露）**：重评时行情缓存已于 **2026-09-13 15:26** 刷新（320 根；原快照 `scored_at=2026-09-12T12:49`），F1/总分同步漂移（total 21.4→−80.0、m6 lift 1.0326→0.9916），故 verdict 以重评实值为准并**一并更正留痕**；F2 伪影修正本身成立（原快照中 F2 为该批唯一失败项，修复后其 F2 通过）。
+
+#### 15.4 记录更正留痕（不静默）
+
+- `ledger/adopted_factors.json` → crowd6：F2 / verdict / 总分 / 窗口等更新为**重评实值**；新增 `correction` 块：
+  `from {max_collinearity:1.0, collinear_with:"crowd", verdict:"rejected_f2"}` →
+  `to {0.0127, "klow2", "rejected_f1"}` + `reason`（伪影成因）+ `rescore_note`（行情刷新漂移说明 + 14 报告 §15 索引）；`note` 追加「2026-09-13 修正」原文；`added_at` 保留原值。
+- 未改写其他因子记录；klow2 的漂移（61.05→51.2）登记为**后续全盘重评候选**（不在本轮范围）。
+
+#### 15.5 测试断言（`test_f2_selfcollision` 8 条）
+
+- 身份集合含别名（crowd6↔crowd）；`_incumbent_series` 排除别名（crowd6 → 仅 `klow2`；klow2 → 仅 `crowd`）。
+- 仅自身别名时全排除 → `pass` + null（不再 1.0 fail）；混有真因子时 `collinear_with="klow2"` 且 <1。
+- **负向**：真共线（不同身份、同信号）仍 `fail` + `max_collinearity=1.0`（不被误放）。
+- 全栈：crowd6 `evaluate` 不再出现 vs `"crowd"`；klow2 重评仍比对 `crowd` 且 <1（不回归）。
+
+#### 15.6 回归
+
+- 全量 **234/234 × 2 全绿**（R1 117 + R2 轮次新增 117；本轮净增 8）；`proxy_quality.json`（sha256 `98b94d43dec81a67…`）与 12 个产线文件两轮前后零差异。
+
+### 16. 冻结纪律与红线核对
+
+| 红线 | R2 状态 |
+|---|---|
+| E2/E4 禁复活、禁 OR 合并 | 未触碰（门仍 E1/E3） |
+| K=4/p=0.25/MIN_N=15/SHRINK=10/BAND=0.02/双否决分位 | `engine.frozen_params` 未改值；仅追加 `baseline_method` 口径文本 |
+| 永不做空 | 未触碰 |
+| INSERT-ONLY | 保持；重算=先归档后重生成；回填独立文件；修正行只追加不改 |
+| 组合权重 = 可信市值 | `weighting_basis` 恒 `market_value`；黑名单新增 `baseline_method` |
+| `0.5830` | 产线计算零引用；仅契约固定文本含 token（D-9/§5） |
+| T+3/T+15 未验证不出 up | 未触碰（`/review/scores` 属复盘展示，不产信号） |
+
+### 17. 启动与健康检查
+
+- 启动：`cd C:\Users\10719\Documents\ZenithLens-OpenCode && python app.py`（默认 `127.0.0.1:8791`，可用 `--port` 覆盖；Python 3.8+）。
+- 健康：`GET /api/v1/health`、`GET /api/v1/runtime`（`trade_session`/`staleness`）、`GET /api/v1/engine/status`（进度/审查分离）。
+- 新任务：`POST /api/v1/tasks {"type":"maintain_nav_history"}`、`{"type":"verify_tiers","params":{"targets":[...]}}`、`{"type":"backfill_ledger","params":{"mode":"recompute"}}`。
+
+## 自验收
+
+- [x] 契约 v9.1 每个新增/变更条目都已实现，无遗漏（§2 机器核对表逐项）—— 44 + 9 + B1~B9 + 枚举 9 + 任务 3 + 注记 2；**v9.2 注记按 §9.1 落地**
+- [x] 逐字段比对：字段名/类型/单位/精度/枚举值一致；无 camelCase；`snake_case` 全项目统一；`baseline_status` 枚举 `filled/pending`（禁 `ok`，§9.1-B1-3）
+- [x] 每个新行为的 4xx/5xx 分支可构造并验证（E_VALIDATION：data_kind/method/targets/冻结参数；E_CONFLICT：INSERT-ONLY；E_NOT_FOUND；E_IO 空态改可读提示）
+- [x] 边界情况已处理（除零/空列表/NaN 不产出/净值缺/超时/归档不可读/预算超时）
+- [x] 业务口径注释标注来源（PRD F2-xx / 契约 §x / 08-r2 §x / 09-r2 v9.2 §10 / ADR-0007~0015）
+- [x] 无「看起来对」的兜底数字：缺数据一律 null + 原因（`conf_reason` 五值 / `baseline_rate=null` / pending；T3/T15 待填充）
+- [x] 服务可独立启动（`python app.py` 默认 8791；修复轮以 OS 空闲端口 + PID 身份核对冒烟通过，§9.3/§10.3）
+- [x] 偏差 9 条显式列于 §7，无静默修改；缺陷修复留痕 §8；修复记录 §9（B1/B2/S1）/ §10（S2/S3）/ §11（S5 后端栏）逐条
+- [x] 测试：**234/234 双跑全绿**（R1 117 + R2 轮次新增 117），含 INSERT-ONLY 幂等、复算、双通道分离、负向断言、S3 缓存/快路径、A3 链重算 + chain_source 三态、D3 互斥/串行；产线数据零污染（§9.2/§10.3/§11.6/§12.3）
+- [x] S2：新浪 (b) 标注回填既有 `note`（未改契约字段）；S3：冷启动 `/holdings` ready+1s/+6s/+15s 实测 ≤0.45s（修复前最坏 39.7s）
+- [x] S5（§8.10 后端栏）：D2/D3/A3/S-c/S-e 全落地；NIT D-8/B-5a/F-3 顺手修；F-6 依 v9.4 §12 确认（method 名维持 + top_n 如实，零改动）；C3 chain_source 落码（§12）；v9.5 影子盘窗口 60 + 增量滚动（§13）；客户端断连零堆栈（§14，RST 风暴 Traceback 36→0）；F2 自碰撞伪影修复 + crowd6 重评/记录更正留痕（§15）
+- [x] 未改前端 `static/**`、未改 R1 既有工件、未触 `runtime/**`；报告以 `-r2` 命名
+
+## 下游交接
+
+- **主消费方**：`dev-lead`（G-BE-01 冒烟：按 §17 起服；四目标各一条链路：`maintain_nav_history`→accuracy v2、`verify_tiers`、`backfill_ledger`、`/review/scores` 两口径、`/health`；**B1/B2/S1 复验按 §9；S2/S3 复验按 §10；S5 后端栏复验按 §11（A3 C1/C3/C4、D2/D3、S-c/S-e）；C3 复验按 §12（chain_source 三态 + F-6 确认）；v9.5 复验按 §13（窗口 60 / 增量滚动 / qualified / 冷启动）；断连修复复验按 §14（RST 风暴零堆栈）；F2 修复复验按 §15（自比对排除 + crowd6 重评）**）。
+- **次消费方**：
+  - `frontend-dev`：按 `09-api-contract-r2` v9.4 消费新增字段——`conf_reason`（unknown 徽章）、`estimate_quality.weighted_mae_rate`（vsum 主指标）+ `official_summary`（官方 chip）、`window_phase/window_filled_days`、`pending_verification_names/verify_review_date`、`main_source/import_*`、`scores[].sample_window`、`qdii_lead_note`、**`chain_source`（时间线 tooltip 可标注链来源）**。
+  - `qa`：负向断言建议——`conf_reason` 仅 unknown 非 null；`baseline_source` 恒 measured 且旧常量零引用；`t*_real` 无来源不写（E_VALIDATION）；recompute 旧记录可归档复读；`shadow_status` 无 idle/ok/bad；`import_available=false` 禁用路径；挂档行不入 universe；双证据道不得互相引用；**`chain_source`：available 行 ∈ {stored, recomputed}、unavailable 行 null + `chain=[]`**。
+- **残留风险**（责任人 / 期限）：
+  1. `163208` 双段参照指数缺枚举 → 是否补 `US_OIL` 类参照由 architect 裁定（architect，S5 前；未决期间 correction=nu

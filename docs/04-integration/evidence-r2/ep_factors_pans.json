@@ -1,0 +1,165 @@
+{
+ "ok": true,
+ "data": {
+  "pans": [
+   {
+    "role": "adopted",
+    "role_label": "正式盘",
+    "description": "当前生产因子（否决位 ≤4、打分位 ≤3）",
+    "factor_count": 2,
+    "factors": [
+     {
+      "factor_id": "klow2",
+      "name": "KLOW2 下影线否决",
+      "role": "adopted",
+      "role_label": "否决位",
+      "score": 61.05,
+      "total_score": 61.05,
+      "status": "active",
+      "license": "probation",
+      "license_label": "试用",
+      "lift_bars": [
+       {
+        "window": "d15",
+        "window_label": "15日",
+        "lift": 1.3059
+       },
+       {
+        "window": "d30",
+        "window_label": "30日",
+        "lift": 1.1459
+       },
+       {
+        "window": "d60",
+        "window_label": "60日",
+        "lift": 1.1328
+       },
+       {
+        "window": "m6",
+        "window_label": "6月",
+        "lift": 1.1075
+       },
+       {
+        "window": "m24",
+        "window_label": "24月",
+        "lift": 1.072
+       },
+       {
+        "window": "full",
+        "window_label": "全样本",
+        "lift": 1.072
+       }
+      ],
+      "independent_trigger_days": 863,
+      "death_condition": "lift(m24) < 1.00 或留一法移除后 Δ 升 ≥0.5pp 持续 30 天",
+      "note": "下影线占振幅比处于训练段最不利 40% 时亮灯否决（复用 engine.veto_status）",
+      "ab_progress": null,
+      "added_at": "2026-09-12"
+     },
+     {
+      "factor_id": "crowd6",
+      "name": "拥挤度六维复合否决",
+      "role": "adopted",
+      "role_label": "否决位",
+      "score": 21.4,
+      "total_score": 21.4,
+      "status": "active",
+      "license": "none",
+      "license_label": "未达线",
+      "lift_bars": [
+       {
+        "window": "d15",
+        "window_label": "15日",
+        "lift": 1.0
+       },
+       {
+        "window": "d30",
+        "window_label": "30日",
+        "lift": 0.9764
+       },
+       {
+        "window": "d60",
+        "window_label": "60日",
+        "lift": 1.0746
+       },
+       {
+        "window": "m6",
+        "window_label": "6月",
+        "lift": 1.0326
+       },
+       {
+        "window": "m24",
+        "window_label": "24月",
+        "lift": 1.0113
+       },
+       {
+        "window": "full",
+        "window_label": "全样本",
+        "lift": 1.0113
+       }
+      ],
+      "independent_trigger_days": 861,
+      "death_condition": "lift(m24) < 1.00 或留一法移除后 Δ 升 ≥0.5pp 持续 30 天",
+      "note": "六维（mom5/vr/dev/vpcorr/volat/skew）按训练段 IC 符号复合 z，最拥挤 40% 亮灯否决",
+      "ab_progress": null,
+      "added_at": "2026-09-12"
+     }
+    ],
+    "rule_text": "正式盘：仅收已过准入三项（F1 有效性 / F2 独立性 / F3 增量）AND 的因子；上限：否决位 ≤4 · 打分位 ≤3；每月 1 日月榜跑留一法，移除后 Δ 升 ≥0.5pp 且持续 30 天 = 结构红线。",
+    "pan_status": "on",
+    "flow_kind": "promotion",
+    "updated_at": null,
+    "factor_cap": null,
+    "caps": {
+     "veto_max": 4,
+     "score_max": 3
+    },
+    "nomination_limit": null
+   },
+   {
+    "role": "shadow_retired",
+    "role_label": "淘汰影子盘",
+    "description": "A/B 对照中的淘汰候选，等待 60 个交易日结论",
+    "factor_count": 0,
+    "factors": [],
+    "rule_text": "淘汰影子盘：正式盘因子进入淘汰流程后先降级到此做 A/B 对照（移除 vs 保留），60 个交易日内不得回生产；开口 <20 不出结论。",
+    "pan_status": "on",
+    "flow_kind": "promotion",
+    "updated_at": null,
+    "factor_cap": null,
+    "caps": null,
+    "nomination_limit": null
+   },
+   {
+    "role": "shadow_effective",
+    "role_label": "有效影子盘",
+    "description": "准入三项 AND 通过、尚未晋升生产的候选",
+    "factor_count": 0,
+    "factors": [],
+    "rule_text": "有效影子盘：候选因子须同时过 F1 有效性、F2 独立性（与现役最大共线 <0.7）、F3 增量（加入后 Δ≥+0.5pp 且开口不塌方）；每周提名 ≤3，冷却 90 天；只记账不参与生产，待牌照升级。",
+    "pan_status": "on",
+    "flow_kind": "promotion",
+    "updated_at": null,
+    "factor_cap": null,
+    "caps": null,
+    "nomination_limit": 3
+   },
+   {
+    "role": "frozen",
+    "role_label": "冷冻盘",
+    "description": "已退役/失守因子的冷冻区，禁止直接回生产",
+    "factor_count": 0,
+    "factors": [],
+    "rule_text": "冷冻盘：淘汰五线触发后进入冷冻；复活须重新走准入三项与 A/B 对照，**禁止直接回生产**；复活路径属机制变更，须重走六关。",
+    "pan_status": "on",
+    "flow_kind": "revival",
+    "updated_at": null,
+    "factor_cap": null,
+    "caps": null,
+    "nomination_limit": null
+   }
+  ]
+ },
+ "error": null,
+ "as_of": "2026-09-12"
+}

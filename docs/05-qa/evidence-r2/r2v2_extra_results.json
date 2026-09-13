@@ -1,0 +1,65 @@
+{
+ "total": 12,
+ "results": [
+  {
+   "case": "C-01",
+   "status": "PASS",
+   "detail": "POST /holdings → 201"
+  },
+  {
+   "case": "C-03",
+   "status": "PASS",
+   "detail": "重复建档 → 409/E_CONFLICT"
+  },
+  {
+   "case": "C-04",
+   "status": "PASS",
+   "detail": "非法代码 → 400/E_VALIDATION"
+  },
+  {
+   "case": "C-05",
+   "status": "PASS",
+   "detail": "PUT→200 回读 shares=20.0"
+  },
+  {
+   "case": "C-07",
+   "status": "PASS",
+   "detail": "不存在 → 404"
+  },
+  {
+   "case": "C-02",
+   "status": "PASS",
+   "detail": "计数 22 → 23"
+  },
+  {
+   "case": "C-08",
+   "status": "PASS",
+   "detail": "DELETE → 200"
+  },
+  {
+   "case": "C-09",
+   "status": "PASS",
+   "detail": "还原：行数 22 == 原 22；临时码残留=False"
+  },
+  {
+   "case": "C-10",
+   "status": "PASS",
+   "detail": "重复删除 → 404"
+  },
+  {
+   "case": "U2-VSUM",
+   "status": "PASS_PHASE",
+   "detail": "主指标=估算档（未出数带原因「缺净值」）；官方档单列；全档参考 chip 在未出数时按条件隐藏（留白不填）；估算档暂无法计算 · 缺净值 | 官方档（既成事实）17 只 · 占 84.5% | 无5 只 · ¥8,289.82 · 占 15.5% | 官方净值 17 只 | 重仓加权 5 只 | 精度窗 0/40 日 · 累计 0/40 日 · 累计中（未满 5 个可配对日） | 口径：近 40 个交易日回测 · 估算涨跌 "
+  },
+  {
+   "case": "U2-PRIVACY",
+   "status": "PASS_PHASE",
+   "detail": "隐私打码：body.masked .amt 规则在 CSS=True；设置页开关元素=2（未实操切换，R1 已覆盖且 R2 未改动）"
+  },
+  {
+   "case": "U2-LAG",
+   "status": "PASS_PHASE",
+   "detail": "新鲜度文案在页：滞后/日期=True；头部=已接入本地引擎 · 持仓/预测真实数据 · 服务日期 2026-09-13 · 数据源正常"
+  }
+ ]
+}

@@ -1,0 +1,32 @@
+{
+  "ok": true,
+  "data": {
+    "total_cells": 125,
+    "filled_cells": 125,
+    "coverage_pct": 1.0,
+    "avg_samples_per_cell": 21.168,
+    "min_samples_cell": 10,
+    "min_n": 15,
+    "noise": {
+      "k_noise": 4,
+      "p_perturb": 0.25
+    },
+    "train_mode": "逐资产、全样本训练段；季度滚动；无逐资产调参",
+    "noise_text": "加噪 K=4 / p=0.25：每维以 0.25 概率 ±1 档，副本仅进训练计数；边缘格 n=3 → 有效样本 ×5 ≈ n=15，越过 MIN_N；ddsm 有效格 125",
+    "retrain_cycle": "quarterly",
+    "last_retrain_at": null,
+    "next_retrain_at": null,
+    "retrain_note": "原年→季属参数变更，须重走六关（待验证）",
+    "training_assets": 9,
+    "index_only_assets": 0,
+    "dead_ends": [
+      "接入第 4/5 维特征",
+      "DDSM 用于 T+3",
+      "逐资产路由",
+      "loss-guided 加噪",
+      "IC 自适应加噪"
+    ]
+  },
+  "error": null,
+  "as_of": "2026-09-12"
+}

@@ -1,0 +1,16 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+
+# Runtime data (personal holdings, logs, generated history)
+data/
+ledger/
+
+# Logs & temp
+*.log
+*.tmp
+.DS_Store
+Thumbs.db

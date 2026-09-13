@@ -1,0 +1,71 @@
+{
+ "ok": true,
+ "data": {
+  "data_kind": "backtest",
+  "generated_at": "2026-09-13T00:32:46+08:00",
+  "as_of": "2026-09-13",
+  "scores": [
+   {
+    "window": "T1",
+    "formula": "gate+ddsm+veto",
+    "hit_rate": 0.5263,
+    "open_count": 61,
+    "baseline_rate": 0.5415,
+    "baseline_status": "filled",
+    "delta_pp": -0.0152,
+    "cv_mode": "walk_forward",
+    "purge_gap": "H+2",
+    "holdout_days": 60,
+    "data_kind": "backtest",
+    "sample_window": "full",
+    "sample_period": "2025-05-26..2026-06-22",
+    "as_of": "2026-09-13"
+   },
+   {
+    "window": "T3",
+    "formula": "gate_only",
+    "hit_rate": null,
+    "open_count": 0,
+    "baseline_rate": null,
+    "baseline_status": "pending",
+    "delta_pp": null,
+    "cv_mode": "walk_forward",
+    "purge_gap": "H+2",
+    "holdout_days": 60,
+    "data_kind": "backtest",
+    "sample_window": "full",
+    "sample_period": null,
+    "as_of": "2026-09-13"
+   },
+   {
+    "window": "T15",
+    "formula": "gate+ddsm",
+    "hit_rate": null,
+    "open_count": 0,
+    "baseline_rate": null,
+    "baseline_status": "pending",
+    "delta_pp": null,
+    "cv_mode": "walk_forward",
+    "purge_gap": "H+2",
+    "holdout_days": 60,
+    "data_kind": "backtest",
+    "sample_window": "full",
+    "sample_period": null,
+    "as_of": "2026-09-13"
+   }
+  ],
+  "hero": {
+   "window": "T1",
+   "hit_rate": 0.5263,
+   "baseline_rate": 0.5415,
+   "delta_pp": -0.0152,
+   "open_count": 61,
+   "sample_period": "2025-05-26..2026-06-22",
+   "data_kind": "backtest",
+   "label": "生产配置走前回测 · T+1 · 全样本窗"
+  },
+  "note": "回测=生产配置全链（E1/E3→DDSM→双否决→出口）走前（purge=H+2 / holdout 60）；T1 主值取 full 全样本窗（六样本窗归因子页）。T+3/T+15 定式（gate_only / gate+ddsm）验证状态 pending_cv（待验证：未过走前 CV + placebo），R2 不填充成绩；接通须各自定式过六关后由架构版本 +1 发布。"
+ },
+ "error": null,
+ "as_of": "2026-09-13"
+}

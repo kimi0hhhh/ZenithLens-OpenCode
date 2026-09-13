@@ -1,0 +1,360 @@
+{
+ "total": 71,
+ "results": [
+  {
+   "case": "G2-A01",
+   "status": "PASS_PHASE",
+   "detail": "window_phase=warming filled=-1 非unknown=0/22（warming 期如实）；unknown 缺 reason=无"
+  },
+  {
+   "case": "G2-A02",
+   "status": "PASS_PHASE",
+   "detail": "window_days=40 phase=warming label=累计 0/40 日（<5 可配对日按实显 X/40）"
+  },
+  {
+   "case": "G2-A03",
+   "status": "PASS",
+   "detail": "22 只 unknown 全带合法 conf_reason（当前 nav_missing）；非 unknown 行 conf_reason 全 null"
+  },
+  {
+   "case": "G2-A04",
+   "status": "PASS_PHASE",
+   "detail": "accuracy={}空载（首日无可配对日 → 空载如实，24h 内随净值回补产生首条）；全行 reason 合法=True；mode|code 键语义由 test_accuracy_channel 断言"
+  },
+  {
+   "case": "G2-A05",
+   "status": "PASS",
+   "detail": "holdings 档 5 只；detail 键齐=True；top_n=20 covered=80.24 markets=['A', 'HK'] excluded=0"
+  },
+  {
+   "case": "G2-A06",
+   "status": "PASS_PHASE",
+   "detail": "QDII 6 只；回退矩阵违规=无；qdii_correction.json keys=['decided_at', 'enabled', 'last_review', 'next_review_date', 'reason']"
+  },
+  {
+   "case": "G2-A07",
+   "status": "PASS",
+   "detail": "holdings 档 weighted_change 复算 5 只；不符=无"
+  },
+  {
+   "case": "G2-A08",
+   "status": "PASS",
+   "detail": "留档文件 ['valuation-20260912.jsonl', 'valuation-20260913.jsonl']；行数=[('valuation-20260912.jsonl', 22), ('valuation-20260913.jsonl', 22)]（收盘后写、幂等语义）"
+  },
+  {
+   "case": "G2-B01",
+   "status": "PASS",
+   "detail": "tier_reviews 行=22；coverage note=预测覆盖 15/22（+7 待结论）；universe=15"
+  },
+  {
+   "case": "G2-B02",
+   "status": "PASS",
+   "detail": "挂档 7 只；复查日=['2026-10-23']；挂档不进 universe（universe=15 == A+B=15）"
+  },
+  {
+   "case": "G2-B03",
+   "status": "PASS_PHASE",
+   "detail": "当前无 validation_failed（降档出口未被触发）；not_applicable=0；结论出口由 tier_reviews 证据承载"
+  },
+  {
+   "case": "G2-B04",
+   "status": "PASS",
+   "detail": "universe==A+B (15==15)；pending=7；names=7"
+  },
+  {
+   "case": "G2-B05",
+   "status": "NA",
+   "detail": "recompute 幂等/归档由任务巡检脚本 r2_task_checks.py 执行（B3 批）"
+  },
+  {
+   "case": "G2-B06",
+   "status": "PASS",
+   "detail": "rolling_open_assets=11 / 20；note=20 交易日约 11 资产开口，多数交易日不开口是常态；空态不等于故障。"
+  },
+  {
+   "case": "G2-C01",
+   "status": "PASS",
+   "detail": "T1=0.5263/0.5415/-0.0152 open=61；hero==T1；note含 pending_cv"
+  },
+  {
+   "case": "G2-C02",
+   "status": "PASS",
+   "detail": "T3/T15 pending+null+open0；formula=gate_only/gate+ddsm；枚举仅 filled/pending"
+  },
+  {
+   "case": "G2-C03",
+   "status": "PASS_PHASE",
+   "detail": "shadow_live 可读（kind=shadow_live / note=实盘=台账合并集（主文件 ∪ 归档）+ 实测基线 max(恒涨率,恒跌率)；回填口径=代理 ETF ）；无缓存错误路径见任务脚本（B2 批临移恢复）"
+  },
+  {
+   "case": "G2-C04",
+   "status": "PASS",
+   "detail": "delta 复算=-0.0152 == 接口 -0.0152；baseline_method=max(恒涨率,恒跌率)，按台账 universe（全部资产-日）实测；0.58"
+  },
+  {
+   "case": "G2-C05",
+   "status": "PASS",
+   "detail": "回填 t1 304 行；method/proxy_code 违规=0；已到期 up 回填 4/4（100%）"
+  },
+  {
+   "case": "G2-C06",
+   "status": "PASS_PHASE",
+   "detail": "consecutive=20（==engine 20）；archive_merged=False；history_days=20；≥60 可达由 test_shadow_progress_archive 覆盖"
+  },
+  {
+   "case": "G2-D01",
+   "status": "PASS_PHASE",
+   "detail": "nav store 22 只，点数=5636，最新净值日=2026-09-11（≤1 交易日：09-11 为最近交易日）"
+  },
+  {
+   "case": "G2-D02",
+   "status": "NA",
+   "detail": "maintain_nav_history 幂等复跑由任务脚本执行（B1 批）"
+  },
+  {
+   "case": "G2-D03",
+   "status": "PASS_PHASE",
+   "detail": "sina note=仅探测·非主链（近 7 日失败 6 次）；兜底调用链由 test_sina_fallback 覆盖（故障注入）"
+  },
+  {
+   "case": "G2-D04",
+   "status": "PASS",
+   "detail": "全部源 fail_window_7d/fail_window_days=7/recent≤10 合规；违规=无"
+  },
+  {
+   "case": "G2-D05",
+   "status": "PASS",
+   "detail": "main_source.path=data/holdings.json（=契约字面，R2-D2 已关闭）count=22；import_available=False + reason"
+  },
+  {
+   "case": "G2-D06",
+   "status": "PASS",
+   "detail": "各源均有状态+时间戳（4 源）；缺时间戳=无；注：UI v3 文案写『五源』、PRD G2-10 写『四源』，实际 4 源——文档口径差异已记录"
+  },
+  {
+   "case": "N2-01",
+   "status": "PASS_PHASE",
+   "detail": "estimate_quality.weighted_mae_rate=None（估算档主指标）；official_summary 单列 count=17；全档参考保留=True"
+  },
+  {
+   "case": "N2-02",
+   "status": "PASS_PHASE",
+   "detail": "估算档 groups=1 组（confidence 枚举合法=True）；加权复算须待 mae_rate 出数（warming）"
+  },
+  {
+   "case": "N2-03",
+   "status": "PASS_PHASE",
+   "detail": "非 unknown 复算式已核（当前 0/22=warming）；unknown 均带 reason（同 G2-A01/A03）"
+  },
+  {
+   "case": "N2-04",
+   "status": "PASS",
+   "detail": "conf_reason 五值合法+仅 unknown 非 null；按序命中语义由 test_accuracy_channel 断言"
+  },
+  {
+   "case": "N2-05",
+   "status": "PASS",
+   "detail": "accuracy 条目 0 个；matched_days 齐=True；n<5 却出统计值=无（禁）"
+  },
+  {
+   "case": "N2-06",
+   "status": "PASS_PHASE",
+   "detail": "window_days=40 固定；n_test 逐日累计（当前首日）；phase=warming"
+  },
+  {
+   "case": "N2-07",
+   "status": "PASS_PHASE",
+   "detail": "mode|code 归键（accuracy {}空载）；同 mode 当日末条取法由 test_accuracy_channel 覆盖"
+  },
+  {
+   "case": "N2-08",
+   "status": "PASS",
+   "detail": "Δ 复算一致（同 G2-C04）"
+  },
+  {
+   "case": "N2-09",
+   "status": "PASS",
+   "detail": "实测基线复算=0.5559（pos 129/neg 169/N 304，合并台账全量）== 接口 0.5559；source=measured"
+  },
+  {
+   "case": "N2-10",
+   "status": "PASS",
+   "detail": "grep 命中=['engine.py:685', 'engine.py:686', 'tests\\\\test_baseline_measured.py:60']；frozen.baseline_method 含退役声明=True"
+  },
+  {
+   "case": "N2-11",
+   "status": "PASS",
+   "detail": "(15+k)/22 按实计：universe=15 == A+B=15；note=预测覆盖 15/22（+7 待结论）"
+  },
+  {
+   "case": "N2-12",
+   "status": "PASS",
+   "detail": "挂档 7 只不进 universe/不计增长；复查日=['2026-10-23']"
+  },
+  {
+   "case": "N2-13",
+   "status": "PASS",
+   "detail": "pending=7 names≤10（7）；note=预测覆盖 15/22（+7 待结论）"
+  },
+  {
+   "case": "N2-14",
+   "status": "PASS",
+   "detail": "t1_real_method=proxy_bar + proxy_code 6 位（304 行已回填）"
+  },
+  {
+   "case": "N2-15",
+   "status": "PASS",
+   "detail": "已到期 up 信号回填覆盖 4/4（100%）；缺 bar →『数据缺失待补』语义由 test_backfill_real 覆盖"
+  },
+  {
+   "case": "N2-16",
+   "status": "PASS_PHASE",
+   "detail": "progress: consecutive=20 archive_merged=False history_days=20 baseline_source=measured"
+  },
+  {
+   "case": "N2-17",
+   "status": "PASS",
+   "detail": "fail_window_7d 时间窗口径（同 G2-D04）；544 仅累计（fail_count=544，展示口径检查见 UI 脚本）"
+  },
+  {
+   "case": "N2-18",
+   "status": "PASS_PHASE",
+   "detail": "nav 最新=2026-09-11；n_test 累积由 accuracy matched_days（当前首日，40 日为终判目标）"
+  },
+  {
+   "case": "N2-19",
+   "status": "PASS_PHASE",
+   "detail": "QDII 回退矩阵无违规；qdii_review.jsonl 行=140；applied=false 必带 reason（当前无 applied=true 记录=首测期）"
+  },
+  {
+   "case": "N2-20",
+   "status": "PASS_PHASE",
+   "detail": "门槛 40 日且 n≥20 未达不得宣布失败：qdii_correction.json={'enabled': True, 'next_review_date': None, 'decided_at': None}"
+  },
+  {
+   "case": "N2-21",
+   "status": "PASS",
+   "detail": "top_n/used=false/excluded_count 口径（同 G2-A05/A07）"
+  },
+  {
+   "case": "N2-22",
+   "status": "PASS",
+   "detail": "scores 行=3 全 sample_window=full；无六样本窗混入（d15 等）"
+  },
+  {
+   "case": "N2-23",
+   "status": "PASS",
+   "detail": "hero: open_count=61 sample_period=2025-05-26..2026-06-22 data_kind=backtest"
+  },
+  {
+   "case": "N2-24",
+   "status": "PASS",
+   "detail": "tier_reviews 22 行 verdict=['downgrade', 'downgrade', 'downgrade', 'downgrade', 'downgrade', 'downgrade', 'downgrade', 'hold']（判据 lift/Δ/indep 语义由 test_tier_review 覆盖）"
+  },
+  {
+   "case": "N2-25",
+   "status": "PASS",
+   "detail": "shadow_status=recording / audit=bad；违规=无"
+  },
+  {
+   "case": "N2-26",
+   "status": "PASS",
+   "detail": "四层分列：{'估值覆盖': 22, '预测覆盖': 15, '开口覆盖': 11, '可信估值覆盖': 0}（互不替代）"
+  },
+  {
+   "case": "N2-27",
+   "status": "PASS",
+   "detail": "qdii_lead_note 6 只（全 QDII）；非 QDII 误带=无"
+  },
+  {
+   "case": "N2-28",
+   "status": "PASS",
+   "detail": "留档口径（同 G2-A08）"
+  },
+  {
+   "case": "N2-29",
+   "status": "PASS_PHASE",
+   "detail": "预算实现（T-01）：跳过→budget_exceeded 语义由 test_accuracy_channel/构建断言覆盖；当前无超限记录"
+  },
+  {
+   "case": "N2-30",
+   "status": "PASS_PHASE",
+   "detail": "effect_pp 量级检查无异常（无）；格式化（+x.xxpp）由 UI 脚本/DOM 断言"
+  },
+  {
+   "case": "X2-05",
+   "status": "PASS",
+   "detail": "conf_reason 双向断言（同 N2-04）"
+  },
+  {
+   "case": "X2-06",
+   "status": "PASS",
+   "detail": "0.5830 零计算引用 + baseline_source（同 N2-10）"
+  },
+  {
+   "case": "X2-07",
+   "status": "PASS",
+   "detail": "shadow_status 无 idle/ok/bad（同 N2-25）"
+  },
+  {
+   "case": "X2-08",
+   "status": "PASS",
+   "detail": "回填文件：t1_real 恒带 method=proxy_bar；无 t1_real 行不得带 method/proxy（违规=0/0）"
+  },
+  {
+   "case": "X2-09",
+   "status": "PASS",
+   "detail": "QDII 回退不静默（applied=false 必带 reason）（同 G2-A06）"
+  },
+  {
+   "case": "X2-10",
+   "status": "PASS",
+   "detail": "挂档不计覆盖（同 N2-12）"
+  },
+  {
+   "case": "X2-11",
+   "status": "PASS",
+   "detail": "四层覆盖分列（同 N2-26）"
+  },
+  {
+   "case": "X2-12",
+   "status": "NA",
+   "detail": "前端不硬编码后端文案 → UI 脚本（源码 grep + DOM 断言）"
+  },
+  {
+   "case": "X2-14",
+   "status": "PASS",
+   "detail": "PUT /ledger/entries=404 DELETE=404（无编辑入口）；recompute 归档见任务脚本"
+  },
+  {
+   "case": "X2-15",
+   "status": "NA",
+   "detail": "544 不作当前状态展示 → UI 脚本 DOM 断言"
+  },
+  {
+   "case": "X2-16",
+   "status": "PASS",
+   "detail": "import_available=false + reason；响应无 E_IO（同 G2-D05）"
+  },
+  {
+   "case": "X2-17",
+   "status": "PASS",
+   "detail": "冻结参数值零 diff（K/p/MIN_N/BAND/分位/0.30/3 全对）"
+  },
+  {
+   "case": "X2-18",
+   "status": "PASS",
+   "detail": "nav 断链不静默：unknown+nav_missing（同 G2-A03）"
+  },
+  {
+   "case": "X2-19",
+   "status": "PASS",
+   "detail": "回测/实盘 data_kind 区分；六样本窗未混入复盘页（同 N2-22）"
+  },
+  {
+   "case": "X2-20",
+   "status": "PASS_PHASE",
+   "detail": "budget_exceeded 语义就绪（当前无超限）；快照 budget 字段由构建断言覆盖"
+  }
+ ]
+}

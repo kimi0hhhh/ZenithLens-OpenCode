@@ -1,0 +1,191 @@
+{
+ "base": "http://127.0.0.1:8791/api/v1",
+ "total": 23,
+ "passed": 22,
+ "results": [
+  {
+   "name": "runtime",
+   "path": "/runtime",
+   "http": 200,
+   "ok": true,
+   "ms": 1399,
+   "err": null
+  },
+  {
+   "name": "holdings",
+   "path": "/holdings?with=valuation,nav,prediction",
+   "http": 0,
+   "ok": false,
+   "ms": 30008,
+   "err": "E_CONNECT"
+  },
+  {
+   "name": "holdings_summary",
+   "path": "/holdings/summary",
+   "http": 200,
+   "ok": true,
+   "ms": 1785,
+   "err": null
+  },
+  {
+   "name": "valuations_precision",
+   "path": "/valuations/precision",
+   "http": 200,
+   "ok": true,
+   "ms": 2110,
+   "err": null
+  },
+  {
+   "name": "holdings_coverage",
+   "path": "/holdings/coverage",
+   "http": 200,
+   "ok": true,
+   "ms": 1749,
+   "err": null
+  },
+  {
+   "name": "signals_state",
+   "path": "/signals/state",
+   "http": 200,
+   "ok": true,
+   "ms": 3560,
+   "err": null
+  },
+  {
+   "name": "ledger",
+   "path": "/ledger?limit=60",
+   "http": 200,
+   "ok": true,
+   "ms": 1268,
+   "err": null
+  },
+  {
+   "name": "ledger_shadow",
+   "path": "/ledger/shadow?limit=60",
+   "http": 200,
+   "ok": true,
+   "ms": 3910,
+   "err": null
+  },
+  {
+   "name": "engine_status",
+   "path": "/engine/status",
+   "http": 200,
+   "ok": true,
+   "ms": 6533,
+   "err": null
+  },
+  {
+   "name": "engine_frozen",
+   "path": "/engine/frozen-params",
+   "http": 200,
+   "ok": true,
+   "ms": 888,
+   "err": null
+  },
+  {
+   "name": "engine_shadow_review",
+   "path": "/engine/shadow-review",
+   "http": 200,
+   "ok": true,
+   "ms": 1261,
+   "err": null
+  },
+  {
+   "name": "review_scores",
+   "path": "/review/scores",
+   "http": 200,
+   "ok": true,
+   "ms": 190,
+   "err": null
+  },
+  {
+   "name": "review_scores_shadow",
+   "path": "/review/scores?data_kind=shadow_live",
+   "http": 200,
+   "ok": true,
+   "ms": 439,
+   "err": null
+  },
+  {
+   "name": "review_recon",
+   "path": "/review/reconciliation?limit=60",
+   "http": 200,
+   "ok": true,
+   "ms": 1565,
+   "err": null
+  },
+  {
+   "name": "review_cv",
+   "path": "/review/cv-config",
+   "http": 200,
+   "ok": true,
+   "ms": 975,
+   "err": null
+  },
+  {
+   "name": "portfolio_forecast",
+   "path": "/portfolio/forecast",
+   "http": 200,
+   "ok": true,
+   "ms": 1293,
+   "err": null
+  },
+  {
+   "name": "predictions",
+   "path": "/predictions",
+   "http": 200,
+   "ok": true,
+   "ms": 1075,
+   "err": null
+  },
+  {
+   "name": "sources_health",
+   "path": "/data-sources/health",
+   "http": 200,
+   "ok": true,
+   "ms": 1712,
+   "err": null
+  },
+  {
+   "name": "settings_holdings_data",
+   "path": "/settings/holdings-data",
+   "http": 200,
+   "ok": true,
+   "ms": 935,
+   "err": null
+  },
+  {
+   "name": "factors_pans",
+   "path": "/factors/pans",
+   "http": 200,
+   "ok": true,
+   "ms": 1232,
+   "err": null
+  },
+  {
+   "name": "score_chain",
+   "path": "/factors/score-chain",
+   "http": 200,
+   "ok": true,
+   "ms": 998,
+   "err": null
+  },
+  {
+   "name": "engine_cube",
+   "path": "/engine/ddsm/cube?code=017193",
+   "http": 200,
+   "ok": true,
+   "ms": 151,
+   "err": null
+  },
+  {
+   "name": "neg_review_bad_kind",
+   "path": "/review/scores?data_kind=bogus",
+   "http": 400,
+   "ok": true,
+   "ms": 28,
+   "err": "E_VALIDATION"
+  }
+ ]
+}

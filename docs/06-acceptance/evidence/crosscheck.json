@@ -1,0 +1,145 @@
+{
+  "total": 23,
+  "pass": 23,
+  "fail": 0,
+  "checks": [
+    {
+      "id": "G2-01",
+      "desc": "总资产 展示=后端",
+      "pass": true,
+      "detail": "¥53,092.77 vs 53092.77"
+    },
+    {
+      "id": "G2-02",
+      "desc": "今日盈亏 展示=后端",
+      "pass": true,
+      "detail": "¥-290.25 vs -290.25"
+    },
+    {
+      "id": "G2-03",
+      "desc": "累计收益 展示=后端",
+      "pass": true,
+      "detail": "¥5,771.70 vs 5771.7"
+    },
+    {
+      "id": "G2-04",
+      "desc": "收益率 展示=后端",
+      "pass": true,
+      "detail": "+12.20% vs 0.1220"
+    },
+    {
+      "id": "G2-05",
+      "desc": "精度条 high 组 只数/市值/占比 展示=后端",
+      "pass": true,
+      "detail": "high=10/25531.9/48.1%"
+    },
+    {
+      "id": "G2-06",
+      "desc": "精度条 unknown 组 展示=后端",
+      "pass": true,
+      "detail": "unknown=12/51.9%"
+    },
+    {
+      "id": "G2-07",
+      "desc": "mode 分布 展示=后端（代理10/未知12）",
+      "pass": true,
+      "detail": "{\"proxy\": 10, \"unknown\": 12}"
+    },
+    {
+      "id": "G2-08",
+      "desc": "市值加权 MAE 展示=后端",
+      "pass": true,
+      "detail": "txt含0.20% / api=0.0020"
+    },
+    {
+      "id": "G2-09",
+      "desc": "行业基准 0.80% 展示=后端",
+      "pass": true,
+      "detail": "api=0.0080"
+    },
+    {
+      "id": "G2-10",
+      "desc": "覆盖度 A/D 档 展示=后端",
+      "pass": true,
+      "detail": "A=10 D=12"
+    },
+    {
+      "id": "G2-11",
+      "desc": "三窗口无开口→不表态 展示=后端",
+      "pass": true,
+      "detail": "forecast open=[0, 0, 0]"
+    },
+    {
+      "id": "G2-12",
+      "desc": "E1/E3 效应与 E2/E4 剔除 展示=后端",
+      "pass": true,
+      "detail": "gates={'E3': 3.9, 'E1': 0.88} excl={'E2': -3.09, 'E4': -2.72}"
+    },
+    {
+      "id": "G2-13",
+      "desc": "回测成绩缺失→待填充（不填估计值）",
+      "pass": true,
+      "detail": "scores pending=['pending', 'pending', 'pending']"
+    },
+    {
+      "id": "G2-14",
+      "desc": "立方体对比卡 展示=后端",
+      "pass": true,
+      "detail": "cmp=有效覆盖|92.00% → 100.00%|P 标准差|0.352 → 0.103|极端格数|54 → 0 格|走前 Δ|待复现 → 待复现"
+    },
+    {
+      "id": "G2-15",
+      "desc": "HUD 六卡 展示=后端",
+      "pass": true,
+      "detail": "version=oc-s3-v1 cov=1.00"
+    },
+    {
+      "id": "G2-16",
+      "desc": "冻结参数 展示=后端（K=4/p=0.25/MIN_N=15/SHRINK=10/BAND=0.02/purge=H+2）",
+      "pass": true,
+      "detail": "frozen keys=17"
+    },
+    {
+      "id": "G2-17",
+      "desc": "数据源健康表 展示=后端（含不通源）",
+      "pass": true,
+      "detail": "src_rows=4"
+    },
+    {
+      "id": "G2-18",
+      "desc": "行内徽章配色/文案与后端 mode 逐行一致（ch×10 / cu×12）",
+      "pass": true,
+      "detail": "{\"ch\": 10, \"cu\": 12}"
+    },
+    {
+      "id": "G4",
+      "desc": "未知行不渲染 +0.00%（未知≠持平）",
+      "pass": true,
+      "detail": "plus0=0 unk_cells=24"
+    },
+    {
+      "id": "G7",
+      "desc": "P>0.52 但有否决/无门→不出「涨」",
+      "pass": true,
+      "detail": "signals=Counter({'gray': 10})"
+    },
+    {
+      "id": "G3",
+      "desc": "无前端假数据（mock 默认关、全部请求本地）",
+      "pass": true,
+      "detail": "{\"zl_mock\": null, \"mock_js_loaded\": false, \"api_calls\": 103, \"non_local_api\": 0, \"livebar\": \"\\u5df2\\u63a5\\u5165\\u672c\\u5730\\u5f15\\u64ce \\u00b7 \\u6301\\u4ed3/\\u9884\\u6d4b\\u771f\\u5b9e\\u6570\\u636e \\u00b7 \\u5feb\\u7167 2026-09-12\\n\\u00b7 1 \\u4e2a\\u6570\\u636e\\u6e90\\u4e0d\\u901a\", \"livebar_class\": \"livebar ok\", \"masked\": false}"
+    },
+    {
+      "id": "G-PRV",
+      "desc": "隐私打码：金额透明+••••、收益率保留",
+      "pass": true,
+      "detail": "{\"masked\": true, \"total_text\": \"\\u00a553,092.77\", \"color\": \"rgba(0, 0, 0, 0)\", \"after\": \"\\\"\\u2022\\u2022\\u2022\\u2022\\\"\", \"ret_visible\": \"+12.20%\", \"ret_color\": \"rgb(24, 32, 25)\"}"
+    },
+    {
+      "id": "G-CRUD",
+      "desc": "CRUD 实操并还原（22→23→22、文件字节还原）",
+      "pass": true,
+      "detail": "{\"rows_before\": 22, \"dlg_open\": true, \"rows_after_create\": 23, \"created_exists\": true, \"toast_after_create\": \"已录入\", \"edit_title\": \"编辑 999997\", \"edited_row_text\": \"\\\"PM终验临时基金-已编辑\\\\n999997 · B\\\\n\\\\t—\\\\n成本 ¥1.00\\\\n\\\\t¥1.00\\\\t—\\\\t未知\\\\t—\\\\t—\\\\t未知\\\\t灰\\\\t—\\\\t···\\\"\", \"amt_title\": \"加仓\", \"toast_after_buy\": \"已加仓\", \"del_dlg_open\": true, \"rows_after_delete\": 22, \"deleted_gone\": true, \"toast_after_delete\": \"已删除\"}"
+    }
+  ]
+}

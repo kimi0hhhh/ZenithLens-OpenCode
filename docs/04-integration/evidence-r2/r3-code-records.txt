@@ -1,0 +1,178 @@
+=== def _candidate_identity_ids @line 1149 ===
+def _candidate_identity_ids(definition):
+    """候选信号身份集合（F2 自比对排除用；含别名，如 crowd6↔crowd）。
+
+    来源：`factor_id` / `name` / `_builtin` 键 / 同一内置实现的全部键名与实现名。
+    自比对 corr≡1.0 属伪影（候选 vs 自身别名），不得作为共线判据。
+    """
+    ids = set()
+    for k in ("factor_id", "name"):
+        v = definition.get(k)
+        if v:
+            ids.add(str(v))
+    key = definition.get("_builtin")
+    if key:
+        ids.add(str(key))
+        impl = BUILTINS.get(key)
+        if impl is not None:
+            ids.add(str(impl.__name__).replace("_definition", ""))
+            for k, fn in BUILTINS.items():
+                if fn is impl:
+                    ids.add(str(k))
+    return ids
+
+
+def _incumbent_series(definition, assets, H, allsig):
+    """现役因子逐日系列（klow2/crowd），排除候选自身（含别名；R3/F2 伪影修复）。"""
+    exclude = _candidate_identity_ids(definition)
+    out = {}
+    for name in ("klow2", "crowd"):
+        if name in exclude:
+            continue
+        out[name] = {}
+        for aid, bars in assets:
+            if allsig:
+                out[name][aid] = allsig[str(aid)][name]
+            elif name == "klow2":
+                out[name][aid] = _klow2_fired(bars, _features_list(bars), H)
+            else:
+                out[name][aid] = _crowd_fired(bars, _features_list(bars), H)
+    return out
+
+
+def _f2_independence(definition, fired_map, inc_series, assets, holdout_start=None):
+    exclude = _candidate_identity_ids(definition)   # 候选自身（含别名）不参与比对
+    best = None
+    best_id = None
+    for name, series in (inc_series or {}).items():
+        if name in exclude:
+            continue
+        xs, ys = [], []
+        for a
+
+=== def _incumbent_series @line 1172 ===
+def _incumbent_series(definition, assets, H, allsig):
+    """现役因子逐日系列（klow2/crowd），排除候选自身（含别名；R3/F2 伪影修复）。"""
+    exclude = _candidate_identity_ids(definition)
+    out = {}
+    for name in ("klow2", "crowd"):
+        if name in exclude:
+            continue
+        out[name] = {}
+        for aid, bars in assets:
+            if allsig:
+                out[name][aid] = allsig[str(aid)][name]
+            elif name == "klow2":
+                out[name][aid] = _klow2_fired(bars, _features_list(bars), H)
+            else:
+                out[name][aid] = _crowd_fired(bars, _features_list(bars), H)
+    return out
+
+
+def _f2_independence(definition, fired_map, inc_series, assets, holdout_start=None):
+    exclude = _candidate_identity_ids(definition)   # 候选自身（含别名）不参与比对
+    best = None
+    best_id = None
+    for name, series in (inc_series or {}).items():
+        if name in exclude:
+            continue
+        xs, ys = [], []
+        for aid, bars in assets:
+            cand = fired_map.get(aid)
+            inc = series.get(aid) or series.get(str(aid))
+            if cand is None or inc is None:
+                continue
+            for i in range(min(len(cand), len(inc))):
+                if holdout_start and bars[i].get("date") >= holdout_start:
+                    break
+                if cand[i] is None or inc[i] is None:
+                    continue
+                xs.append(1.0 if cand[i] else 0.0)
+                ys.append(1.0 if inc[i] else 0.0)
+        if len(xs) < 3:
+            continue
+        c = abs(engine._corr(xs, ys))
+        if best is None or c > best:
+            b
+
+=== def _f2_independence @line 1190 ===
+def _f2_independence(definition, fired_map, inc_series, assets, holdout_start=None):
+    exclude = _candidate_identity_ids(definition)   # 候选自身（含别名）不参与比对
+    best = None
+    best_id = None
+    for name, series in (inc_series or {}).items():
+        if name in exclude:
+            continue
+        xs, ys = [], []
+        for aid, bars in assets:
+            cand = fired_map.get(aid)
+            inc = series.get(aid) or series.get(str(aid))
+            if cand is None or inc is None:
+                continue
+            for i in range(min(len(cand), len(inc))):
+                if holdout_start and bars[i].get("date") >= holdout_start:
+                    break
+                if cand[i] is None or inc[i] is None:
+                    continue
+                xs.append(1.0 if cand[i] else 0.0)
+                ys.append(1.0 if inc[i] else 0.0)
+        if len(xs) < 3:
+            continue
+        c = abs(engine._corr(xs, ys))
+        if best is None or c > best:
+            best, best_id = c, name
+    if best is None:
+        return {"result": "pass", "detail": "无现役因子或无共同样本，F2 视为不适用",
+                "max_collinearity": None, "collinear_with": None}
+    passed = best < F2_MAX_COLLINEARITY
+    return {"result": "pass" if passed else "fail",
+            "detail": "max|corr|=%.4f vs %s（阈值 <0.70）" % (best, best_id),
+            "max_collinearity": _r4(best), "collinear_with": best_id}
+
+
+def _f3_increment(definition, assets, H, base_map, fired_map, holdout_start):
+    if not base_map:
+        return {"result": "na", "detail": "现生产配置信号不可用",
+                "delta_pp": None, "open_count
+
+adopted records: ['klow2', 'crowd6']
+
+===== klow2 =====
+{
+ "factor_id": "klow2",
+ "total_score": 61.05,
+ "verdict": null,
+ "max_collinearity": 0.0398,
+ "collinear_with": "crowd",
+ "added_at": "2026-09-12",
+ "note": "下影线占振幅比处于训练段最不利 40% 时亮灯否决（复用 engine.veto_status）"
+}
+
+===== crowd6 =====
+{
+ "factor_id": "crowd6",
+ "total_score": -80.0,
+ "verdict": null,
+ "max_collinearity": 0.0127,
+ "collinear_with": "klow2",
+ "added_at": "2026-09-12",
+ "note": "六维（mom5/vr/dev/vpcorr/volat/skew）按训练段 IC 符号复合 z，最拥挤 40% 亮灯否决；【2026-09-13 修正】原 max_collinearity=1.0 / collinear_with=crowd / verdict=rejected_f2 系自碰撞伪影；修复后重评 max|corr|=0.0127 vs klow2，verdict=rejected_f1（依据见 correction 块与 14 报告 §15）。"
+}
+CORRECTION:
+{
+ "at": "2026-09-13T17:08:25+08:00",
+ "kind": "f2_self_collision_artifact",
+ "from": {
+  "max_collinearity": 1.0,
+  "collinear_with": "crowd",
+  "verdict": "rejected_f2"
+ },
+ "to": {
+  "max_collinearity": 0.0127,
+  "collinear_with": "klow2",
+  "verdict": "rejected_f1"
+ },
+ "reason": "原 1.0 系自碰撞伪影：crowd6 的 _builtin=crowd 与现役因子 crowd 同源，候选被与自身别名比对；修复 _f2_independence / _incumbent_series 按候选身份（factor_id/_builtin/别名）排除自身后重评",
+ "rescore_note": "重评于 2026-09-13（真实 bars 只读，共 15 资产）；重评时行情缓存已刷新（320 根），F1/总分相对 2026-09-12 快照同步漂移，本次一并更正如实值；详见 docs/03-backend/14-api-impl-report-r2.md §15"
+}
+

@@ -1,0 +1,104 @@
+g | — | — | **v4**：口径说明"按可信市值加权；灰从分子分母同剔；未采用置信度加权（未过方法论）" |
+| `coverage_ratio` | number | 比率 | 4 位 | 覆盖市值占比 = `coverage_value/total_value` |
+| `coverage_value` | number | 元 | 2 位 | 参与加权的开口市值合计 |
+| `open_value` | number | 元 | 2 位 | 同 `coverage_value`（语义别名，两者恒等） |
+| `total_value` | number | 元 | 2 位 | 全组合**可信市值**合计（`market_value != null` 的持仓；未知行不计入分母，A-02） |
+| `open_count` | integer | 只 | 整数 | 开口只数 |
+| `min_coverage_ratio` | number | 比率 | 4 位 | **冻结常量 = 0.30**（架构口径，非 API 参数，A-03） |
+| `min_open_count` | integer | 只 | 整数 | **冻结常量 = 3**（架构口径，A-03） |
+| `coverage_threshold_met` | boolean | — | — | `coverage_ratio >= min_coverage_ratio` **且** `open_count >= min_open_count` |
+| `excluded_ratio` | number | 比率 | 4 位 | `1 − coverage_ratio`；前端文案"其余 X% 不表态" |
+| `threshold_source` | string | — | — | `brief_5.1`（0.52 源自单资产出口）/ `architecture`（组合层沿用 0.52 的标注） |
+| `direction` | enum `direction` | — | — | **仅当** `weighted_p > 0.52` **且** `coverage_threshold_met` **且** 窗口 `validation_status ∈ {brief_mandated, validated}` → up；否则 gray（A-03/A-04） |
+| `direction_reason` | enum `direction_reason` | — | — | ok/no_open/insufficient_coverage/window_unvalidated |
+| `weighted_p_threshold` | number | 概率 | 4 位 | 固定 0.5200（=Brief §5.1 单资产出口 0.5+BAND，组合层沿用并标注来源） |
+| `tier_excluded` | array[string] | — | — | 被排除的档位，**含组合中实际存在的** C/D 档（无则不出现；非"固定含 C/D"，A-03 措辞修正） |
+| `engine_status` | enum `engine_status` | — | — | 生产该窗口的引擎状态；`offline` 且携带旧快照时前端渲染陈旧态而非空态（A-06） |
+| `as_of` | string(date) | — | — | — |
+
+#### 5.8 `ReviewScore`
+
+| 字段 | 类型 | 单位 | 精度 | 口径说明 |
+|---|---|---|---|---|
+| `window` | enum `window` | — | — | T1/T3/T15 |
+| `formula` | string | — | — | 定式 |
+| `hit_rate` | number/null | 比率 | 4 位 | 走前 CV 命中率 |
+| `open_count` | integer | 笔 | 整数 | 开口样本数 |
+| `baseline_rate` | number/null | 比率 | 4 位 | `max(恒涨率, 恒跌率)` |
+| `baseline_status` | enum `baseline_status` | — | — | filled/pending |
+| `delta_pp` | number/null | 百分点 | 4 位 | `hit_rate − baseline_rate`；pending 时 null |
+| `cv_mode` | string | — | — | 固定 `walk_forward` |
+| `purge_gap` | string | — | — | 固定 `H+2` |
+| `holdout_days` | integer | 交易日 | 整数 | 固定 60 |
+| `data_kind` | string | — | — | `backtest` / `shadow_live`（视觉必须可区分） |
+| `sample_period` | string | — | — | 样本区间，如 `2024-01-01..2026-08-31` |
+| `as_of` | string(date) | — | — | — |
+
+#### 5.9 `LedgerEntry`（读取时已合并回填）
+
+| 字段 | 类型 | 单位 | 精度 | 口径说明 |
+|---|---|---|---|---|
+| `date` | string(date) | — | — | 开口日 T |
+| `code` | string | — | — | 基金代码 |
+| `name` | string | — | — | 基金名称（读取时关联持仓） |
+| `tier` | enum `coverage_tier` | — | — | 写入时档位 |
+| `gate` | enum `gate` | — | — | 触发门 |
+| `p_up` | number | 概率 | 4 位 | T+1 概率 |
+| `ddsm_state` | array[3] integer | — | 整数 | 档位三元组 |
+| `veto_crowd` | boolean | — | — | 拥挤度否决 |
+| `veto_klow2` | boolean | — | — | KLOW2 否决 |
+| `signal` | enum `signal` | — | — | 写入时信号（回填不改） |
+| `opened` | boolean | — | — | **v6**：该 `(date, code)` 是否 T+1 开口 = `signal == "up"`；无开口日如实 `false`（**键恒在，禁止省略**）；读取旧行无该字段时由后端按 `signal` 派生，**不编造** |
+| `market_value` | number | 元 | 2 位 | 写入时市值 |
+| `cost_est` | number | 元 | 2 位 | 写入时成本估算 |
+| `t1_real` | number/null | 比率 | 4 位 | 到期实际涨跌（回填） |
+| `t3_real` | number/null | 比率 | 4 位 | 到期实际涨跌（回填） |
+| `t15_real` | number/null | 比率 | 4 位 | 到期实际涨跌（回填） |
+| `written_at` | string(timestamp) | — | 秒 | 收盘写盘时间 |
+| `is_backfilled` | boolean | — | — | 三个 `t*_real` 是否齐备 |
+| `created_at` | string(timestamp) | — | 秒 | **v3**：本行**入账时刻**规范字段（与 `written_at` 恒等；`written_at` 为兼容别名）。INSERT-ONLY |
+| `record_seq` | integer | — | 整数 | **v3**：台账内递增序号（读取时按 `(created_at, code)` 生成，仅供展示排序，非主键） |
+| `source_file` | string | — | — | **v3**：恒 `shadow_signals.jsonl`（影子盘信号层唯一来源） |
+| `chain_available` | boolean | — | — | **v3**：是否能取到六步推导链（`true` 时前端可调 `/ledger/chain` 展开） |
+
+> **v6 滚动窗口口径（影子台账 `shadow_signals.jsonl`）**：仅保留**最近 20 个交易日**；交易日历 = **监控 A/B 档代理 K 线日期的并集**（真实盘中日历，非工作日近似）。每日任务对该窗口内**每个监控资产**计算逐条记录并**追加**，同时**裁剪**窗口外最旧一天的记录；裁剪行**全量归档**至 `ledger/archive/shadow_signals_archive.jsonl`（归档清单 `ledger/archive/_manifest.jsonl`，`reason=rolling_window_trim`，含 `count/first_date/last_date/window_days`）。窗口内 `(date, code)` **INSERT-ONLY**：已存在即跳过、不覆盖；同一交易日历下重复触发**幂等**（不新增、不裁剪、条数不变，实测 200→200）。无开口日如实 `opened=false`；无可用代理行情时保持为空，**不得写入示例/演示数字**。
+ 
+#### 5.10 `ReconcileRow`
+
+在 `LedgerEntry` 基础上追加：
+
+| 字段 | 类型 | 单位 | 精度 | 口径说明 |
+|---|---|---|---|---|
+| `result` | enum `reconcile_result` | — | — | `t1_real>0` 且 signal=up → hit；`t1_real≤0` → miss；signal=abstain → abstain；未回填 → pending |
+
+#### 5.11 `FactorPan`
+
+| 字段 | 类型 | 单位 | 精度 | 口径说明 |
+|---|---|---|---|---|
+| `role` | enum `factor_role` | — | — | 正式盘/淘汰影子盘/有效影子盘/冷冻盘 |
+| `role_label` | string | — | — | 中文 |
+| `description` | string | — | — | 盘面用途 |
+| `factor_count` | integer | 个 | 整数 | 盘内因子数 |
+| `factors` | array[`FactorItem`] | — | — | 见 §5.12 |
+| `rule_text` | string | — | — | **v3**：逐盘 rule 长文，文本由后端配置返回，前端不硬编码 |
+| `pan_status` | enum `hud_card_state` | — | — | **v3**：盘面健康语义（on/warn/bad） |
+| `flow_kind` | string | — | — | **v3**：`promotion`/`revival`/`none` |
+| `updated_at` | string(timestamp)/null | — | 秒 | **v3**：盘面最近更新时间 |
+| `factor_cap` | integer/null | 个 | 整数 | **v3 旧单值上限；v6 登记为 `deprecated`**：语义含混，会被前端误读成单一「上限」（正式盘曾返回 `3`）。现**所有盘取值恒 `null`**（含正式盘）；字段名与类型保留仅为向后兼容，**任何消费方不得再据此展示上限**，上限一律改读 `caps`。后端当前与 `caps` 并存，删除该键须契约版本 +1 并通知双边（`12-interface-request` v3 §10 缺口 10） |
+| `caps` | object/null | — | — | **v6 新增**：各盘结构上限对象 `{veto_max:int, score_max:int}`。正式盘 = `{veto_max:4, score_max:3}`（否决位 ≤4 · 打分位 ≤3）；其余三盘 = `null`。**键恒在**（非正式盘为 `null`，非缺省）；前端上限展示一律读本键，`caps=null` 时**不显示任何单一上限数字**，禁止回退 `factor_cap` |
+| `nomination_limit` | integer/null | 个/周 | 整数 | **v3**：每周提名上限（有效影子盘/候选池 = 3，冷却 90 天） |
+
+> **v6 `caps` 元素字段（穷举，`caps != null` 时键恒在）**：
+>
+> | 键 | 类型 | 单位 | 精度 | 口径说明 |
+> |---|---|---|---|---|
+> | `veto_max` | integer | 个（否决位） | 整数 | 正式盘冻结 `4`（否决位 ≤4） |
+> | `score_max` | integer | 个（打分位） | 整数 | 正式盘冻结 `3`（打分位 ≤3） |
+>
+> 两键均为**结构上限**（位子数量），非筛选阈值；非正式盘整对象为 `null`（非键缺失）。`factor_cap` 废弃口径见上表。
+
+#### 5.12 `FactorItem`
+
+| 字段 | 类型 | 单位 | 精度 | 口径说明 |
+|---|---|---|---|---|
+| `factor_id` | s

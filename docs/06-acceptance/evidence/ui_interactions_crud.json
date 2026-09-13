@@ -1,0 +1,46 @@
+{
+  "privacy_unmasked": {
+    "masked": false,
+    "total_text": "¥53,092.77",
+    "color": "rgb(24, 32, 25)"
+  },
+  "privacy_masked": {
+    "masked": true,
+    "total_text": "¥53,092.77",
+    "color": "rgba(0, 0, 0, 0)",
+    "after": "\"••••\"",
+    "ret_visible": "+12.20%",
+    "ret_color": "rgb(24, 32, 25)"
+  },
+  "privacy_restored": {
+    "masked": false
+  },
+  "popover": {
+    "pop_show": true,
+    "acts": [
+      "buy",
+      "sell",
+      "edit",
+      "delete"
+    ],
+    "dlg_fund": true,
+    "dlg_amt": true,
+    "dlg_del": true,
+    "toast": true
+  },
+  "crud": {
+    "rows_before": 22,
+    "dlg_open": true,
+    "rows_after_create": 23,
+    "created_exists": true,
+    "toast_after_create": "已录入",
+    "edit_title": "编辑 999997",
+    "edited_row_text": "\"PM终验临时基金-已编辑\\n999997 · B\\n\\t—\\n成本 ¥1.00\\n\\t¥1.00\\t—\\t未知\\t—\\t—\\t未知\\t灰\\t—\\t···\"",
+    "amt_title": "加仓",
+    "toast_after_buy": "已加仓",
+    "del_dlg_open": true,
+    "rows_after_delete": 22,
+    "deleted_gone": true,
+    "toast_after_delete": "已删除"
+  }
+}

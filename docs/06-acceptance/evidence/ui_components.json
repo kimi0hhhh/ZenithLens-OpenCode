@@ -1,0 +1,248 @@
+{
+  "routes": {
+    "holdings": {
+      "ok": true,
+      "data": {
+        "route": "#/holdings",
+        "pa_total": "¥53,092.77",
+        "pa_today": "¥-290.25",
+        "pa_pnl": "¥5,771.70",
+        "pa_ret": "+12.20%",
+        "pa_today_sub": "可信估值覆盖 22/22 只（全部覆盖）；无未知行按成本计 · 覆盖 22/22 只",
+        "livebar": "已接入本地引擎 · 持仓/预测真实数据 · 快照 2026-09-12\n· 1 个数据源不通",
+        "live_src": "· 1 个数据源不通",
+        "vsum_text": "高10 只 · ¥25,531.90 · 占 48.1%\n无12 只 · ¥27,560.86 · 占 51.9%\n代理近似 10 只\n未知 12 只\n市值加权平均误差 0.20% ／ 行业基准 0.80%\n口径：近 40 个交易日回测 · 估算涨跌 vs 官方净值涨跌",
+        "vsum_badges": [
+          "高",
+          "无"
+        ],
+        "forecast_cards": 3,
+        "forecast_text": "T+1\n不表态\n—\n门 + DDSM + 双否决\n无开口，不表态 · 今日无开口\n覆盖 0.0% 市值 · 0 只开口 · 权重 market_value\nT+3\n不表态\n—\n仅触发做多\n该窗口无概率定式 · 今日无开口\n覆盖 0.0% 市值 · 0 只开口 · 权重 market_value\nT+15\n不表态\n—\n门 + DDSM\n无开口，不表态 · 今日无开口\n覆盖 0.0% 市值 · 0 只开口 · 权重 market_value",
+        "cov_tiers": 4,
+        "cov_text": "A 已接入\n10 只 · ¥25,531.90\n占市值 48.1% —— 指数/黄金 ETF 联接，代理即同指数场内 ETF，方向直接可比。\n天弘中证工业有色金属主题ETF发起联接C、鹏华中证1000指数增强C、天弘中证机器人ETF发起联接C\nB 代理已验证\n0 只 · ¥0.00\n占市值 0.0% —— 代理映射已通过走前验证，信号可用但需标注代理差异。\nC 代理待验证\n0 只 · ¥0.00\n占市值 0.0% —— 有候选代理但尚未通过验证，本期不参与组合加权。\nD 暴露待定\n12 只 · ¥27,560.87\n占市值 51.9% —— 无验证代理（QDII / 主动基金），暴露待穿透，不参与加权。\n东方阿尔法科技智选混合发起C、中航机遇领航混合发起C、华夏全球科技先锋混合(QDII)C",
+        "cov_note_len": 116,
+        "rows": 26,
+        "group_rows": 4,
+        "valbadges": 22,
+        "badge_pairs": [
+          "ch=代理近似",
+          "ch=代理近似",
+          "ch=代理近似",
+          "cu=未知",
+          "ch=代理近似",
+          "ch=代理近似",
+          "ch=代理近似",
+          "ch=代理近似",
+          "ch=代理近似",
+          "cu=未知",
+          "cu=未知",
+          "cu=未知",
+          "cu=未知",
+          "cu=未知",
+          "cu=未知",
+          "cu=未知",
+          "cu=未知",
+          "cu=未知",
+          "cu=未知",
+          "cu=未知",
+          "ch=代理近似",
+          "ch=代理近似"
+        ],
+        "unknown_cells": 24,
+        "plus_zero_zero": 0,
+        "masked": false,
+        "fold_risk": true,
+        "pop": true,
+        "toast": true,
+        "dialogs": 3,
+        "sw_regs": 0
+      }
+    },
+    "analyze": {
+      "ok": true,
+      "data": {
+        "route": "#/analyze",
+        "defs_len": 279,
+        "defs_text": "up = 1 若 close[T+1] > close[T]场外基金申购 15:00 截止，而信号 15:30 才生成：T 日信号最早只能用于 T+1 日申购，无法当天买入。信号生成时点：T 日 15:30 收盘后A 新建仓位T+1 开盘后申购；吃晚一拍的净值，非信号段时序上错过 T 日 15:00 截止B 已持有仓位 可执行T+1 日 15:00 前决定继续持有或赎回与信号时点匹配，最现实的用法C 场内 ETFT+1 开盘买入 / 收盘卖出open→close 口径与场外净值不同对场外基金最现实的用法是 B（持有/赎回决策），本系统不暗示当天可买入。",
+        "forecast_cards": 3,
+        "forecast_text": "T+1 不表态—门 + DDSM + 双否决无开口，不表态 · 今日无开口覆盖 0.0% 市值 · 0 只开口 · 权重 market_valueT+3 不表态—仅触发做多该窗口无概率定式 · 今日无开口覆盖 0.0% 市值 · 0 只开口 · 权重 market_valueT+15 不表态—门 + DDSM无开口，不表态 · 今日无开口覆盖 0.0% 市值 · 0 只开口 · 权重 market_value",
+        "weighting_len": 189,
+        "weighting_text": "权重口径 market_value（冻结，变更须版本 +1）：按可信市值加权；灰（未开口）从分子分母同剔；未采用置信度加权（未经方法论验证，ADR-0005 拒绝）。加权规则（三条缺一不可）：① 只有开口仓位计入（分子分母同时剔除灰）· ② C/D 档不参与 · ③ 必须显示覆盖市值占比。组合方向需同时满足出口阈值 0.52 与最小覆盖门槛（覆盖 ≥30%、开口 ≥3 只）。",
+        "body_rows": 10,
+        "an_body_text": "创金合信中证科创创业50指数增强A017412 · 未触发A未触发0.4136未亮灯灰观察观察¥4,817.61国金中证A500指数增强A022485 · 未触发A未触发0.6220拥挤度灰观察观察¥4,710.64华安黄金ETF联接C000217 · 未触发A未触发0.4668拥挤度灰观察观察¥4,233.07易方达黄金ETF联接C002963 · 未触发A未触发0.4668拥挤度灰观察观察¥3,900.99华夏中证5G通信主题ETF联接C008087 · 未触发A未触发0.3460未亮灯灰观察观察¥3,187.75天弘中证工业有色金属主题ETF发起联接C017193 · 未触发A未触发0.7381拥挤度灰观察观察¥1,576.99天弘中证机器人ETF发起联接C014881 · 未触发A未触发0.5345未亮灯灰观察观察¥1,454.74天弘中证人工智能主题ETF发起联接C011840 · 未触发A未触发0.6068未亮灯灰观察观察¥982.90易方达消费电子ETF联接C018897 · 未触发A未触发0.6463未亮灯灰观察观察¥626.04鹏华中证1000指数增强C016786 "
+      }
+    },
+    "signals": {
+      "ok": true,
+      "data": {
+        "route": "#/signals",
+        "empty_text": "今日无信号\n这是常态，不是故障。多数交易日不会开口。\n已在监控\n10/22 只\n距上次开口\n—\n上次开口\n—\n上次结果\n待回填",
+        "empty_facts": 0,
+        "gates": 2,
+        "gates_text": "无量急跌 主力\nret < -0.02 且 vr < 0.8\n主力事件 纯事件效应 +3.90pp（t=+2.33）\n跳空\nlow[t] > high[t-1]\n辅助事件 纯事件效应 +0.88pp",
+        "excl_len": 72,
+        "excl_text": "已剔除：放量上涨（已证伪，禁止并入，-3.09pp）；点火（已证伪，禁止并入，-2.72pp）。四类事件禁止 OR 合并 —— 合并后互相抵消。",
+        "excl_pp": true,
+        "tl_items": 0,
+        "tl_text": "近 60 天无信号",
+        "sigcards": 0
+      }
+    },
+    "factors": {
+      "ok": true,
+      "data": {
+        "route": "#/factors",
+        "pans": 0,
+        "pan_roles": [],
+        "pans_text": "正式盘\n0 个\n上限 3\n当前生产因子（否决位 ≤4、打分位受状态空间约束 ≤3）\n（当前为空）\n正式盘：仅收已过准入三项（F1 有效性 / F2 独立性 / F3 增量）AND 的因子；总数上限受否决位 ≤4、打分位 ≤3 约束；每月 1 日月榜跑留一法，移除后 Δ 升 ≥0.5pp 且持续 30 天 = 结构红线。\n淘汰影子盘\n0 个\nA/B 对照中的淘汰候选，等待 60 个交易日结论\n（当前为空）\n淘汰影子盘：正式盘因子进入淘汰流程后先降级到此做 A/B 对照（移除 vs 保留），60 个交易日内不得回生产；开口 <20 不出结论。\n有效影子盘\n0 个\n每周提名 ≤3\n准入三项 AND 通过、尚未晋升生产的候选\n（当前为空）\n有效影子盘：候选因子须同时过 F1 有效性、F2 独立性（与现役最大共线 <0.7）、F3 增量（加入后 Δ≥+0.5pp 且开口不塌方）；每周提名 ≤3，冷却 90 天；只记账不参与生产，待牌照升级。\n冷冻盘\n0 个\n已退役/失守因子的冷冻区，禁止直接回生产\n（当前为空）\n冷冻盘：淘汰五线触发后进入冷冻；复活须重新走准入三项与 A/B 对照，**禁止直接回生产**；复活路径属机制变更，须重走六关。",
+        "frows": 0,
+        "books": 4,
+        "books_text": "adopted_factors.json\n采纳登记表\n0 条\n展开最近记录\n记录已采纳因子的角色、死亡条件与牌照\n待写入\nscan_history.jsonl\n挖掘台账\n0 条\n展开最近记录\n记录每周挖掘扫描的 F1/F2/F3 判定\n待写入\nfactor_health.jsonl\n体检台账\n0 条\n展开最近记录\n记录因子周期性体检与分数失守告警\n待写入\nretired_log.jsonl\n淘汰台账\n0 条\n展开最近记录\n记录淘汰原因与冷冻/复活路径\n待写入",
+        "score_len": 556,
+        "score_text": "每窗 lift = 命中率 ÷ 基线；k_lift 查悬崖表；得分 = k_lift × 窗权重 × 准入度；总分 = 六窗得分之和。准入度 = min(1, 独立触发日 / N_w)，N_w = 5/10/15/30/60/120。绩效与 t 一律按独立触发日聚合（不用条口径）。\nk_lift 悬崖：≥1.30→1.00 / ≥1.20→0.80 / ≥1.10→0.65 / ≥1.00→0.50 / ≥0.84→-0.80 / ≥0.00→-1.30\n窗权重：8/22/15/10/30/15\n地板说明：k_lift <1.00 → −0.80 天花板，<0.84 → −1.3；不对称惩罚即噪声抑制器，宁可错杀弱势因子。\nbootstrap 500 校准：P50 -10.8 / P90 38.7 / P95 48.4 / P99 61.7 / P99.5 64.1\n四个裁判：lift 管分数裁判（lift → k_lift 悬崖） · t 管闸门裁判（t 值） · admission 管折扣裁判（独立触发日 / N_w） · backtest 管晋升裁判（实测 Δ 与 A/B）\n来源",
+        "cycle": 6,
+        "cycle_text": "下次挖掘扫描\n周六\nscheduled · 下次 2026-09-12\n下次评分卡\n周日\nscheduled · 下次 2026-09-13\n下次月榜·牌照\n每月 1 日\nscheduled · 下次 2026-10-01\n下次季复查\n每季首月\nscheduled · 下次 2026-10-01\n下次 DDSM 重训\n每季\nscheduled · 下次 2026-10-01\n机器自动裁判，人只留机制变更权与紧急停机权。",
+        "scan_rows": 1,
+        "life_len": 693,
+        "life_text": "准入（三项 AND）：F1 有效性：近 6 月或近 60 日任一窗口命中率超基线｜F2 独立性：与现役因子最大共线 <0.7｜F3 增量：加入后 Δ≥+0.5pp 且开口不塌方｜准入 = F1 AND F2 AND F3（三项同时成立）\n牌照四线：candidate ≥独立触发日 ≥50（只记账不参与生产）；probation ≥独立触发日 ≥60 且 30日窗 k≥0.5（试用观察）；renew_t2 ≥≥70 且 60日窗 k≥0.7 且持牌满一季（续聘 T2）；full_t3 ≥≥80 且 24月窗 k≥0.7（正式 T3）\n淘汰五线：急性熔断：单次重大失效立即停用｜缓性衰减：连续多窗 lift 下滑至悬崖下｜结构红线：留一法移除后 Δ 升 ≥0.5pp 持续 30 天｜分数失守：总分跌破牌照线｜开口塌方：加入因子后开口数显著下降\n双出口：软出口：沿降级梯 probation → c"
+      }
+    },
+    "review": {
+      "ok": true,
+      "data": {
+        "route": "#/review",
+        "hero_len": 44,
+        "hero_text": "—\nT+1 回测待产出（不填估计值）\n这是回测/实盘成绩，不是今日预测。基线 —，Δ —",
+        "scores_rows": 3,
+        "scores_text": "T+1\tgate+ddsm+veto 回测\t—\t0\t待填充\t—\nT+3\tgate_only 回测\t—\t0\t待填充\t—\nT+15\tgate+ddsm 回测\t—\t0\t待填充\t—",
+        "score_note_len": 78,
+        "degrade_text": "影子盘尚未启动，先积累连续记录再评估上线资格。",
+        "degrade_class": "degrade idle",
+        "recon_rows": 1,
+        "recon_text": "暂无台账记录"
+      }
+    },
+    "engine": {
+      "ok": true,
+      "data": {
+        "route": "#/engine",
+        "hud": 6,
+        "hud_text": "影子盘\n未启动\n0 / 60 日\n引擎版本\noc-s3-v1\n在线\n训练资产\n9\n仅作特征 0 只\n状态格覆盖\n100.0%\n125 / 125 有样本\n上次重训\n—\n下次 2026-10-01\n数据新鲜度\n滞后 1 日\n2026-09-11",
+        "ledger_state": "未启动 连续 60 个交易日无漏单且偏差 <2pp 才具上线资格；台账尚未启动。",
+        "ledger_rows": 0,
+        "prg_width": "0%",
+        "arena_head": 7,
+        "arena_rows": 1,
+        "arena_legend": 6,
+        "arena_text": "竞技场暂无配置",
+        "train_len": 267,
+        "train_text": "状态格总数\n125\n5 × 5 × 5\n有样本格\n125\n100.0%\n平均样本/格\n21.2\n加噪后 ×4\n最少样本格\n10\n低于 MIN_N=15 强收缩\n训练方式：逐资产、全样本训练段；季度滚动；无逐资产调参\n加噪增强：加噪 K=4 / p=0.25：每维以 0.25 概率 ±1 档，副本仅进训练计数；边缘格 n=3 → 有效样本 ×5 ≈ n=15，越过 MIN_N；ddsm 有效格 125\n已证伪的死路（勿重试）：接入第 4/5 维特征、DDSM 用于 T+3、逐资产路由、loss-guided 加噪、IC 自适应加噪",
+        "frozen_rows": 15,
+        "frozen_text": "加噪 K / p\n4 / 0.25\nMIN_N / SHRINK / BAND\n15 / 10 / 0.02\n双否决阈值\n拥挤 0.60 / KLOW2 0.40\n最小覆盖门槛\n覆盖 ≥0.30 · 开口 ≥3\nE1 跳空\nlow[t] > high[t-1]\nE3 无量急跌\nret < -0.02 且 vr < 0.8\npurge gap\nH+2\n窗权重\n8 / 22 / 15 / 10 / 30 / 15\n准入度分母 N_w\n5 / 10 / 15 / 30 / 60 / 120\n权重口径 weighting_basis\nmarket_value\n牌照线 · candidate\n≥50\n牌照线 · probation\n≥60 · k≥0.5\n牌照线 · renew_t2\n≥70 · k≥0.7\n牌照线 · full_t3\n≥80 · k≥0.7\n任何一项改动必须重走六关",
+        "d3_bars": 3,
+        "d6_bars": 6,
+        "dims_text": "趋势线性度 R²\n近 L=5 个交易日对数收益对时间线性回归的 R²\n0.7255 比率\nz +1.41 · 档 4\n隔夜动量\nopen[t]/close[t-1] − 1\n-0.0328 比率\nz -2.06 · 档 0\n量比\nvolume[t] / mean(volume[t-20..t-1])\n1.1368 倍数\nz +0.13 · 档 3 || 5 日动量\nclose[t]/close[t-5] − 1\n-0.0690 比率\nz -1.38 · 档 —\n量比\nvolume[t] / mean(volume[t-20..t-1])\n1.1368 倍数\nz +0.13 · 档 —\n乖离率\nclose[t]/MA20(close) − 1\n-0.0791 比率\nz -1.68 · 档 —\n量价相关\n近 20 日 return 与 volume_change 相关系数\n-0.0478 相关系数\nz -1.07 · 档 —\n波动率\n近 20 日日收益标准差\n0.0211 比率\nz -0.44 · 档 —\n偏度\n近 20 日日收益偏度\n0.0655 比率\nz +0.18 · 档 —",
+        "dim_asset_opts": 10,
+        "cube_prod_cells": 25,
+        "cube_prod_filled": 23,
+        "cube_research_cells": 25,
+        "cube_legend": 6,
+        "cube_legend_text": "P<0.45 看跌\n0.45–0.52 中性\n0.52–0.58 弱看涨\n>0.58 强看涨\n无样本\n横轴 = om 档 · 纵轴 = r2 档",
+        "cmp_len": 70,
+        "cmp_text": "有效覆盖\n92.00% → 100.00%\nP 标准差\n0.352 → 0.103\n极端格数\n54 → 0 格\n走前 Δ\n待复现 → 待复现",
+        "dualnote_len": 93,
+        "registry_rows": 1,
+        "low_marks": 23
+      }
+    },
+    "settings": {
+      "ok": true,
+      "data": {
+        "route": "#/settings",
+        "sw_hide": true,
+        "sw_hide_holdings": true,
+        "llm_provider": true,
+        "llm_url": true,
+        "llm_key": true,
+        "llm_model": true,
+        "llm_status_len": 31,
+        "src_rows": 4,
+        "src_text": "腾讯日K\n正常\n09-12 01:45\n失败 0\n腾讯实时\n正常\n09-12 04:04\n失败 0\n天天基金\n不通\n—\n失败 393\n新浪实时\n未检测\n—\n失败 0",
+        "hd_data_len": 175,
+        "hd_data_text": "当前数据源\nC:\\Users\\10719\\Desktop\\基金监控项目\\app_data\\funds_data.json\n持仓只数\n22 只\n最近修改\n09-12 00:08\n旧位置文件\nC:\\Users\\10719\\Desktop\\基金监控项目\\app_data\\funds_data.json.bak\n两份一致性\n不一致\n只读\n只读，不改写源文件",
+        "hd_diff_len": 140,
+        "hd_diff_text": "两份 funds_data.json 不同步：旧位置那份会滞后数日；同一标的的 pend_gz 估算值与官方净值可差 ~0.73%，证明估值≠净值，必须标注来源。产品只读 app_data/ 源文件，启动时做一致性校验。\n检查于 2026-09-12T04:08:40+08:00",
+        "st_registry_rows": 1,
+        "about_len": 109,
+        "about_text": "产品\n极境 ZenithLens 0.1.0\n引擎\nPython 3.8+ 纯标准库\n部署\nlocal_single_user\n存储\n全部本地存储，数据不出本机\n审计\n台账 INSERT-ONLY\n免责\n不构成投资建议"
+      }
+    }
+  },
+  "interactions": {
+    "chain": {
+      "modal": true,
+      "items": 6,
+      "on_items": 1,
+      "steps_text": "推导链 · 017412\n①触发门\n未触发 E1/E3（E2/E4 已证伪、禁止 OR 合并）\n触发日涨跌 -0.39%量比 0.91×\n②DDSM 档位\n真实档位 [r2,om,vr] = [3, 0, 2]，P=0.4136\n2日累计收益 0.326σ归一动量 -0.0145档位 [3,0,2]P(涨) 41.4%\n③拥挤度否决\n六维复合 z=-0.623，分位=0.0992（阈值 0.60，最拥挤 40% 否决）\n拥挤度 z -0.623拥挤度分位 10%拥挤度态 通过\n④KLOW2 否决\n下影线比=0.4（阈值 0.40，最不利 40% 否决）\nKLOW2 0.4000KLOW2 分位 —KLOW2 态 通过\n⑤出口判定\nP=0.4136 vs 阈值 0.5200（单向做多，永不做空）\nP(涨) 41.4%出口带宽 2.0%出口阈值 52.0%\n⑥输出/入台账\nsignal=gray，reason=gate_not_triggered\n关闭"
+    },
+    "signal_tl": {
+      "sigcards": 0,
+      "tl_items": 0,
+      "empty_facts": 0,
+      "empty_text": "今日无信号\n这是常态，不是故障。多数交易日不会开口。\n已在监控\n10/22 只\n距上次开口\n—\n上次开口\n—\n上次结果\n待回填"
+    },
+    "engine_layer3": {
+      "prod_filled": 23,
+      "cs_prod": "生产口径 ddsm：0 格无样本 · P 极差 0.45 · 标准差 0.103"
+    },
+    "engine_naive": {
+      "research_open": true,
+      "research_filled": 23,
+      "low_marks": 23
+    },
+    "rowmenu": {
+      "pop_visible": false,
+      "dialogs": 3,
+      "has_add_dialog": true,
+      "has_amt_dialog": true,
+      "has_del_dialog": true
+    },
+    "privacy_on": {
+      "masked": true,
+      "total": "¥53,092.77",
+      "ret": "+12.20%",
+      "masked_amounts": 101
+    },
+    "privacy_off": {
+      "masked": false,
+      "total": "¥53,092.77"
+    },
+    "privacy_before_total": "¥53,092.77",
+    "states": {
+      "empty": {
+        "cls": "state-block empty",
+        "text": "还没有录入任何持仓\n录入第一只基金后，这里会显示组合总览与实时估值。\n录入第一只基金",
+        "has_retry": true
+      },
+      "loading": {
+        "cls": "state-block loading",
+        "text": "正在读取持仓与估值…\n首次加载会同时拉取行情与官方净值",
+        "has_retry": false
+      },
+      "error": {
+        "cls": "state-block error",
+        "text": "读取持仓失败\n读写本地数据失败\n重试",
+        "has_retry": true
+      },
+      "success": {
+        "cls": "state-block",
+        "text": "",
+        "has_retry": false
+      }
+    },
+    "sw": {
+      "supported": true,
+      "regs": 0
+    }
+  }
+}

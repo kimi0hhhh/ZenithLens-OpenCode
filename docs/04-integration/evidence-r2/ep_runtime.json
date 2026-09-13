@@ -1,0 +1,19 @@
+{
+ "ok": true,
+ "data": {
+  "server_time": "2026-09-12T23:44:30+08:00",
+  "port": 8791,
+  "as_of": "2026-09-12",
+  "staleness": {
+   "is_stale": true,
+   "latest_date": "2026-09-11",
+   "days_behind": 1,
+   "note": "数据快照 2026-09-11"
+  },
+  "open_count": 0,
+  "trade_session": "non_trading_day",
+  "engine_status": "online"
+ },
+ "error": null,
+ "as_of": "2026-09-12"
+}

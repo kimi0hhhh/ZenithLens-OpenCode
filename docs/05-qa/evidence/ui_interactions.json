@@ -1,0 +1,81 @@
+{
+  "chain": {
+    "modal": true,
+    "items": 6,
+    "on_items": 1,
+    "steps_text": "推导链 · 017412\n①触发门\n未触发 E1/E3（E2/E4 已证伪、禁止 OR 合并）\n触发日涨跌 -0.39%量比 0.91×\n②DDSM 档位\n真实档位 [r2,om,vr] = [3, 0, 2]，P=0.4136\n2日累计收益 0.326σ归一动量 -0.0145档位 [3,0,2]P(涨) 41.4%\n③拥挤度否决\n六维复合 z=-0.623，分位=0.0992（阈值 0.60，最拥挤 40% 否决）\n拥挤度 z -0.623拥挤度分位 10%拥挤度态 通过\n④KLOW2 否决\n下影线比=0.4（阈值 0.40，最不利 40% 否决）\nKLOW2 0.4000KLOW2 分位 —KLOW2 态 通过\n⑤出口判定\nP=0.4136 vs 阈值 0.5200（单向做多，永不做空）\nP(涨) 41.4%出口带宽 2.0%出口阈值 52.0%\n⑥输出/入台账\nsignal=gray，reason=gate_not_triggered\n关闭"
+  },
+  "states": {
+    "empty": {
+      "cls": "state-block empty",
+      "text": "还没有录入任何持仓\n录入第一只基金后，这里会显示组合总览与实时估值。\n录入第一只基金",
+      "has_retry": true
+    },
+    "loading": {
+      "cls": "state-block loading",
+      "text": "正在读取持仓与估值…\n首次加载会同时拉取行情与官方净值",
+      "has_retry": false
+    },
+    "error": {
+      "cls": "state-block error",
+      "text": "读取持仓失败\n读写本地数据失败\n重试",
+      "has_retry": true
+    },
+    "success": {
+      "cls": "state-block",
+      "text": "",
+      "has_retry": false
+    }
+  },
+  "privacy_on": {
+    "masked": true,
+    "total": "¥53,092.77",
+    "ret": "+12.20%",
+    "eye": "显示金额",
+    "masked_amounts": 101
+  },
+  "privacy_off": {
+    "masked": false,
+    "total": "¥53,092.77",
+    "eye": "隐藏金额"
+  },
+  "factors": {
+    "pans_children": 4,
+    "child_classes": [
+      "card",
+      "card",
+      "card",
+      "card"
+    ],
+    "pan_count_badges": 0,
+    "factor_rows": 0,
+    "books": 4,
+    "lifecycle_class": "mini"
+  },
+  "engine_default": {
+    "prod_cells": 25,
+    "prod_filled": 23,
+    "research_cells": 25,
+    "arena_head": "配置|15日|30日|60日|6月|24月|全样本",
+    "arena_body": "竞技场暂无配置",
+    "arena_legend": "该窗最高|该窗最低|居中|▲ 警示（Δ 低于裸算法基准）|基准行不着色|格内三个数 = 开口数 · 命中率 · 相对基线 Δ",
+    "cmp": "有效覆盖\n92.00% → 100.00%\nP 标准差\n0.352 → 0.103\n极端格数\n54 → 0 格\n走前 Δ\n待复现 → 待复现"
+  },
+  "engine_layer4": {
+    "prod_filled": 23,
+    "cs_prod": "生产口径 ddsm：0 格无样本 · P 极差 0.45 · 标准差 0.103",
+    "first_cell_title": "档位 [1,1,4] · n=0 · 无估计值"
+  },
+  "engine_naive": {
+    "research_visible": true,
+    "research_filled": 23,
+    "low_sample_marks": 23,
+    "research_text_head": "研究口径（未加噪真实档位 naive）· 默认折叠 · 展开仅作审计对照\nnaive\n研究口径 naive：0 格无样本 · P 极差 1.00 · 标准差 0.352\nom 1 → 5　　·　　vr 层 4/5（量比 ≈1.20）\n无样本\n100\n低\n75\n低\n50\n低\n100\n低\n50\n低\n0\n低\n100\n低\n33\n低\n100\n低\n0\n低\n0\n低\n100\n低\n50\n低\n0\n低\n50\n低\n50\n"
+  },
+  "settings": {
+    "base_url_input": true,
+    "base_url_value": "",
+    "sw_hide_checked": false,
+    "st_registry_rows": 1
+  }
+}

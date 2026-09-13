@@ -1,0 +1,17 @@
+{
+ "ok": true,
+ "data": {
+  "status": "bad",
+  "rolling_days": 60,
+  "hit_rate": 1.0,
+  "baseline_rate": 0.5559,
+  "baseline_source": "measured",
+  "deviation_pp": 0.4441,
+  "threshold_pp": 0.02,
+  "message": "影子盘降级：偏差 ≥2pp",
+  "checked_at": "2026-09-12T23:45:22+08:00",
+  "note": "回测再漂亮也只是回测，最后保险是影子盘。"
+ },
+ "error": null,
+ "as_of": "2026-09-12"
+}

@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#f4f6f2">
+<meta name="runtime-flavor" content="zenithlens-opencode">
+<meta name="api-contract" content="v9.3">
+<meta name="shell-version" content="v3">
+<title>极境 ZenithLens · OpenCode 版</title>
+<link rel="stylesheet" href="css/app.css">
+</head>
+<body>
+<div class="blob b1"></div><div class="blob b2"></div><div class="blob b3"></div>
+
+<aside class="sidebar">
+  <div class="brand">极境 ZenithLens<span id="flavor-badge">OpenCode 版</span></div>
+  <div class="brand-sub">基金量化方向预测 · 可验证 · 可审计</div>
+  <nav class="nav">
+    <button class="active" data-v="holdings"><svg class="ico" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="3" width="12" height="10" rx="2"/><path d="M2 6.5h12M6.5 6.5V13"/></svg>持仓</button>
+    <button data-v="analyze"><svg class="ico" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M8 13.5V7M8 7l-3.2 2.4M8 7l3.2 2.4"/><circle cx="8" cy="8" r="6"/></svg>分析</button>
+    <button data-v="signals"><svg class="ico" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 11l3.5-4 3 2.5L14 4"/><path d="M11 4h3v3" stroke-linecap="round"/></svg>信号</button>
+    <button data-v="factors"><svg class="ico" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2.5 13V8M6.5 13V3.5M10.5 13V6.5M14 13v-3"/></svg>因子</button>
+    <button data-v="review"><svg class="ico" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="8" cy="8" r="6"/><path d="M8 4.5V8l2.5 1.8" stroke-linecap="round"/></svg>复盘</button>
+    <button data-v="engine"><svg class="ico" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="5" y="5" width="6" height="6" rx="1"/><path d="M8 1.5v2M8 12.5v2M1.5 8h2M12.5 8h2M3.5 3.5l1.4 1.4M11.1 11.1l1.4 1.4M12.5 3.5l-1.4 1.4M4.9 11.1L3.5 12.5"/></svg>引擎</button>
+    <button data-v="settings"><svg class="ico" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="8" cy="8" r="2.2"/><path d="M8 1.8v1.6M8 12.6v1.6M2.9 2.9l1.1 1.1M12 12l1.1 1.1M1.8 8h1.6M12.6 8h1.6M2.9 13.1L4 12M12 4l1.1-1.1"/></svg>设置</button>
+  </nav>
+  <div class="side-foot">数据域：服务日期 <b id="side-svc">—</b><br>
+    净值快照 <b id="side-date">—</b> <span id="side-lag" style="color:var(--ink3)">—</span><br>
+    行情快照 <b id="side-market">—</b><br><br>
+    OpenCode 独立实现 · 前端产品壳 v3<br><b>字段口径 = 09-api-contract v9.3</b></div>
+</aside>
+
+<main>
+  <div class="livebar warn" id="livebar"><span class="dot"></span>正在连接本地引擎…<span id="live-src"></span></div>
+  <div id="stale-banner"></div>
+  <div class="topbar">
+    <span class="date" id="top-date">—</span>
+    <span class="chip" id="top-session">连接中…</span>
+    <span class="chip" id="top-snapshot">服务日期 —</span>
+    <span class="spacer"></span>
+    <button class="btn sm" id="eye-btn">隐藏金额</button>
+    <span class="sig" id="top-open">本次开口 <b class="mono">—</b> 个信号</span>
+  </div>
+
+  <!-- ============ ① 持仓 ============ -->
+  <section class="view active" id="view-holdings" data-state="success">
+    <div class="state-block" data-slot></div>
+    <div class="view-main">
+      <h2 class="sec">资产总览 <span class="n">R-UI-01 · 口径与覆盖度说明见副标题</span></h2>
+      <div class="cards">
+        <div class="sc"><div class="k">总资产</div><div class="v amt" id="pa-total">—</div><div class="s">份额 × 可信估值</div></div>
+        <div class="sc"><div class="k">今日预估盈亏</div><div class="v amt" id="pa-today">—</div><div class="s" id="pa-today-sub">口径 mv − mv/(1+pct)</div></div>
+        <div class="sc"><div class="k">累计收益</div><div class="v amt" id="pa-pnl">—</div><div class="s">市值 − 累计投入（仅可信行）</div></div>
+        <div class="sc"><div class="k">收益率</div><div class="v" id="pa-ret">—</div><div class="s">累计收益 / 成本</div></div>
+      </div>
+
+      <h2 class="sec">估值精度 <span class="n">R-UI-02 · 回测量化 · 行业基准 MAE 见后端字段（契约 §5.2 固定 0.80%）</span></h2>
+      <div class="vsum" id="val-sum">—</div>
+
+      <h2 class="sec">组合预测 <span class="n">R-UI-11 · 按市值加权 · 只有开口的仓位才计入</span></h2>
+      <div class="win3" id="pf-forecast"></div>
+      <div class="card" style="margin-top:12px"><div class="mini" id="pf-note">—</div></div>
+
+      <h2 class="sec">模型覆盖度 <span class="n">R-UI-04 · A/B/C/D 四档 · 决定「信号」列怎么读</span></h2>
+      <div class="covbar" id="cov-bar"></div>
+      <div class="card" style="margin-top:12px"><div class="mini" style="line-height:1.9" id="cov-note"></div></div>
+
+      <h2 class="sec">持仓明细 <span class="n">R-UI-05 · 按类别分组 · 点击组名折叠 · 列可显隐</span>
+        <span class="spacer"></span>
+        <button class="btn sm" id="btn-colset">显示列</button>
+        <button class="btn sm primary" id="btn-add-fund">+ 录入基金</button>
+      </h2>
+      <div class="card tight">
+        <table>
+          <thead><tr>
+            <th>基金</th><th class="r">持仓金额</th><th class="r" data-col="cost">成本</th>
+            <th class="r">今日盈亏</th><th class="r">涨跌</th><th class="r" data-col="pnl">累计收益</th>
+            <th class="r">占比</th><th data-col="val">估值来源</th>
+            <th data-col="sig">T+1 预测</th><th data-col="adv">建议</th><th class="r"></th>
+          </tr></thead>
+          <tbody id="hd-body"></tbody>
+        </table>
+      </div>
+
+      <details class="fold" id="fold-risk">
+        <summary>风险指标（Sharpe / VaR95 / 下行 / 回撤）<span class="mini" style="margin-left:auto">R-UI-06 · 慢接口 · 展开才计算</span></summary>
+        <div class="body"><div class="grid4">
+          <div class="factor"><div class="k">Sharpe</div><div class="v" id="rk-sharpe">—</div></div>
+          <div class="factor"><div class="k">VaR95</div><div class="v" id="rk-var">—</div></div>
+          <div class="factor"><div class="k">下行风险</div><div class="v" id="rk-down">—</div></div>
+          <div class="factor"><div class="k">最大回撤</div><div class="v" id="rk-dd">—</div></div>
+        </div>
+        <div class="mini" style="margin-top:10px">组合级指标需逐只拉取历史净值，首屏不加载，避免阻塞。var95/drawdown 以正数表示损失幅度。</div></div>
+      </details>
+      <div class="foot">持仓读取自本地 data/holdings.json（产品自持主源）· 数据不出本机 · 不构成投资建议</div>
+    </div>
+  </section>
+
+  <!-- ============ ② 分析 ============ -->
+  <section class="view" id="view-analyze" data-state="success">
+    <div class="state-block" data-slot></div>
+    <div class="view-main">
+      <details class="fold">
+        <summary>T+1 到底预测的是什么<span class="mini" style="margin-left:auto">R-UI-10 · 口径定义 · 三条执行路径 · 点开查看</span></summary>
+        <div class="body" id="an-defs"></div>
+      </details>
+
+      <h2 class="sec">三窗口组合预测 <span class="n">R-UI-11 · 按市值加权 · 覆盖不足显式声明</span></h2>
+      <div class="win3" id="an-forecast"></div>
+      <div class="card" style="margin-top:12px"><div class="mini" id="an-weighting" style="line-height:1.85">
+        <b>加权口径（来自后端）：</b>加载中…
+      </div></div>
+
+      <h2 class="sec">参与本次预测的持仓 <span class="n">R-UI-12 · 档 / 触发 / P / 否决层 / 三窗口 / 市值 · 点击行展开推导链</span></h2>
+      <div class="card tight"><table>
+        <thead><tr><th>基金</th><th>档</th><th>触发</th><th class="r">P(涨)</th><th>否决层</th><th>T+1</th><th>T+3</th><th>T+15</th><th class="r">市值</th></tr></thead>
+        <tbody id="an-body"></tbody>
+      </table></div>
+      <div class="foot">参数口径与 Brief §5.1 一致（K=4 / p=0.25 / MIN_N=15 / SHRINK=10 / BAND=0.02 / 双否决 40% 分位 / purge=H+2）</div>
+    </div>
+  </section>
+
+  <!-- ============ ③ 信号 ============ -->
+  <section class="view" id="view-signals" data-state="success">
+    <div class="state-block" data-slot></div>
+    <div class="view-main">
+      <h2 class="sec">最新信号 <span class="n">R-UI-07 · T+1 窗口判未来 1 个交易日方向</span></h2>
+      <div id="sg-empty"></div>
+
+      <h2 class="sec">下次什么时候会开口 <span class="n">R-UI-08 · 两个触发条件，任一命中即进门</span></h2>
+      <div class="grid2" id="sg-gates"></div>
+      <div id="sg-excl" style="margin-top:12px"></div>
+
+      <h2 class="sec">信号时间线 <span class="n">R-UI-09 · 近 60 天 · 点击展开事件链</span></h2>
+      <div class="tl" id="tl-list"></div>
+      <div class="foot">时间线由影子盘台账 shadow_signals.jsonl 驱动；每次开口即时入账、到期自动回填。</div>
+    </div>
+  </section>
+
+  <!-- ============ ④ 因子 ============ -->
+  <section class="view" id="view-factors" data-state="success">
+    <div class="state-block" data-slot></div>
+    <div class="view-main">
+      <h2 class="sec">四盘 <span class="n">R-UI-14 · 是否参与生产 · 各自独立记账 · 点击因子行展开跑分</span></h2>
+      <div id="fc-pans"></div>
+
+      <h2 class="sec">四本账本 <span class="n">R-UI-15 · 任何状态变更都有据可查，事后不可改</span></h2>
+      <div id="fc-books"></div>
+
+      <h2 class="sec">评分链 <span class="n">R-UI-16 · 六窗加权总分 · 悬崖式不对称惩罚</span></h2>
+      <div class="card" id="fc-score"></div>
+
+      <h2 class="sec">治理周期 <span class="n">R-UI-17 · 机器自动裁判，人只留机制变更权与紧急停机权</span></h2>
+      <div class="cyc" id="fc-cycle"></div>
+
+      <h2 class="sec">最近挖掘记录 <span class="n">R-UI-18 · scan_history · 每次扫描本身也是一次选择，永久留痕</span></h2>
+      <div class="card tight"><table>
+        <thead><tr><th>日期</th><th>候选</th><th>F1 有效性</th><th>F2 独立性</th><th>F3 增量</th><th>判定</th></tr></thead>
+        <tbody id="fc-scan"></tbody>
+      </table></div>
+      <div class="mini" id="fc-scan-panel" style="margin-top:6px"></div>
+
+      <h2 class="sec">生命周期规则 <span class="n">R-UI-19 · 文本来源由后端给出</span></h2>
+      <div class="card"><div class="mini" style="line-height:1.95" id="fc-life"></div></div>
+      <div class="foot">账本：shadow_signals / factor_arena / adopted_factors / scan_history / factor_health / retired_log</div>
+    </div>
+  </section>
+
+  <!-- ============ ⑤ 复盘 ============ -->
+  <section class="view" id="view-review" data-state="success">
+    <div class="state-block" data-slot></div>
+    <div class="view-main">
+      <h2 class="sec">模型历史成绩 <span class="n">R-UI-28 · 走前验证 · 回测成绩</span></h2>
+      <div class="card" id="rv-hero"></div>
+
+      <h2 class="sec">三窗口 vs 同期基线 <span class="n">R-UI-29 · 基线 = max(恒涨, 恒跌)，不是模型自己</span></h2>
+      <div class="card tight"><table>
+        <thead><tr><th>窗口</th><th>定式</th><th class="r">命中率</th><th class="r">开口</th><th class="r">基线</th><th class="r">Δ</th></tr></thead>
+        <tbody id="rv-scores"></tbody>
+      </table></div>
+      <div class="card" style="margin-top:12px"><div class="mini" id="rv-score-note"></div></div>
+
+      <h2 class="sec">影子盘对照 <span class="n">R-UI-30 · 偏差审查 · 回算口径（启动回填）· 与前向/实盘语义分离</span></h2>
+      <div class="card"><div class="degrade idle" id="rv-degrade">加载中…</div>
+        <div class="mini" style="margin-top:12px" id="rv-degrade-note"></div></div>
+
+      <h2 class="sec">逐笔对账 <span class="n">R-UI-31 · 每条开口的来龙去脉 · 筛选与排序仅作用于已载入记录</span></h2>
+      <div class="fbar" id="rv-filters"></div>
+      <div class="card tight"><table>
+        <thead><tr><th>日期</th><th>基金</th><th>触发</th><th class="r"><button type="button" class="thbtn" id="rv-sort-p" title="点击切换：升序 / 降序 / 取消">P(涨) <span id="rv-p-ind"></span></button></th><th>否决层</th><th>信号</th><th class="r">T+1 实际</th><th class="r">判定</th></tr></thead>
+        <tbody id="rv-body"></tbody>
+      </table></div>
+      <div class="foot">台账字段：date / code / gate / p_up / ddsm_state / veto_crowd / veto_klow2 / signal / t1_real / t3_real / t15_real / t1_real_method / backfill_proxy_code / created_at · 收盘固定写盘，事后不可改 · 回填口径见引擎页字段说明</div>
+    </div>
+  </section>
+
+  <!-- ============ ⑥ 引擎 ============ -->
+  <section class="view" id="view-engine" data-state="success">
+    <div class="state-block" data-slot></div>
+    <div class="view-main">
+      <h2 class="sec">引擎状态 <span class="n">R-UI-20 · Engine Console · 只读观测，不改参数</span></h2>
+      <div class="hud" id="eg-hud"></div>
+
+      <h2 class="sec">影子盘 · 信号层 <span class="n">R-UI-21 · shadow_signals.jsonl · 系统最终输出台账</span></h2>
+      <div class="lcard">
+        <h3><span class="dot-live"></span>台账状态 <span class="mini" id="eg-ledger-state">—</span></h3>
+        <div id="eg-ledger"></div>
+        <div style="margin-top:12px">
+          <div style="display:flex;justify-content:space-between;font-size:11px;color:var(--ink2)">
+            <span>连续记录进度 · 滚动 60 日 · 回算口径（启动回填）</span><span class="mono" style="color:var(--gold)" id="eg-prg-txt">—</span></div>
+          <div id="eg-prg"></div>
+          <div class="mini" id="eg-prg-note" style="margin-top:5px;line-height:1.7">—</div>
+        </div>
+      </div>
+      <div class="lcard">
+        <h3>最近记录</h3>
+        <div class="xwrap"><table>
+          <thead><tr><th>日期</th><th>代码</th><th>门</th><th class="r">P(涨)</th><th>DDSM</th><th>拥挤</th><th>KLOW2</th><th>信号</th><th class="r">T+1</th><th>判定</th><th>入账</th></tr></thead>
+          <tbody id="eg-ledger-rows"></tbody>
+        </table></div>
+        <div class="mini" style="margin-top:10px;line-height:1.8" id="eg-ledger-fields"></div>
+        <div class="mini" style="margin-top:6px;line-height:1.8" id="eg-ledger-archive"></div>
+      </div>
+
+      <h2 class="sec">因子竞技场 <span class="n">R-UI-22 · factor_arena · 每个因子同日独立记账</span></h2>
+      <div class="lcard">
+        <h3>跑分矩阵 <span class="mini">行 = 配置，列 = 六窗，格 = 开口 / 命中 / 配对 Δ</span></h3>
+        <div class="xwrap"><table>
+          <thead id="eg-arena-head"></thead>
+          <tbody id="eg-arena"></tbody>
+        </table></div>
+        <div class="legend" id="eg-arena-legend" style="margin-top:12px"></div>
+        <div class="mini" id="eg-arena-note" style="margin-top:10px;line-height:1.85"></div>
+      </div>
+
+      <h2 class="sec">训练状态 <span class="n">R-UI-23 · DDSM 状态表 · 逐资产全样本，季度滚动重训</span></h2>
+      <div class="lcard" id="eg-train"></div>
+      <div class="lcard">
+        <h3>冻结参数 <span class="mini">R-UI-24 · 改任何一项必须重走六关 · 无编辑入口</span></h3>
+        <div id="eg-frozen"></div>
+      </div>
+
+      <h2 class="sec">六维输入 <span class="n">R-UI-25 · DDSM 三维 + 拥挤度六维 · z-bar</span></h2>
+      <div class="lcard">
+        <h3><select id="dim-asset" style="background:transparent;border:1px solid rgba(24,32,25,.2);color:var(--ink);border-radius:8px;padding:4px 8px;font-size:12px;font-family:inherit"></select>
+          <span class="mini" id="dim-sum">—</span></h3>
+        <div class="mini" style="margin-bottom:8px">DDSM 三维（r2 / om / vr）</div>
+        <div id="dim-d3"></div>
+        <div class="mini" style="margin:14px 0 8px">拥挤度六维（mom5 / vr / dev / vpcorr / volat / skew）</div>
+        <div id="dim-d6"></div>
+      </div>
+
+      <h2 class="sec">125 格状态立方体 <span class="n">R-UI-26 · 生产口径 DDSM（加噪+收缩）默认 · 研究口径 naive 折叠 · 切换 vr 层</span></h2>
+      <div class="lcard">
+        <h3>状态空间切片
+          <span class="mini">口径：<b>生产 DDSM</b> 默认｜研究 naive 折叠（仅供审计）</span>
+          <span class="cube-laymode" id="eg-laymode"></span>
+          <span class="laysel" id="eg-layers"></span></h3>
+        <div class="mini" id="cube-dualnote" style="margin-bottom:8px;line-height:1.8"></div>
+        <div class="cube-wrap single">
+          <div class="cube-col"><div class="ch" id="cube-prod-title">生产口径 DDSM <span class="tag blue">ddsm</span></div><div class="cs" id="cs-prod">—</div><div class="cube" id="cube-prod"></div></div>
+        </div>
+        <details class="cube-research" id="cube-research">
+          <summary>研究口径（未加噪真实档位 naive）· 默认折叠 · 展开仅作审计对照 <span class="tag gray">naive</span></summary>
+          <div class="cube-col" style="border:none;padding:6px 0 0"><div class="cs" id="cs-research">—</div><div class="cube" id="cube-research-grid"></div></div>
+        </details>
+        <div class="legend" id="eg-cube-legend"></div>
+        <div class="cmp" id="eg-cmp"></div>
+        <div class="mini" id="cube-note" style="margin-top:14px;padding-top:12px;border-top:1px dashed rgba(24,32,25,.12);line-height:1.9"></div>
+      </div>
+
+      <h2 class="sec">引擎注册表 <span class="n">R-UI-27 · 三态：active / shadow / retired</span></h2>
+      <div class="card tight"><table>
+        <thead><tr><th>版本</th><th>状态</th><th>说明</th></tr></thead>
+        <tbody id="eg-registry"></tbody>
+      </table></div>
+      <div class="mini" id="eg-registry-note" style="margin-top:6px"></div>
+      <div class="foot">升级协议：新版本先以 shadow 并行 20 个交易日，样本外达标才转 active，旧的转 retired 保留回滚能力。</div>
+    </div>
+  </section>
+
+  <!-- ============ ⑦ 设置 ============ -->
+  <section class="view" id="view-settings" data-state="success">
+    <div class="state-block" data-slot></div>
+    <div class="view-main">
+      <h2 class="sec">隐私 <span class="n">R-UI-32 · 一键隐藏所有金额</span></h2>
+      <div class="card">
+        <div class="kv"><span class="k">隐藏金额<div class="mini">总资产、累计收益、持仓金额、今日盈亏全部替换为 ••••；占比与涨跌幅保留</div></span>
+          <label class="sw"><input type="checkbox" id="sw-hide"><span></span></label></div>
+        <div class="kv"><span class="k">隐藏持仓金额<div class="mini">只隐藏明细行，保留组合总额</div></span>
+          <label class="sw"><input type="checkbox" id="sw-hide-holdings"><span></span></label></div>
+      </div>
+
+      <h2 class="sec">LLM 接口 <span class="n">R-UI-33 · 仅用于事件编码，不做最终预测（shadow）</span></h2>
+      <div class="card">
+        <div class="row2">
+          <div class="field"><label>服务商</label><select id="llm-provider">
+            <option value="deepseek">DeepSeek</option><option value="qwen">通义千问（DashScope）</option>
+            <option value="moonshot">Moonshot Kimi</option><option value="custom">自定义（OpenAI 兼容）</option></select></div>
+          <div class="field"><label>模型</label><input id="llm-model" placeholder="deepseek-chat"></div>
+        </div>
+        <div class="field"><label>Base URL</label><input id="llm-url" placeholder="https://api.deepseek.com/v1"></div>
+        <div class="field"><label>API Key</label>
+          <div class="secret"><input id="llm-key" type="password" placeholder="sk-…">
+            <button class="btn sm" id="llm-toggle-key">显示</button></div>
+          <div class="hint">本地存储，不上传、不进日志、不写进任何产物</div></div>
+        <div class="mini" style="line-height:1.8" id="llm-status"></div>
+        <div class="dlg-acts" style="margin-top:16px">
+          <button class="btn" id="llm-test" title="本地校验（仅检查配置格式，不会发起网络请求）">测试连接</button>
+          <button class="btn primary" id="llm-save">保存配置</button>
+        </div>
+        <div class="mini" style="margin-top:8px">「测试连接」为本地校验：仅检查配置格式，不发起网络请求（连通性测试未接入）。</div>
+      </div>
+      <div class="card" style="margin-top:12px"><div class="mini" style="line-height:1.9">
+        <b style="color:var(--gold)">三条硬约束（都是踩过的坑）：</b><br>
+        ① <b>温度必须为 0，输出必须是纯 JSON 且禁止解释文字</b>。温度 0 也消不掉波动，只能靠结构化短输出压缩。<br>
+        ② <b>不问"利好还是利空"，改问"是否超出市场预期"</b>。后者常是新闻里的客观表述，可关键词提取、一致性 100%。<br>
+        ③ <b>LLM 编码输出本身必须先过四关回测才能进生产</b>。实测事件维接入 DDSM 三窗口均无增量（价格已 price-in）。
+      </div></div>
+
+      <h2 class="sec">数据源健康 <span class="n">R-UI-34 · 接口随时可能被墙，连通性必须可见</span>
+        <span class="spacer"></span><button class="btn sm" id="src-probe">立即检测</button></h2>
+      <div class="card" id="src-box"></div>
+
+      <h2 class="sec">持仓数据 <span class="n">R-UI-35 · 两份 funds_data.json 不一致长文</span></h2>
+      <div class="card" id="hd-data"></div>
+      <div class="card" style="margin-top:12px"><div class="mini" style="line-height:1.85" id="hd-diff"></div></div>
+      <div style="margin-top:10px"><button class="btn sm" id="hd-import">从外部文件导入（可选）</button></div>
+
+      <h2 class="sec">引擎注册表 <span class="n">R-UI-27（设置页复用）</span></h2>
+      <div class="card tight"><table>
+        <thead><tr><th>版本</th><th>状态</th><th>说明</th></tr></thead>
+        <tbody id="st-registry"></tbody>
+      </table></div>
+      <div class="mini" id="st-registry-note" style="margin-top:6px"></div>
+
+      <h2 class="sec">关于 <span class="n">R-UI-36</span></h2>
+      <div class="card" id="about-card"></div>
+      <div class="foot">极境 ZenithLens · 前端壳 v3 · OpenCode 独立实现 · 字段口径 09-api-contract v9.3 · 风格参照 legacy v2 壳（代码独立编写）</div>
+    </div>
+  </section>
+</main>
+
+<!-- R-UI-37 · 三个 dialog -->
+<dialog id="dlg-fund">
+  <div class="dlg">
+    <h3 id="fd-title">录入基金</h3>
+    <div class="sub" id="fd-sub">输入 6 位代码后自动回填名称</div>
+    <div class="row2">
+      <div class="field"><label>基金代码</label><input id="fd-code" maxlength="6" placeholder="如 014320"></div>
+      <div class="field"><label>基金名称</label><input id="fd-name" placeholder="自动回填，可手改"></div>
+    </div>
+    <div class="row2">
+      <div class="field"><label>份额</label><input id="fd-shares" type="number" step="any" placeholder="0.0000"></div>
+      <div class="field"><label>成本（累计投入，元）</label><input id="fd-cost" type="number" step="0.01" placeholder="0.00"></div>
+    </div>
+    <div class="field"><label>按金额折算（可选）</label><input id="fd-amount" type="number" step="0.01" placeholder="与份额二选一；填写后作成本"></div>
+    <div class="row2">
+      <div class="field"><label>类别</label><select id="fd-group">
+        <option value="domestic_index">境内指数</option><option value="active">主动</option>
+        <option value="qdii">QDII</option><option value="gold">黄金</option><option value="other">其他</option></select></div>
+      <div class="field"><label>覆盖档</label><select id="fd-tier">
+        <option value="A">A 已接入</option><option value="B">B 代理已验证</option>
+        <option value="C">C 代理待验证</option><option value="D">D 暴露待定</option></select></div>
+    </div>
+    <div class="field"><label>确认天数</label><select id="fd-t">
+      <option value="1">T+1 境内</option><option value="2">T+2 QDII</option><option value="3">T+3</option></select></div>
+    <div class="dlg-acts"><button type="button" class="btn" id="fd-cancel">取消</button><button type="button" class="btn primary" id="fd-save">保存</button></div>
+  </div>
+</dialog>
+
+<dialog id="dlg-amt">
+  <div class="dlg">
+    <h3 id="am-title">加仓</h3><div class="sub" id="am-sub">—</div>
+    <div class="row2">
+      <div class="field"><label>份额</label><input id="am-shares" type="number" step="any" placeholder="0.0000"></div>
+      <div class="field"><label>成交净值（元/份）</label><input id="am-price" type="number" step="any" placeholder="0.0000"></div>
+    </div>
+    <div class="row2">
+      <div class="field"><label>交易确认日</label><input id="am-date" type="date"></div>
+      <div class="field"><label>费用（元，可选）</label><input id="am-fee" type="number" step="0.01" placeholder="0.00"></div>
+    </div>
+    <div class="mini">15:00 后提交按次日净值确认；金额与收益一律由后端计算。</div>
+    <div class="dlg-acts"><button type="button" class="btn" id="am-cancel">取消</button><button type="button" class="btn primary" id="am-save">确认</button></div>
+  </div>
+</dialog>
+
+<dialog id="dlg-del">
+  <div class="dlg">
+    <h3>删除持仓</h3><div class="sub" id="dl-sub">—</div>
+    <div class="mini" style="color:var(--up)">删除后不可恢复。若只是想调整金额，用「编辑」。台账中历史记录不删（审计保留）。</div>
+    <div class="dlg-acts"><button type="button" class="btn" id="dl-cancel">取消</button><button type="button" class="btn danger" id="dl-save">确认删除</button></div>
+  </div>
+</dialog>
+
+<div class="pop" id="pop"></div>
+<div id="toast"></div>
+
+<script type="module" src="js/main.js"></script>
+</body>
+</html>

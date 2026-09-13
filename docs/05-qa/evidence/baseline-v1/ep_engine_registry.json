@@ -1,0 +1,1 @@
+{"ok": true, "data": {"engines": [{"version": "oc-s3-v1", "status": "active", "note": "当前生产引擎（OpenCode S3 独立实现）", "metrics": {"hit_rate": null, "baseline_rate": null, "delta_pp": null}, "can_rollback": false}]}, "error": null, "as_of": "2026-09-12"}

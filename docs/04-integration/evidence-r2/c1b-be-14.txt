@@ -1,0 +1,83 @@
+## 14. 修复记录（客户端断连噪声零堆栈 · 用户反馈 · 2026-09-13）
+
+> 用户反馈：交付包控制台大量 `ConnectionAbortedError: [WinError 10053] 你的主机中的软件中止了一个已建立的连接` 全量堆栈刷屏。诊断：浏览器刷新/切页/取消请求 → 客户端先断开 → 服务端写响应失败；属**正常客户端行为**，不应打堆栈。契约/业务语义零变更。
+
+#### 14.1 诊断（修复前实测）
+
+- 复现探针（RST 断开：`SO_LINGER=0` 后 close，模拟刷新/取消）对 API + 静态各发 24 次请求：stderr **36 行 Traceback / 36 次 `ConnectionResetError`（WinError 10054）**；服务本身仍可用（风暴后 `/health` ok）。
+- 噪声三条路径：① `_send` 的 `end_headers()+write`；② `_serve_static` 同款 write；③ `_handle` 的 `except Exception` 把断连当内部错误 → `traceback.print_exc()` + 二次写 → socketserver `handle_error` 再打一层堆栈。
+
+#### 14.2 修法（最小改动，`app.py`）
+
+| # | 落点 | 改动 |
+|---|---|---|
+| 1 | 断连族定义 | `DISCONNECT_ERRORS = (ConnectionAbortedError, ConnectionResetError, BrokenPipeError)`（3.8+ 兼容）；`DISCONNECT_SUPPRESSED` 进程内计数（count/last_at，测试可见） |
+| 2 | `_send` | `end_headers()+write` 包 try/except：断连族 → 计数后静默 return；**其他异常继续抛**（不吞真错） |
+| 3 | `_serve_static` | 主 write 同款兜底 |
+| 4 | `_handle` | `except Exception` 先判断连族 → 直接 return（不打印、不发二次信封）；非断连族保持 `print_exc + E_UNKNOWN 信封` |
+| 5 | 服务器类 | 新增 `QuietThreadingHTTPServer(ThreadingHTTPServer)`：`handle_error` 断连族 → 静默 + 计数；其他异常走默认堆栈（真错可见）；`main()` 改用该类 |
+
+- 未新增/修改任何 API 字段；计数为进程内诊断量。
+
+#### 14.3 实测（修复前后对比，同探针同参数）
+
+| 指标 | 修复前 | 修复后 |
+|---|---|---|
+| Traceback 行数 | 36 | **0** |
+| ConnectionReset/Aborted/BrokenPipe/WinError 计数 | 36（含 10054） | **0** |
+| RST 风暴后 `/health` | ok | **ok**（功能不受影响） |
+
+#### 14.4 测试断言（`test_disconnect_quiet` 9 条）
+
+- `_send`：三族 × (write/end_headers) 均不抛且计数 +1；`ValueError` 照抛（不误吞）。
+- `_serve_static`：`BrokenPipeError` 静默；`ValueError` 照抛。
+- `_handle`：注入断连 → stderr 为空、无信封；注入 `RuntimeError` → stderr 含 Traceback 且 `E_UNKNOWN` 信封（真错可见）。
+- `handle_error`：断连静默 + 计数；`RuntimeError` → 默认 `handle_error` 被调用（mock 断言）。
+- 真起服 + RST 风暴：stderr 无 Traceback、风暴后 `/health` ok。
+
+#### 14.5 回归
+
+- 全量 **226/226 × 2 全绿**（R1 117 + R2 轮次新增 109；本轮净增 9）；`proxy_quality.json`（sha256 `98b94d43dec81a67…`）与 12 个产线文件两轮前后零差异。
+
+### 15. 冻结纪律与红线核对
+
+| 红线 | R2 状态 |
+|---|---|
+| E2/E4 禁复活、禁 OR 合并 | 未触碰（门仍 E1/E3） |
+| K=4/p=0.25/MIN_N=15/SHRINK=10/BAND=0.02/双否决分位 | `engine.frozen_params` 未改值；仅追加 `baseline_method` 口径文本 |
+| 永不做空 | 未触碰 |
+| INSERT-ONLY | 保持；重算=先归档后重生成；回填独立文件；修正行只追加不改 |
+| 组合权重 = 可信市值 | `weighting_basis` 恒 `market_value`；黑名单新增 `baseline_method` |
+| `0.5830` | 产线计算零引用；仅契约固定文本含 token（D-9/§5） |
+| T+3/T+15 未验证不出 up | 未触碰（`/review/scores` 属复盘展示，不产信号） |
+
+### 16. 启动与健康检查
+
+- 启动：`cd C:\Users\10719\Documents\ZenithLens-OpenCode && python app.py`（默认 `127.0.0.1:8791`，可用 `--port` 覆盖；Python 3.8+）。
+- 健康：`GET /api/v1/health`、`GET /api/v1/runtime`（`trade_session`/`staleness`）、`GET /api/v1/engine/status`（进度/审查分离）。
+- 新任务：`POST /api/v1/tasks {"type":"maintain_nav_history"}`、`{"type":"verify_tiers","params":{"targets":[...]}}`、`{"type":"backfill_ledger","params":{"mode":"recompute"}}`。
+
+## 自验收
+
+- [x] 契约 v9.1 每个新增/变更条目都已实现，无遗漏（§2 机器核对表逐项）—— 44 + 9 + B1~B9 + 枚举 9 + 任务 3 + 注记 2；**v9.2 注记按 §9.1 落地**
+- [x] 逐字段比对：字段名/类型/单位/精度/枚举值一致；无 camelCase；`snake_case` 全项目统一；`baseline_status` 枚举 `filled/pending`（禁 `ok`，§9.1-B1-3）
+- [x] 每个新行为的 4xx/5xx 分支可构造并验证（E_VALIDATION：data_kind/method/targets/冻结参数；E_CONFLICT：INSERT-ONLY；E_NOT_FOUND；E_IO 空态改可读提示）
+- [x] 边界情况已处理（除零/空列表/NaN 不产出/净值缺/超时/归档不可读/预算超时）
+- [x] 业务口径注释标注来源（PRD F2-xx / 契约 §x / 08-r2 §x / 09-r2 v9.2 §10 / ADR-0007~0015）
+- [x] 无「看起来对」的兜底数字：缺数据一律 null + 原因（`conf_reason` 五值 / `baseline_rate=null` / pending；T3/T15 待填充）
+- [x] 服务可独立启动（`python app.py` 默认 8791；修复轮以 OS 空闲端口 + PID 身份核对冒烟通过，§9.3/§10.3）
+- [x] 偏差 9 条显式列于 §7，无静默修改；缺陷修复留痕 §8；修复记录 §9（B1/B2/S1）/ §10（S2/S3）/ §11（S5 后端栏）逐条
+- [x] 测试：**226/226 双跑全绿**（R1 117 + R2 轮次新增 109），含 INSERT-ONLY 幂等、复算、双通道分离、负向断言、S3 缓存/快路径、A3 链重算 + chain_source 三态、D3 互斥/串行；产线数据零污染（§9.2/§10.3/§11.6/§12.3）
+- [x] S2：新浪 (b) 标注回填既有 `note`（未改契约字段）；S3：冷启动 `/holdings` ready+1s/+6s/+15s 实测 ≤0.45s（修复前最坏 39.7s）
+- [x] S5（§8.10 后端栏）：D2/D3/A3/S-c/S-e 全落地；NIT D-8/B-5a/F-3 顺手修；F-6 依 v9.4 §12 确认（method 名维持 + top_n 如实，零改动）；C3 chain_source 落码（§12）；v9.5 影子盘窗口 60 + 增量滚动（§13）；客户端断连零堆栈（§14，RST 风暴 Traceback 36→0）
+- [x] 未改前端 `static/**`、未改 R1 既有工件、未触 `runtime/**`；报告以 `-r2` 命名
+
+## 下游交接
+
+- **主消费方**：`dev-lead`（G-BE-01 冒烟：按 §16 起服；四目标各一条链路：`maintain_nav_history`→accuracy v2、`verify_tiers`、`backfill_ledger`、`/review/scores` 两口径、`/health`；**B1/B2/S1 复验按 §9；S2/S3 复验按 §10；S5 后端栏复验按 §11（A3 C1/C3/C4、D2/D3、S-c/S-e）；C3 复验按 §12（chain_source 三态 + F-6 确认）；v9.5 复验按 §13（窗口 60 / 增量滚动 / qualified / 冷启动）；断连修复复验按 §14（RST 风暴零堆栈）**）。
+- **次消费方**：
+  - `frontend-dev`：按 `09-api-contract-r2` v9.4 消费新增字段——`conf_reason`（unknown 徽章）、`estimate_quality.weighted_mae_rate`（vsum 主指标）+ `official_summary`（官方 chip）、`window_phase/window_filled_days`、`pending_verification_names/verify_review_date`、`main_source/import_*`、`scores[].sample_window`、`qdii_lead_note`、**`chain_source`（时间线 tooltip 可标注链来源）**。
+  - `qa`：负向断言建议——`conf_reason` 仅 unknown 非 null；`baseline_source` 恒 measured 且旧常量零引用；`t*_real` 无来源不写（E_VALIDATION）；recompute 旧记录可归档复读；`shadow_status` 无 idle/ok/bad；`import_available=false` 禁用路径；挂档行不入 universe；双证据道不得互相引用；**`chain_source`：available 行 ∈ {stored, recomputed}、unavailable 行 null + `chain=[]`**。
+- **残留风险**（责任人 / 期限）：
+  1. `163208` 双段参照指数缺枚举 → 是否补 `US_OIL` 类参照由 architect 裁定（architect，S5 前；未决期间 correction=null，不影响估值链）。
+  2. 首日 `accuracy.json` 空、`window_filled_days=0` → 首判（满 

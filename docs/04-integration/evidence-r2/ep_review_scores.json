@@ -1,0 +1,71 @@
+{
+ "ok": true,
+ "data": {
+  "data_kind": "backtest",
+  "generated_at": "2026-09-12T23:29:25+08:00",
+  "as_of": "2026-09-12",
+  "scores": [
+   {
+    "window": "T1",
+    "formula": "gate+ddsm+veto",
+    "hit_rate": 0.5263,
+    "open_count": 61,
+    "baseline_rate": 0.5415,
+    "baseline_status": "ok",
+    "delta_pp": -0.0152,
+    "cv_mode": "walk_forward",
+    "purge_gap": "H+2",
+    "holdout_days": 60,
+    "data_kind": "backtest",
+    "sample_window": "full",
+    "sample_period": "2025-05-26..2026-06-22",
+    "as_of": "2026-09-12"
+   },
+   {
+    "window": "T3",
+    "formula": "gate_only",
+    "hit_rate": 0.6857,
+    "open_count": 54,
+    "baseline_rate": 0.5824,
+    "baseline_status": "ok",
+    "delta_pp": 0.1033,
+    "cv_mode": "walk_forward",
+    "purge_gap": "H+2",
+    "holdout_days": 60,
+    "data_kind": "backtest",
+    "sample_window": "full",
+    "sample_period": "2025-05-26..2026-06-22",
+    "as_of": "2026-09-12"
+   },
+   {
+    "window": "T15",
+    "formula": "gate+ddsm",
+    "hit_rate": 0.5517,
+    "open_count": 81,
+    "baseline_rate": 0.6422,
+    "baseline_status": "ok",
+    "delta_pp": -0.0904,
+    "cv_mode": "walk_forward",
+    "purge_gap": "H+2",
+    "holdout_days": 60,
+    "data_kind": "backtest",
+    "sample_window": "full",
+    "sample_period": "2025-05-26..2026-06-22",
+    "as_of": "2026-09-12"
+   }
+  ],
+  "hero": {
+   "window": "T1",
+   "hit_rate": 0.5263,
+   "baseline_rate": 0.5415,
+   "delta_pp": -0.0152,
+   "open_count": 61,
+   "sample_period": "2025-05-26..2026-06-22",
+   "data_kind": "backtest",
+   "label": "生产配置走前回测 · T+1 · 全样本窗"
+  },
+  "note": "回测=生产配置（E1/E3→DDSM→双否决→出口）六窗走前；每行主值取该 horizon 的 full 全样本窗（六样本窗归因子页）；同 bars+冻结配置+seed 可复现。"
+ },
+ "error": null,
+ "as_of": "2026-09-12"
+}

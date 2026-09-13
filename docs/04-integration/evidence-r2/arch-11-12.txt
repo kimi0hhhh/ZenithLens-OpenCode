@@ -1,0 +1,102 @@
+### 11. C1/C2/C3 裁定纪要（v5 追加 · 2026-09-13；依据 `15-code-review-r2.md` v4 §8.6~8.11 + `16-fake-feature-audit-r2.md`）
+
+> 输入：S4 併轨审计 C1/C2/C3（dev-lead §8.10 architect 栏）；证据核对：`02-prd.md` R-UI-27/R-UI-33 验收原文、`03-ui-design.md` R-UI-27/R-UI-33、线框与 legacy 基准（「原型演示·未接入真实请求」明示）、契约 v9.2。
+> 纪律：只追加不重写；不改审计/QA/前端/后端工件；`runtime/**` 禁改。
+
+#### 11.1 C1 · LLM「测试连接」真探测端点 → **裁定 ②：列 R3（R2 收口 = 诚实降级）**
+- **结论**：**R2 不新增 `POST /settings/llm-test`**；R2 按 dev-lead §8.7 BLOCK-A1「本地校验」诚实降级收口；真探测列为 **R3**（与 LLM 事件编码器 F-17 一并立项）。
+- **理由（三条）**：
+  1. **PRD 验收未含真测试**：R-UI-33 验收仅 ①界面标注「仅事件编码，不做最终预测／shadow 观察区」②三条硬约束长文 + 温度固定 0 可见 ③Key 本地存储不写产物——**无连通性测试验收项**；线框与 legacy 基准均以「原型演示·未接入真实请求」呈现——真探测**非 R2 承诺**。
+  2. **定位与场景**：LLM 处 shadow 观察区（F-17 P2、未立项实现）；无编码功能可测时，孤立连通性端点无消费链路——与 LLM 编码工作流一并立项，成本最低、定义最清晰（与 dev-lead 建议同向）。
+  3. **轮次纪律**：R2 已交付、S5 = 缺陷关闭轮；新增端点 + 契约 +1 会扩大回归面并改动已冻结契约（v9.2），收益不抵成本。
+- **R2 收口要求（确认 dev-lead 指令）**：按钮语义 =「本地校验」；两分支文案如实（未配置 → 提示补全、**不发起网络请求**；配置齐全 → 「本地校验通过（格式有效）；连通性测试未接入」）；删除「已发起/异步任务」措辞；文案入 `copy.js`；CDP/桩断言出站请求 = 0。
+- **R3 升级路线（立项输入·端点草案）**：`POST /api/v1/settings/llm-test`——请求体空（读已保存配置；不接收/不回显 Key）；响应 `{reachable, http_status, latency_ms, model_echo, message, checked_at}`；探测方式：OpenAI 兼容 `GET {base_url}/models`（实现时实测校准）；超时 连接 5s / 总计 15s；错误码 `E_VALIDATION`（未配置/URL 非法）/ `E_SOURCE_TIMEOUT` / `E_UNKNOWN`；同步执行（不建任务）；前端四态接线（测试中/成功/失败可读原因/未配置禁用）。
+- **PM 跟踪**：`03-ui-design.md` R-UI-33 四态文本（测试中脉冲/连接失败）与 R2 实态不符 → 请 PM 在 UI 设计文档补注「R2 = 本地校验；真探测 R3」。
+
+#### 11.2 C2 · 注册表三态机制 → **裁定：R2 诚实标注降级；机制登记 R3 评估**
+- **事实核对（契约/需求）**：`/engine/registry` 契约仅要求返回 `engines[]`（status ∈ active/shadow/retired）+ Brief §9.5-27「引擎注册表三态」组件；PRD R-UI-27 验收 = ①三态各有独立徽章与文案 ②active 版本为当前生产 ③旧版本标 retired 且注明可回滚——**均未承诺「版本过渡机制」已运转**（三态为登记展示语态；现实 = 单版本）。
+- **判定**：**非「实现到位」（机制不可达），亦不要求 R2 实装机制**；按「不虚报」纪律 → **诚实标注降级**：
+  1. UI 保留注册表组件与三态规则长文，但**不得新增「三态已运作」表述**；显式标注「当前单版本运行；shadow/retired 为预留态（版本过渡机制未接入）」；三态徽章可作为图例呈现（标注「预留」）。
+  2. `/engine/registry` 响应保持 truthful：单条 active、`metrics=null`、`can_rollback=false`（**不改字段**）。
+- **机制去向**：**R3 评估**（与 T-03 重训缓存 / F-7 `last_retrain_at=None` 关联：若未来引入版本化重训，须定义「新版本 → shadow 并行 → 转正/回滚」机制与契约，版本 +1）。R2 不实装。
+- **PM 跟踪**：R-UI-27 验收①「三态各有独立徽章与文案」在单版本现实下的呈现口径（图例/预留态）请 PM 确认。
+- **派发**：`frontend-dev`（S5 文案修正，按 dev-lead §8.8 S-b「UI 文案随裁定」）。
+
+#### 11.3 C3 · 链重算来源标注 → **裁定：采纳（最小字段）**
+- **结论**：新增 `LedgerChain.chain_source`（enum `chain_source`：`stored` / `recomputed`；null = 不可用）。价值 = 审计透明（读时重算非原始记录，标注防误读）；成本 = 1 字段。
+- **口径**：`recomputed` = 读时按**写入同源口径**（bars[:t-1]、H=1、六步含 `exit_threshold=0.5200`）重算；`stored` = 写入时缓存的链（BLOCK-A3 可选优化启用后的新行）；`chain_available=false` → `chain_source=null` + `chain=[]`。
+- **范围注**：本字段经架构批准，为 BLOCK-A3「不新增字段」约束的**唯一豁免**；其余 BLOCK-A3 约束不变。
+- **契约**：`09-r2` 升 **v9.3**（§11 注记，仅此 1 字段 + 1 枚举；C1/C2 不改契约）。
+- **落地**：随 BLOCK-A3 backend 修复一并实现；前端可在时间线 tooltip 显示来源（可选）；QA 断言：available 行 `chain_source ∈ {stored, recomputed}`，unavailable 行 null + 空链。
+
+#### 11.4 行动汇总（派发与跟踪）
+
+| 项 | 责任 | 动作 | 期限 |
+|---|---|---|---|
+| C1 收口（本地校验） | frontend-dev | 按 §8.7 BLOCK-A1 指令（已排） | S5 |
+| C1 真探测 | architect（R3 立项输入已备 §11.1） | R3 与 F-17 合并立项 | R3 |
+| R-UI-33 文本补注 | product-manager | UI 设计文档注「R2=本地校验；真探测 R3」 | S5 复基线前 |
+| C2 文案降级 | frontend-dev | 单版本现实 + 三态预留标注（§11.2） | S5 |
+| C2 机制 | architect | R3 评估（版本化重训机制） | R3 |
+| R-UI-27 口径确认 | product-manager | 三态徽章/图例解读 | S5 终验前 |
+| C3 字段落地 | backend-dev | `chain_source`（随 BLOCK-A3） | S5 |
+| 契约 v9.3 | architect | `09-r2` §11 注记（已落） | 本轮 |
+
+### 12. F-6 裁定纪要（v6 追加 · 2026-09-13；依据 `15-code-review-r2.md` v4 §8.10 + `14-api-impl-report-r2.md` §11.1/§11.4）
+
+> 输入：审计 F-6（`method` 去数字 vs 按 `top_n` 生成）+ 后端申报（不静默动契约冻结值）；证据核对：09-r2 §3.3 冻结值、代码字面量分布（`valuation.py` 持仓明细 / `proxy_map.py` 穿透）、历史记录兼容面。
+> 纪律：只追加不重写；不改审计/后端/前端工件；`runtime/**` 禁改。
+
+#### 12.1 F-6 · 方法名与 top_n=20 名实不符 → **裁定 ②：维持 `eastmoney_f10_top10_weighted` + 语义注记（不改名）**
+- **结论**：方法名**维持不变**（冻结）；契约 §3.3 追加语义注记：「`eastmoney_f10_top10_weighted` 为**历史标识**（v8 首版口径为前十）；v9 起实际档位由 `top_n` 字段承担（10/20），方法名冻结；改名须版本 +1 并评估历史记录兼容」。**前后端零代码改动**。
+- **理由（四条）**：
+  1. **历史记录兼容（决定性）**：`valuation_history.jsonl`（INSERT-ONLY）与既有 trace 明细已落大量携带该字符串的记录；改名将产生「同一方法两种标识」的审计混合，违背「同一概念一个词」的术语纪律——语义注记零成本消除误解且保持全史单标识。
+  2. **字面量共用上下文**：同一字符串在**持仓穿透**（`PenetrationTrace.method` / `penetration_method`，真实为 top10 口径）中继续使用；改名会在相邻语义中产生两个近似字符串（`..._top10_weighted` vs `..._weighted`），反增混淆面。
+  3. **既定设计**：契约 v9 §3.3 已确立「method 名不变 + `top_n` 承担档位」的设计（V18 收编时即如此）；档位事实由 `top_n` 如实给出，审计可判——名实关系已由字段兜底。
+  4. **轮次纪律**：R2/S5 处于缺陷关闭期；改名需契约 +1 + 后端 + 测试 + 双边同步 + G-BE-02 重跑，收益（消除轻微历史名）与成本不匹配；「不为以后可能加抽象」。
+- **同步点清单（②下的动作，均为确认级）**：
+
+| 对象 | 动作 | 必需性 |
+|---|---|---|
+| backend-dev | **无代码改动**：确认 `trace[holdings].detail.method` 继续输出原名、`top_n` 如实（10/20）；`test_active_holdings_contract` 断言保持 | 确认 |
+| frontend-dev | **无改动**：tooltip 不展示方法名；若未来展示，档位读 `top_n` 而非从名取数 | — |
+| qa | 可选负向断言：`detail.method` 恒 `eastmoney_f10_top10_weighted` **且** `detail.top_n ∈ {10,20}`（名与数解耦） | 可选 |
+| 契约 | v9.4 注记（落 `09-r2` §12；**无字段变更**） | 已落 |
+
+- **反悔条件**：若未来 `top_n` 需多档扩展或方法族扩展（多源多算法），**届时**按「版本 +1 + 旧记录豁免读数」统一改名——成本由真实需求驱动，不为假想铺路。
+
+#### 12.2 `chain_source` 字段定义确认（C3 · 09 v9.3；实现待补）
+- **确认（冻结，与 09 v9.3 §11 一致）**：`LedgerChain.chain_source`（enum `chain_source`/null）——枚举穷举 = `stored`（写入时缓存的链）/ `recomputed`（读时按写入同源口径重算：`bars[:t-1]`、H=1、六步、`exit_threshold=0.5200`）；**`chain_available=false` 时为 `null`**（不得编造）。
+- **现状**：后端本轮 BLOCK-A3 已实现读时重算与 `chain_available` 判定，但 `chain_source` **尚未落码**（grep 零命中）；按本确认于**后端下一轮补**（读时路径置 `recomputed`；`stored` 保留给未来写入时缓存行——BLOCK-A3 可选优化）。
+- **契约动作**：无（v9.3 已定；本轮仅确认）。
+
+#### 12.3 行动汇总
+
+| 项 | 责任 | 动作 | 期限 |
+|---|---|---|---|
+| F-6 确认 | backend-dev | 零改动确认（原名 + `top_n` 如实） | 下一轮随行 |
+| `chain_source` 落码 | backend-dev | 读时重算置 `recomputed`；unavailable = null | 下一轮 |
+| F-6 负向断言（可选） | qa | `method` 恒定 + `top_n ∈ {10,20}` | S5 |
+| 契约 v9.4 | architect | `09-r2` §12 注记（已落） | 本轮 |
+
+## 自验收
+
+- [x] D-1..D-4 逐条「PM 立场 / 架构立场 / 最终结论 / 影响工件 / 双向让步」，无和稀泥（D-1 部分采纳并给出保留项理由）
+- [x] R-1..R-5 逐条处置（全部采纳）+ N-1..N-4 处置（§1.5/§1.6）
+- [x] 四项 open-issues 裁定保留并标注会签修订（§2）
+- [x] 契约变更记录 v9→v9.1 成文（新增 9 / 变更 4 / 注记 2 + 影响工件同步清单，§4）
+- [x] ADR 扩至 9 条（新增 0014/0015；0007/0010/0011 修订留痕）
+- [x] 连续性检查 A-01~A-10 零破坏（§7）；冻结纪律零触碰
+- [x] 门禁就绪判断明确（§8：架构侧建议 PASS + 非门禁事项清单）
+- [x] 未改 PM 文件/需求四件套/R1 工件；未触 `runtime/**`；未派发子任务；未写代码
+
+## 下游交接
+
+- **主消费方**：`orchestrator`。需其执行：按 §8 核 G-AR-06——若判 **PASS**，派发 `frontend-dev` / `backend-dev`（并行；按 **09 v9.1 + 08 v3.1**）；若 CONCERN/FAIL，登记未决项并退回本文续修（版本 +1）。
+- **次消费方**：`product-manager`（§1.4(d) 终验红线写入 `19-pm-acceptance`；Q1/Q6 跟踪项）；`backend-dev`（D-2 证据道先于其余实现：`nav 史 → proxy_quality → verify_tiers`）；`frontend-dev`（07 v3.1 §2 逐项）；`qa`（负向断言：vsum 主指标=估算档、`conf_reason` 五值、挂档行不计覆盖、双证据道不得互相引用、`sample_window` 不得混六窗）。
+- **残留风险**（责任人 / 期限）：
+  1. `proxy_quality.json` 重建依赖 R2-16 nav 史完成 → 未完成前 9 只复核顺延（但不得晚于 G-PM-05 收口，§1.2c）（backend-dev，S3）。
+  2. 隔夜参照源可用性（未知）→ 回退单段已设计 + 复评暂态（backend-dev，S3 首日）。
+  3. 双证据道并存的两口径误用风险 → 判据纪律 + QA 断言（D-R2-9）（dev-lead + qa，S4）。
+  4. PM 复核若对 D-1 保留「删除式拆分」主张 → 走 revision-loop 复议（architect + product-manager，门禁轮）。
+- **未覆盖**：契约逐字段（09-r2）、模块设计（08-r2）、组件设计（07-r2）、系统五问（06-r2）、产品能力（05-r2）。

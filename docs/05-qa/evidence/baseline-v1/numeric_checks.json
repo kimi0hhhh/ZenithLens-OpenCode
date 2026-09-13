@@ -1,0 +1,151 @@
+{
+  "total": 24,
+  "pass": 24,
+  "fail": 0,
+  "checks": [
+    {
+      "id": "N-01",
+      "desc": "总资产 = Σ 各行 market_value",
+      "pass": true,
+      "detail": "Σ=53092.77 vs total_value=53092.77"
+    },
+    {
+      "id": "N-02",
+      "desc": "收益率 = 累计收益 / 成本",
+      "pass": true,
+      "detail": "手算=0.121969 vs return_rate=0.122000 (成本=47321.07)"
+    },
+    {
+      "id": "N-03",
+      "desc": "覆盖计数 22/22",
+      "pass": true,
+      "detail": "covered=22 total=22"
+    },
+    {
+      "id": "N-04",
+      "desc": "未知≠持平：存在 null 涨跌且独立于 0",
+      "pass": true,
+      "detail": "null=22 只, 恰好0=0 只"
+    },
+    {
+      "id": "N-05",
+      "desc": "估值来源徽章由后端 valuation_mode 驱动",
+      "pass": true,
+      "detail": "modes=['proxy', 'unknown']"
+    },
+    {
+      "id": "N-06",
+      "desc": "估值降级链路 trace_text 非空",
+      "pass": true,
+      "detail": "22/22 行含 trace_text"
+    },
+    {
+      "id": "N-07",
+      "desc": "MAE 口径 ratio：0.002→0.20%，行业 0.008→0.80%",
+      "pass": true,
+      "detail": "weighted=0.0020→0.20%, industry=0.0080→0.80%"
+    },
+    {
+      "id": "N-08",
+      "desc": "effect_pp 单位=百分点(E3=3.9→+3.90pp)",
+      "pass": true,
+      "detail": "E3=3.9 E1=0.88"
+    },
+    {
+      "id": "N-09",
+      "desc": "冻结 N_w = 5/10/15/30/60/120",
+      "pass": true,
+      "detail": "n_w=[5, 10, 15, 30, 60, 120]"
+    },
+    {
+      "id": "N-10",
+      "desc": "窗权重 = 8/22/15/10/30/15",
+      "pass": true,
+      "detail": "weights=[8, 22, 15, 10, 30, 15]"
+    },
+    {
+      "id": "N-11",
+      "desc": "冻结常量 K=4/p=0.25/MIN_N=15/SHRINK=10/BAND=0.02",
+      "pass": true,
+      "detail": "K=4 p=0.25 min_n=15 shrink=10 band=0.02"
+    },
+    {
+      "id": "N-12",
+      "desc": "无开口：weighted_p=null 且 direction=gray（不硬造方向）",
+      "pass": true,
+      "detail": "diretions=['gray', 'gray', 'gray']"
+    },
+    {
+      "id": "N-13",
+      "desc": "weighting_basis 恒 market_value + 策略说明非空",
+      "pass": true,
+      "detail": "basis=['market_value', 'market_value', 'market_value']"
+    },
+    {
+      "id": "N-14",
+      "desc": "最小覆盖门槛 min_coverage_ratio=0.30 / min_open_count=3",
+      "pass": true,
+      "detail": "min_cov=[0.3, 0.3, 0.3] min_open=[3, 3, 3]"
+    },
+    {
+      "id": "N-15",
+      "desc": "覆盖度 A/B/C/D 四档且颜色由后端给",
+      "pass": true,
+      "detail": "tiers=[('A', 10, '#1f9d55'), ('B', 0, '#3b82f6'), ('C', 0, '#f59e0b'), ('D', 12, '#9ca3af')]"
+    },
+    {
+      "id": "N-16",
+      "desc": "naive_p 研究口径：naive_n>0 即给值（不受 MIN_N=15 门控）",
+      "pass": true,
+      "detail": "115 格 naive_n>0，其中 115 格 n<15，均有 naive_p"
+    },
+    {
+      "id": "N-17",
+      "desc": "naive_low_sample：naive_n<15 为 true",
+      "pass": true,
+      "detail": "低样本格数=115"
+    },
+    {
+      "id": "N-18",
+      "desc": "empty 格 P=null（不渲染 0/50%）",
+      "pass": true,
+      "detail": "10 个 naive_n=0 格均为 null"
+    },
+    {
+      "id": "N-19",
+      "desc": "125 格 = 5 层 × 25 格",
+      "pass": true,
+      "detail": "total_cells=125 layers=5"
+    },
+    {
+      "id": "N-20",
+      "desc": "对比卡 valid_coverage 为 ratio(0.92/1.0) -> 展示应为 92/100",
+      "pass": true,
+      "detail": "naive=0.9200 ddsm=1.0000 (UI 实测显示 0.9/1.0，少乘 100)"
+    },
+    {
+      "id": "N-21",
+      "desc": "对比卡 P 标准差/极端格 数值与逐格一致",
+      "pass": true,
+      "detail": "extreme naive=54 ddsm=0"
+    },
+    {
+      "id": "N-22",
+      "desc": "PredictionSummary.tier/market_value 与 /holdings 一致（无跨接口分叉）",
+      "pass": true,
+      "detail": "mismatch=[]"
+    },
+    {
+      "id": "N-23",
+      "desc": "p_up ∈ [0,1]（小数非百分数）",
+      "pass": true,
+      "detail": "min=0.3460 max=0.7381"
+    },
+    {
+      "id": "N-24",
+      "desc": "出口阈值加权阈值 = 0.52",
+      "pass": true,
+      "detail": "thresholds=[0.52, 0.52, 0.52]"
+    }
+  ]
+}

@@ -1,0 +1,82 @@
+{
+ "checks": [
+  {
+   "check": "ready",
+   "pass": true,
+   "detail": ""
+  },
+  {
+   "check": "/ledger rows=60 且 chain_available=true 存在",
+   "pass": true,
+   "detail": "rows=60 avail=60"
+  },
+  {
+   "check": "chain(2026-09-11/012922) 六步+recomputed+对账",
+   "pass": true,
+   "detail": "source=recomputed keys=gate,ddsm,veto_crowd,veto_klow2,exit,output exit=0.52 p=0.5886 vs 0.5886"
+  },
+  {
+   "check": "chain(2026-09-11/013566) 六步+recomputed+对账",
+   "pass": true,
+   "detail": "source=recomputed keys=gate,ddsm,veto_crowd,veto_klow2,exit,output exit=0.52 p=0.5435 vs 0.5435"
+  },
+  {
+   "check": "holdings detail method 恒定 + top_n∈{10,20}（top20=5，HK=1）",
+   "pass": true,
+   "detail": "[{'code': '025500', 'method': 'eastmoney_f10_top10_weighted', 'top_n': 20, 'markets': ['A']}, {'code': '018957', 'method': 'eastmoney_f10_top10_weighted', 'top_n': 20, 'markets': ['A']}, {'code': '021528', 'method': 'eastmoney_f10_top10_weighted', 'top_n': 20, 'markets': ['A']}, {'code': '013566', 'method': 'eastmoney_f10_top10_weighted', 'top_n': 20, 'markets': ['A']}, {'code': '014320', 'method'"
+  },
+  {
+   "check": "main_source.path == data/holdings.json",
+   "pass": true,
+   "detail": "data/holdings.json"
+  },
+  {
+   "check": "scan_factors 回执诚实（含「未接入」、无「扫描完成」）",
+   "pass": true,
+   "detail": "因子扫描未接入：无扫描器实现，本次未执行扫描、未产出候选"
+  }
+ ],
+ "detail_samples": [
+  {
+   "code": "025500",
+   "method": "eastmoney_f10_top10_weighted",
+   "top_n": 20,
+   "markets": [
+    "A"
+   ]
+  },
+  {
+   "code": "018957",
+   "method": "eastmoney_f10_top10_weighted",
+   "top_n": 20,
+   "markets": [
+    "A"
+   ]
+  },
+  {
+   "code": "021528",
+   "method": "eastmoney_f10_top10_weighted",
+   "top_n": 20,
+   "markets": [
+    "A"
+   ]
+  },
+  {
+   "code": "013566",
+   "method": "eastmoney_f10_top10_weighted",
+   "top_n": 20,
+   "markets": [
+    "A"
+   ]
+  },
+  {
+   "code": "014320",
+   "method": "eastmoney_f10_top10_weighted",
+   "top_n": 20,
+   "markets": [
+    "A",
+    "HK"
+   ]
+  }
+ ]
+}

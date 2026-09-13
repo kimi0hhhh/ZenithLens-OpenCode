@@ -1,0 +1,93 @@
+=== T3 @12600 ===
+| 六窗 + placebo 报告存在（进 21-factor-governance） |
+| T2-F2-10-B | 边界 | `frozen_params` diff | 无 diff（R2 内不改参）；如建议改参须附六关提案 |
+
+#### 4.3 C 组 · F2-11..14（准确率）
+
+| 用例ID | 类型 | 步骤 / 输入 | 期望 |
+|---|---|---|---|
+| T2-F2-11-N | 正常 | 复盘页 + `/review/scores` | hero 出数；scores T1 行完整（命中/基线/Δ/开口数） |
+| T2-F2-11-B | 边界 | T3/T15 未接通 | 显示「待填充」；数值 null；不得估计值 |
+| T2-F2-11-E | 异常 | 无成绩文件 / 服务失败 | 空态/错误态可读；不白屏、不回退示例 |
+| T2-F2-11-C | 口径 | grep 硬编码 + 复算 | 代码 0 处硬编码 null 出口；Δ 可复算；口径与 cv-config 一致 |
+| T2-F2-12-N | 正常 | 到期 up 信号回填 | `backfill ≥1`；覆盖率 100%；只写 `t*_real` |
+| T2-F2-12-B | 边界 | 未到期 / 无对应 signal | 未到期不写；无 signal → `E_
+
+=== T3 @19035 ===
+个可配对日窗且 n_test≥20** 时判定；未达门槛 → 挂档观察（`next_review_date` 预注册复评）；回退结论必须带数字（单段 MAE + 差距） | 09 §9.3-G1 |
+| N2-21 | 口径 | `top_n∈{10,20}`；`weighted_change=Σw×chg/Σw`；`covered_weight_pct`；`included_markets ⊆ {A,HK,US}`；`excluded_count` 如实；`used=false` 剔除 | 09 §3.3 |
+| N2-22 | 口径 | `scores[]` 行 = horizon T1/T3/T15，主值取全样本窗（`sample_window` 恒 `full`）；六个样本窗（d15…full）归因子页**不得混入**；未接通 `pending` + null | 09 §4.2/§9.1-7（R-2） |
+| N2-23 | 口径 | `hero.{open_count, sample_period, data_kind}` 与请求/口径一致；响应 `note` 可读 | 09 §4.2 |
+| N2-24 | 口径 | `verify_tiers` 判据：`lift≥1.0 且 Δ≥0 且独立触发日≥20 → 升 B`；`<20 → 挂档`；`else → 降 D` | 0
+
+=== T3 @22351 ===
+未到期） |
+
+### 7. 负向断言（X2-01..20 · 全 P0 · 伪造数字/假兜底/静默失败零容忍）
+
+| 用例ID | 断言（**不得**出现的行为） | 检出方式 |
+|---|---|---|
+| X2-01 | 全站 `+0.00%` 计数 = 0（未知不得渲染持平；数据非空时） | 全页面 DOM 扫描 |
+| X2-02 | empty 条件下任何页面不渲染数字行 | 构造夹具 + DOM 扫描 |
+| X2-03 | error 态不回退示例数据 / 假数据、不白屏 | 失败注入 + 截图 |
+| X2-04 | 「待填充」处不得出现估计值 / 示例值 / 0（复盘 T3/T15、对比卡、基线） | DOM 扫描 + 契约字段比对 |
+| X2-05 | `conf_reason` 仅在 `confidence=unknown` 时非 null；unknown 必须带原因（双向断言） | 接口全量遍历 |
+| X2-06 | `0.5830` 产线代码/运行数据零引用；`baseline_source` 恒 `measured` | grep + 接口遍历 |
+| X2-07 | `shadow_status` 不得出现 `idle/ok/bad`（取值域切换后无双重输出） | 接口遍历 |
+| X2-08 | `t1_real` 无来源不写（`E_VALID
+
+=== T+3 @7696 ===
+ | 期望（断言口径） |
+|---|---|---|---|
+| G2-C01 | 正常 | 查 `/review/scores?data_kind=backtest` 与复盘页 | hero 三段式出数（hit_rate / baseline_rate / delta_pp / open_count / sample_period / data_kind）；`scores[]` ≥T+1 行非 null；`sample_window` 恒 `full`；口径同页（走前 CV / purge=H+2 / placebo≥2pp / holdout 60） |
+| G2-C02 | 边界 | T+3/T+15 未接通；shadow_live 样本不足 | 未接通窗口 `baseline_status=pending` + 数值 null（**不得填估计值**）；shadow_live 可 `scores[]` 空 + `note`；`data_kind` 透传请求值；六样本窗**不得**混入本页充当「三窗口」 |
+| G2-C03 | 异常 | 成绩缓存缺失 / 回测任务失败 | 复盘页空态「尚无成绩记录，引擎未产出回测」；不白屏；不拿回测冒充 `shadow_live`（`data_kind` 区分） |
+| G2-C04 | 口径 | 同 bars + frozen_config +
+
+=== 三窗口 @7853 ===
+mple_period / data_kind）；`scores[]` ≥T+1 行非 null；`sample_window` 恒 `full`；口径同页（走前 CV / purge=H+2 / placebo≥2pp / holdout 60） |
+| G2-C02 | 边界 | T+3/T+15 未接通；shadow_live 样本不足 | 未接通窗口 `baseline_status=pending` + 数值 null（**不得填估计值**）；shadow_live 可 `scores[]` 空 + `note`；`data_kind` 透传请求值；六样本窗**不得**混入本页充当「三窗口」 |
+| G2-C03 | 异常 | 成绩缓存缺失 / 回测任务失败 | 复盘页空态「尚无成绩记录，引擎未产出回测」；不白屏；不拿回测冒充 `shadow_live`（`data_kind` 区分） |
+| G2-C04 | 口径 | 同 bars + frozen_config + seed 重复回测 | `delta_pp = hit_rate − baseline_rate` 结果一致（幂等复算）；`baseline_rate` = 实测 `max(恒涨率,恒跌率)`（同窗去重叠全测试日集）；`baseline_source=measured`；`0.5830` 零引用（N2-08/0
+
+=== 三窗口 @14615 ===
+仅探测·非主链」且无死代码残留 |
+| T2-F2-18-N | 正常 | 健康页计数 | `fail_window_7d` 近 7 日；544 不出现为当前状态 |
+| T2-F2-18-B | 边界 | 成功 ≥1 次后 | 计数按窗自然滚动（不抹历史、不回归 544） |
+| T2-F2-18-E | 异常 | 无记录 / 时钟异常 | 「未检测」；以服务时间戳为准 |
+
+#### 4.5 E 组 · F2-19..25（前端升级）
+
+| 用例ID | 类型 | 步骤 / 输入 | 期望 |
+|---|---|---|---|
+| T2-F2-19-N | 正常 | 复盘 hero / 三窗口 / 对比卡 / 因子盘 | hero 出数；T1 行完整；对比卡 Δ 出数（或等待标注） |
+| T2-F2-19-B | 边界 | 部分接通 | 分窗口独立标注；待填充样式（灰 + 虚线下划线） |
+| T2-F2-19-E | 异常 | 数据未接通 | 「待填充」；不得示例数 / 估计值 |
+| T2-F2-19-C | 口径 | 数字与后端一致 | hero 数字 == `/review/scores` 字段（0 差异） |
+| T2-F2-20-N | 正常 | 徽章 hover | 双层编码（来源底色 × 置信度描边）；≥6 项 tooltip（来源/trace/MAE/方向/n/
+
+=== 三窗口 @23499 ===
+l_count=544` 不得作为当前状态展示（仅审计折叠区） | DOM 扫描 |
+| X2-16 | 导入不得出 E_IO 堆栈；`primary_exists=false` 不得再作误导展示 | 缺失态构造 + DOM |
+| X2-17 | `frozen_params` 值零 diff；研究项不得改参（E2/E4 未复活、永不做空） | 接口 diff + grep |
+| X2-18 | nav/通道断链不得静默：保持 unknown + reason（不编造净值） | 断供注入 |
+| X2-19 | 回测不得冒充实盘（`data_kind` 区分）；六样本窗不得混入复盘页充当「三窗口」 | 接口核对 + DOM |
+| X2-20 | 预算跳过不得静默（`budget_exceeded` + `snapshot.budget` 字段） | 预算注入 + 接口核对 |
+
+### 8. 任务与接口口径用例（C2-01..06 · 全 P0）
+
+| 用例ID | 步骤 / 输入 | 期望 |
+|---|---|---|
+| C2-01 | `POST /tasks {type:"maintain_nav_history"}` 连跑两次 | 幂等（points 集不变）；既有日期不覆盖；接口失败保留旧值；24h 内产生当日误差记录 |
+| C2-02 | `verify_tier
+
+=== sample_window @7603 ===
+果）+ `low_frequency_note`；口径 = 资产数非日开口数 |
+
+#### 3.3 C 准确率更高 · G2-C（6 条）
+
+| 用例ID | 类型 | 前置 / 步骤 | 期望（断言口径） |
+|---|---|---|---|
+| G2-C01 | 正常 | 查 `/review/scores?data_kind=backtest` 与复盘页 | hero 三段式出数（hit_rate / baseline_rate / delta_pp / open_count / sample_period / data_kind）；`scores[]` ≥T+1 行非 null；`sample_window` 恒 `full`；口径同页（走前 CV / purge=H+2 / placebo≥2pp / holdout 60） |
+| G2-C02 | 边界 | T+3/T+15 未接通；shadow_live 样本不足 | 未接通窗口 `baseline_status=pending` + 数值 null（**不得填估计值**）；shadow_live 可 `scores[]` 空 + `note`；`data_kind` 透传请求值；六样本窗**不得**混入本页充当「三窗口」 |
+| G2-C03 | 异常 | 成绩缓存缺失 / 回测任务失败 | 复盘页空态「尚无成绩记录，引擎未产出回测」；

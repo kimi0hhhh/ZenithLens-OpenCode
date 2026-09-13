@@ -1,0 +1,13 @@
+static/js/components.js:161  return '<span class="' + cls(v) + '">' + amt(v) + '</span>';
+static/js/format.js:15  export function amt(v) {
+static/js/views/analyze.js:139  + '<td class="num amt">' + (r.market_value == null ? '—' : amt(r.market_value)) + '</td></tr>';
+static/js/views/holdings.js:92  document.getElementById('pa-total').innerHTML = s ? amt(s.total_value) : '—';
+static/js/views/holdings.js:94  ? '<span class="' + cls(s.today_pnl_amt) + '">' + amt(s.today_pnl_amt) + '</span>' : '—';
+static/js/views/holdings.js:96  ? '<span class="' + cls(s.total_pnl_amt) + '">' + amt(s.total_pnl_amt) + '</span>' : '—';
+static/js/views/holdings.js:105  ? ' · <span class="cov-warn">未知行按成本计 ' + amt(fallback) + '</span>' : '')
+static/js/views/holdings.js:139  + int(g.count) + ' 只 · ' + amt(g.market_value) + ' · 占 ' + (isNum(g.weight_ratio) ? (g.weight_ratio * 100).toFixed(1) + '%' : '—') + '</span>';
+static/js/views/holdings.js:190  + '<b>开口 ' + int(win.open_count) + ' 只，覆盖市值 ' + amt(win.coverage_value) + '，仅占组合 '
+static/js/views/holdings.js:206  + esc(t.tier_label) + '</div><div class="v">' + int(t.count) + ' 只 · ' + amt(t.market_value) + '</div>'
+static/js/views/holdings.js:283  + '<td class="num amt' + (mv == null ? ' unk' : '') + '"' + tipAttr(METRIC_TIP.total_value) + '>' + (mv == null ? '—' : amt(mv)) + (r.mv_source === null && r.fallback_val
+static/js/views/holdings.js:284  + '<td class="num mini amt" data-col="cost">' + amt(cost) + '</td>'
+static/js/views/holdings.js:287  + '<td class="num amt ' + cls(pnl) + '" data-col="pnl">' + amt(pnl) + '</td>'

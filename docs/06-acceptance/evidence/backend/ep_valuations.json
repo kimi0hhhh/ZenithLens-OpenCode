@@ -1,0 +1,1379 @@
+{
+  "ok": true,
+  "data": {
+    "rows": [
+      {
+        "code": "025500",
+        "name": "东方阿尔法科技智选混合发起C",
+        "valuation": {
+          "valuation_mode": "unknown",
+          "mode_label": "未知",
+          "change_rate": null,
+          "estimated_nav": null,
+          "source_label": "未知",
+          "confidence": "unknown",
+          "mae_rate": null,
+          "nav_date": "2026-08-25",
+          "trace": [
+            {
+              "mode": "official",
+              "tried": true,
+              "hit": false,
+              "reason": "not_published"
+            },
+            {
+              "mode": "intraday",
+              "tried": true,
+              "hit": false,
+              "reason": "missing"
+            },
+            {
+              "mode": "holdings",
+              "tried": true,
+              "hit": false,
+              "reason": "no_report"
+            },
+            {
+              "mode": "proxy",
+              "tried": false,
+              "hit": false,
+              "reason": "no_mapping"
+            },
+            {
+              "mode": "unknown",
+              "tried": true,
+              "hit": true,
+              "reason": "missing"
+            }
+          ],
+          "written_at": "2026-09-12T04:07:04+08:00",
+          "run_id": "run_367e0599",
+          "is_first_of_day": false,
+          "history_available": true,
+          "dir_hit_rate": null,
+          "n_test": null,
+          "accuracy_window_days": 40,
+          "industry_baseline_mae_rate": 0.008,
+          "confidence_label": "无可信估算",
+          "confidence_color_class": "cu",
+          "trace_text": "official 未出 → intraday 缺失 → holdings 无持仓报告 → proxy 无映射 → unknown 缺失",
+          "as_of": "2026-09-12"
+        },
+        "nav": {
+          "official_nav": 1.5912,
+          "official_nav_date": "2026-08-25",
+          "official_change_rate": 0.0001,
+          "previous_nav": 1.5911,
+          "is_today_official": false
+        }
+      },
+      {
+        "code": "018957",
+        "name": "中航机遇领航混合发起C",
+        "valuation": {
+          "valuation_mode": "unknown",
+          "mode_label": "未知",
+          "change_rate": null,
+          "estimated_nav": null,
+          "source_label": "未知",
+          "confidence": "unknown",
+          "mae_rate": null,
+          "nav_date": "2026-08-25",
+          "trace": [
+            {
+              "mode": "official",
+              "tried": true,
+              "hit": false,
+              "reason": "not_published"
+            },
+            {
+              "mode": "intraday",
+              "tried": true,
+              "hit": false,
+              "reason": "missing"
+            },
+            {
+              "mode": "holdings",
+              "tried": true,
+              "hit": false,
+              "reason": "no_report"
+            },
+            {
+              "mode": "proxy",
+              "tried": false,
+              "hit": false,
+              "reason": "no_mapping"
+            },
+            {
+              "mode": "unknown",
+              "tried": true,
+              "hit": true,
+              "reason": "missing"
+            }
+          ],
+          "written_at": "2026-09-12T04:07:04+08:00",
+          "run_id": "run_367e0599",
+          "is_first_of_day": false,
+          "history_available": true,
+          "dir_hit_rate": null,
+          "n_test": null,
+          "accuracy_window_days": 40,
+          "industry_baseline_mae_rate": 0.008,
+          "confidence_label": "无可信估算",
+          "confidence_color_class": "cu",
+          "trace_text": "official 未出 → intraday 缺失 → holdings 无持仓报告 → proxy 无映射 → unknown 缺失",
+          "as_of": "2026-09-12"
+        },
+        "nav": {
+          "official_nav": 4.4104,
+          "official_nav_date": "2026-08-25",
+          "official_change_rate": -0.0006,
+          "previous_nav": 4.413,
+          "is_today_official": false
+        }
+      },
+      {
+        "code": "024239",
+        "name": "华夏全球科技先锋混合(QDII)C",
+        "valuation": {
+          "valuation_mode": "unknown",
+          "mode_label": "未知",
+          "change_rate": null,
+          "estimated_nav": null,
+          "source_label": "未知",
+          "confidence": "unknown",
+          "mae_rate": null,
+          "nav_date": "2026-08-24",
+          "trace": [
+            {
+              "mode": "official",
+              "tried": true,
+              "hit": false,
+              "reason": "not_published"
+            },
+            {
+              "mode": "intraday",
+              "tried": true,
+              "hit": false,
+              "reason": "missing"
+            },
+            {
+              "mode": "holdings",
+              "tried": true,
+              "hit": false,
+              "reason": "no_report"
+            },
+            {
+              "mode": "proxy",
+              "tried": false,
+              "hit": false,
+              "reason": "no_mapping"
+            },
+            {
+              "mode": "unknown",
+              "tried": true,
+              "hit": true,
+              "reason": "missing"
+            }
+          ],
+          "written_at": "2026-09-12T04:07:04+08:00",
+          "run_id": "run_367e0599",
+          "is_first_of_day": false,
+          "history_available": true,
+          "dir_hit_rate": null,
+          "n_test": null,
+          "accuracy_window_days": 40,
+          "industry_baseline_mae_rate": 0.008,
+          "confidence_label": "无可信估算",
+          "confidence_color_class": "cu",
+          "trace_text": "official 未出 → intraday 缺失 → holdings 无持仓报告 → proxy 无映射 → unknown 缺失",
+          "as_of": "2026-09-12"
+        },
+        "nav": {
+          "official_nav": 2.5526,
+          "official_nav_date": "2026-08-24",
+          "official_change_rate": -0.0401,
+          "previous_nav": 2.6593,
+          "is_today_official": false
+        }
+      },
+      {
+        "code": "025857",
+        "name": "华夏中证电网设备主题ETF发起式联接C",
+        "valuation": {
+          "valuation_mode": "unknown",
+          "mode_label": "未知",
+          "change_rate": null,
+          "estimated_nav": null,
+          "source_label": "未知",
+          "confidence": "unknown",
+          "mae_rate": null,
+          "nav_date": "2026-08-25",
+          "trace": [
+            {
+              "mode": "official",
+              "tried": true,
+              "hit": false,
+              "reason": "not_published"
+            },
+            {
+              "mode": "intraday",
+              "tried": true,
+              "hit": false,
+              "reason": "missing"
+            },
+            {
+              "mode": "holdings",
+              "tried": true,
+              "hit": false,
+              "reason": "no_report"
+            },
+            {
+              "mode": "proxy",
+              "tried": false,
+              "hit": false,
+              "reason": "no_mapping"
+            },
+            {
+              "mode": "unknown",
+              "tried": true,
+              "hit": true,
+              "reason": "missing"
+            }
+          ],
+          "written_at": "2026-09-12T04:07:04+08:00",
+          "run_id": "run_367e0599",
+          "is_first_of_day": false,
+          "history_available": true,
+          "dir_hit_rate": null,
+          "n_test": null,
+          "accuracy_window_days": 40,
+          "industry_baseline_mae_rate": 0.008,
+          "confidence_label": "无可信估算",
+          "confidence_color_class": "cu",
+          "trace_text": "official 未出 → intraday 缺失 → holdings 无持仓报告 → proxy 无映射 → unknown 缺失",
+          "as_of": "2026-09-12"
+        },
+        "nav": {
+          "official_nav": 1.1616,
+          "official_nav_date": "2026-08-25",
+          "official_change_rate": 0.0098,
+          "previous_nav": 1.1503,
+          "is_today_official": false
+        }
+      },
+      {
+        "code": "021528",
+        "name": "财通成长优选混合C",
+        "valuation": {
+          "valuation_mode": "unknown",
+          "mode_label": "未知",
+          "change_rate": null,
+          "estimated_nav": null,
+          "source_label": "未知",
+          "confidence": "unknown",
+          "mae_rate": null,
+          "nav_date": "2026-08-25",
+          "trace": [
+            {
+              "mode": "official",
+              "tried": true,
+              "hit": false,
+              "reason": "not_published"
+            },
+            {
+              "mode": "intraday",
+              "tried": true,
+              "hit": false,
+              "reason": "missing"
+            },
+            {
+              "mode": "holdings",
+              "tried": true,
+              "hit": false,
+              "reason": "no_report"
+            },
+            {
+              "mode": "proxy",
+              "tried": false,
+              "hit": false,
+              "reason": "no_mapping"
+            },
+            {
+              "mode": "unknown",
+              "tried": true,
+              "hit": true,
+              "reason": "missing"
+            }
+          ],
+          "written_at": "2026-09-12T04:07:04+08:00",
+          "run_id": "run_367e0599",
+          "is_first_of_day": false,
+          "history_available": true,
+          "dir_hit_rate": null,
+          "n_test": null,
+          "accuracy_window_days": 40,
+          "industry_baseline_mae_rate": 0.008,
+          "confidence_label": "无可信估算",
+          "confidence_color_class": "cu",
+          "trace_text": "official 未出 → intraday 缺失 → holdings 无持仓报告 → proxy 无映射 → unknown 缺失",
+          "as_of": "2026-09-12"
+        },
+        "nav": {
+          "official_nav": 4.119,
+          "official_nav_date": "2026-08-25",
+          "official_change_rate": -0.0027,
+          "previous_nav": 4.13,
+          "is_today_official": false
+        }
+      },
+      {
+        "code": "017193",
+        "name": "天弘中证工业有色金属主题ETF发起联接C",
+        "valuation": {
+          "valuation_mode": "proxy",
+          "mode_label": "代理近似",
+          "change_rate": -0.0405,
+          "estimated_nav": 1.6868,
+          "source_label": "代理ETF 512400 实时",
+          "confidence": "high",
+          "mae_rate": 0.0049,
+          "nav_date": "2026-08-25",
+          "trace": [
+            {
+              "mode": "official",
+              "tried": true,
+              "hit": false,
+              "reason": "not_published"
+            },
+            {
+              "mode": "intraday",
+              "tried": true,
+              "hit": false,
+              "reason": "missing"
+            },
+            {
+              "mode": "holdings",
+              "tried": true,
+              "hit": false,
+              "reason": "no_report"
+            },
+            {
+              "mode": "proxy",
+              "tried": true,
+              "hit": true,
+              "reason": "hit"
+            }
+          ],
+          "written_at": "2026-09-12T04:04:18+08:00",
+          "run_id": "run_71fc5310",
+          "is_first_of_day": false,
+          "history_available": true,
+          "dir_hit_rate": 0.8571,
+          "n_test": 7,
+          "accuracy_window_days": 40,
+          "industry_baseline_mae_rate": 0.008,
+          "confidence_label": "误差达标",
+          "confidence_color_class": "ch",
+          "trace_text": "official 未出 → intraday 缺失 → holdings 无持仓报告 → proxy 命中",
+          "as_of": "2026-09-12"
+        },
+        "nav": {
+          "official_nav": 1.758,
+          "official_nav_date": "2026-08-25",
+          "official_change_rate": -0.0222,
+          "previous_nav": 1.7979,
+          "is_today_official": false
+        }
+      },
+      {
+        "code": "016786",
+        "name": "鹏华中证1000指数增强C",
+        "valuation": {
+          "valuation_mode": "proxy",
+          "mode_label": "代理近似",
+          "change_rate": -0.0221,
+          "estimated_nav": 1.5342,
+          "source_label": "代理ETF 512100 实时",
+          "confidence": "high",
+          "mae_rate": 0.0024,
+          "nav_date": "2026-08-25",
+          "trace": [
+            {
+              "mode": "official",
+              "tried": true,
+              "hit": false,
+              "reason": "not_published"
+            },
+            {
+              "mode": "intraday",
+              "tried": true,
+              "hit": false,
+              "reason": "missing"
+            },
+            {
+              "mode": "holdings",
+              "tried": true,
+              "hit": false,
+              "reason": "no_report"
+            },
+            {
+              "mode": "proxy",
+              "tried": true,
+              "hit": true,
+              "reason": "hit"
+            }
+          ],
+          "written_at": "2026-09-12T04:04:19+08:00",
+          "run_id": "run_71fc5310",
+          "is_first_of_day": false,
+          "history_available": true,
+          "dir_hit_rate": 1.0,
+          "n_test": 7,
+          "accuracy_window_days": 40,
+          "industry_baseline_mae_rate": 0.008,
+          "confidence_label": "误差达标",
+          "confidence_color_class": "ch",
+          "trace_text": "official 未出 → intraday 缺失 → holdings 无持仓报告 → proxy 命中",
+          "as_of": "2026-09-12"
+        },
+        "nav": {
+          "official_nav": 1.5688,
+          "official_nav_date": "2026-08-25",
+          "official_change_rate": 0.0057,
+          "previous_nav": 1.5599,
+          "is_today_official": false
+        }
+      },
+      {
+        "code": "457001",
+        "name": "国富亚洲机会股票(QDII)A",
+        "valuation": {
+          "valuation_mode": "unknown",
+          "mode_label": "未知",
+          "change_rate": null,
+          "estimated_nav": null,
+          "source_label": "未知",
+          "confidence": "unknown",
+          "mae_rate": null,
+          "nav_date": "2026-08-24",
+          "trace": [
+            {
+              "mode": "official",
+              "tried": true,
+              "hit": false,
+              "reason": "not_published"
+            },
+            {
+              "mode": "intraday",
+              "tried": true,
+              "hit": false,
+              "reason": "missing"
+            },
+            {
+              "mode": "holdings",
+              "tried": true,
+              "hit": false,
+              "reason": "no_report"
+            },
+            {
+              "mode": "proxy",
+              "tried": false,
+              "hit": false,
+              "reason": "no_mapping"
+            },
+            {
+              "mode": "unknown",
+              "tried": true,
+              "hit": true,
+              "reason": "missing"
+            }
+          ],
+          "written_at": "2026-09-12T04:07:05+08:00",
+          "run_id": "run_367e0599",
+          "is_first_of_day": false,
+          "history_available": true,
+          "dir_hit_rate": null,
+          "n_test": null,
+          "accuracy_window_days": 40,
+          "industry_baseline_mae_rate": 0.008,
+          "confidence_label": "无可信估算",
+          "confidence_color_class": "cu",
+          "trace_text": "official 未出 → intraday 缺失 → holdings 无持仓报告 → proxy 无映射 → unknown 缺失",
+          "as_of": "2026-09-12"
+        },
+        "nav": {
+          "official_nav": 2.7947,
+          "official_nav_date": "2026-08-24",
+          "official_change_rate": -0.0235,
+          "previous_nav": 2.8621,
+          "is_today_official": false
+        }
+      },
+      {
+        "code": "013566",
+        "name": "华夏军工安全混合C",
+        "valuation": {
+          "valuation_mode": "unknown",
+          "mode_label": "未知",
+          "change_rate": null,
+          "estimated_nav": null,
+          "source_label": "未知",
+          "confidence": "unknown",
+          "mae_rate": null,
+          "nav_date": "2026-08-25",
+          "trace": [
+            {
+              "mode": "official",
+              "tried": true,
+              "hit": false,
+              "reason": "not_published"
+            },
+            {
+              "mode": "intraday",
+              "tried": true,
+              "hit": false,
+              "reason": "missing"
+            },
+            {
+              "mode": "holdings",
+              "tried": true,
+              "hit": false,
+              "reason": "no_report"
+            },
+            {
+              "mode": "proxy",
+              "tried": false,
+              "hit": false,
+              "reason": "no_mapping"
+            },
+            {
+              "mode": "unknown",
+              "tried": true,
+              "hit": true,
+              "reason": "missing"
+            }
+          ],
+          "written_at": "2026-09-12T04:07:05+08:00",
+          "run_id": "run_367e0599",
+          "is_first_of_day": false,
+          "history_available": true,
+          "dir_hit_rate": null,
+          "n_test": null,
+          "accuracy_window_days": 40,
+          "industry_baseline_mae_rate": 0.008,
+          "confidence_label": "无可信估算",
+          "confidence_color_class": "cu",
+          "trace_text": "official 未出 → intraday 缺失 → holdings 无持仓报告 → proxy 无映射 → unknown 缺失",
+          "as_of": "2026-09-12"
+        },
+        "nav": {
+          "official_nav": 2.265,
+          "official_nav_date": "2026-08-25",
+          "official_change_rate": 0.0085,
+          "previous_nav": 2.246,
+          "is_today_official": false
+        }
+      },
+      {
+        "code": "014881",
+        "name": "天弘中证机器人ETF发起联接C",
+        "valuation": {
+          "valuation_mode": "proxy",
+          "mode_label": "代理近似",
+          "change_rate": -0.0173,
+          "estimated_nav": 1.1092,
+          "source_label": "代理ETF 562500 实时",
+          "confidence": "high",
+          "mae_rate": 0.0021,
+          "nav_date": "2026-08-25",
+          "trace": [
+            {
+              "mode": "official",
+              "tried": true,
+              "hit": false,
+              "reason": "not_published"
+            },
+            {
+              "mode": "intraday",
+              "tried": true,
+              "hit": false,
+              "reason": "missing"
+            },
+            {
+              "mode": "holdings",
+              "tried": true,
+              "hit": false,
+              "reason": "no_report"
+            },
+            {
+              "mode": "proxy",
+              "tried": true,
+              "hit": true,
+              "reason": "hit"
+            }
+          ],
+          "written_at": "2026-09-12T04:04:19+08:00",
+          "run_id": "run_71fc5310",
+          "is_first_of_day": false,
+          "history_available": true,
+          "dir_hit_rate": 1.0,
+          "n_test": 7,
+          "accuracy_window_days": 40,
+          "industry_baseline_mae_rate": 0.008,
+          "confidence_label": "误差达标",
+          "confidence_color_class": "ch",
+          "trace_text": "official 未出 → intraday 缺失 → holdings 无持仓报告 → proxy 命中",
+          "as_of": "2026-09-12"
+        },
+        "nav": {
+          "official_nav": 1.1287,
+          "official_nav_date": "2026-08-25",
+          "official_change_rate": 0.0175,
+          "previous_nav": 1.1093,
+          "is_today_official": false
+        }
+      },
+      {
+        "code": "163208",
+        "name": "诺安油气能源(QDII-FOF-LOF)",
+        "valuation": {
+          "valuation_mode": "unknown",
+          "mode_label": "未知",
+          "change_rate": null,
+          "estimated_nav": null,
+          "source_label": "未知",
+          "confidence": "unknown",
+          "mae_rate": null,
+          "nav_date": "2026-08-24",
+          "trace": [
+            {
+              "mode": "official",
+              "tried": true,
+              "hit": false,
+              "reason": "not_published"
+            },
+            {
+              "mode": "intraday",
+              "tried": true,
+              "hit": false,
+              "reason": "missing"
+            },
+            {
+              "mode": "holdings",
+              "tried": true,
+              "hit": false,
+              "reason": "no_report"
+            },
+            {
+              "mode": "proxy",
+              "tried": false,
+              "hit": false,
+              "reason": "no_mapping"
+            },
+            {
+              "mode": "unknown",
+              "tried": true,
+              "hit": true,
+              "reason": "missing"
+            }
+          ],
+          "written_at": "2026-09-12T04:07:05+08:00",
+          "run_id": "run_367e0599",
+          "is_first_of_day": false,
+          "history_available": true,
+          "dir_hit_rate": null,
+          "n_test": null,
+          "accuracy_window_days": 40,
+          "industry_baseline_mae_rate": 0.008,
+          "confidence_label": "无可信估算",
+          "confidence_color_class": "cu",
+          "trace_text": "official 未出 → intraday 缺失 → holdings 无持仓报告 → proxy 无映射 → unknown 缺失",
+          "as_of": "2026-09-12"
+        },
+        "nav": {
+          "official_nav": 1.397,
+          "official_nav_date": "2026-08-24",
+          "official_change_rate": -0.0099,
+          "previous_nav": 1.411,
+          "is_today_official": false
+        }
+      },
+      {
+        "code": "018897",
+        "name": "易方达消费电子ETF联接C",
+        "valuation": {
+          "valuation_mode": "proxy",
+          "mode_label": "代理近似",
+          "change_rate": -0.0042,
+          "estimated_nav": 2.2036,
+          "source_label": "代理ETF 561600 实时",
+          "confidence": "high",
+          "mae_rate": 0.0019,
+          "nav_date": "2026-08-25",
+          "trace": [
+            {
+              "mode": "official",
+              "tried": true,
+              "hit": false,
+              "reason": "not_published"
+            },
+            {
+              "mode": "intraday",
+              "tried": true,
+              "hit": false,
+              "reason": "missing"
+            },
+            {
+              "mode": "holdings",
+              "tried": true,
+              "hit": false,
+              "reason": "no_report"
+            },
+            {
+              "mode": "proxy",
+              "tried": true,
+              "hit": true,
+              "reason": "hit"
+            }
+          ],
+          "written_at": "2026-09-12T04:04:20+08:00",
+          "run_id": "run_71fc5310",
+          "is_first_of_day": false,
+          "history_available": true,
+          "dir_hit_rate": 1.0,
+          "n_test": 7,
+          "accuracy_window_days": 40,
+          "industry_baseline_mae_rate": 0.008,
+          "confidence_label": "误差达标",
+          "confidence_color_class": "ch",
+          "trace_text": "official 未出 → intraday 缺失 → holdings 无持仓报告 → proxy 命中",
+          "as_of": "2026-09-12"
+        },
+        "nav": {
+          "official_nav": 2.2128,
+          "official_nav_date": "2026-08-25",
+          "official_change_rate": 0.008,
+          "previous_nav": 2.1952,
+          "is_today_official": false
+        }
+      },
+      {
+        "code": "022485",
+        "name": "国金中证A500指数增强A",
+        "valuation": {
+          "valuation_mode": "proxy",
+          "mode_label": "代理近似",
+          "change_rate": -0.0117,
+          "estimated_nav": 1.4321,
+          "source_label": "代理ETF 512050 实时",
+          "confidence": "high",
+          "mae_rate": 0.0026,
+          "nav_date": "2026-08-25",
+          "trace": [
+            {
+              "mode": "official",
+              "tried": true,
+              "hit": false,
+              "reason": "not_published"
+            },
+            {
+              "mode": "intraday",
+              "tried": true,
+              "hit": false,
+              "reason": "missing"
+            },
+            {
+              "mode": "holdings",
+              "tried": true,
+              "hit": false,
+              "reason": "no_report"
+            },
+            {
+              "mode": "proxy",
+              "tried": true,
+              "hit": true,
+              "reason": "hit"
+            }
+          ],
+          "written_at": "2026-09-12T04:04:20+08:00",
+          "run_id": "run_71fc5310",
+          "is_first_of_day": false,
+          "history_available": true,
+          "dir_hit_rate": 0.8571,
+          "n_test": 7,
+          "accuracy_window_days": 40,
+          "industry_baseline_mae_rate": 0.008,
+          "confidence_label": "误差达标",
+          "confidence_color_class": "ch",
+          "trace_text": "official 未出 → intraday 缺失 → holdings 无持仓报告 → proxy 命中",
+          "as_of": "2026-09-12"
+        },
+        "nav": {
+          "official_nav": 1.4491,
+          "official_nav_date": "2026-08-25",
+          "official_change_rate": 0.002,
+          "previous_nav": 1.4462,
+          "is_today_official": false
+        }
+      },
+      {
+        "code": "014320",
+        "name": "德邦半导体产业混合C",
+        "valuation": {
+          "valuation_mode": "unknown",
+          "mode_label": "未知",
+          "change_rate": null,
+          "estimated_nav": null,
+          "source_label": "未知",
+          "confidence": "unknown",
+          "mae_rate": null,
+          "nav_date": "2026-08-25",
+          "trace": [
+            {
+              "mode": "official",
+              "tried": true,
+              "hit": false,
+              "reason": "not_published"
+            },
+            {
+              "mode": "intraday",
+              "tried": true,
+              "hit": false,
+              "reason": "missing"
+            },
+            {
+              "mode": "holdings",
+              "tried": true,
+              "hit": false,
+              "reason": "no_report"
+            },
+            {
+              "mode": "proxy",
+              "tried": false,
+              "hit": false,
+              "reason": "no_mapping"
+            },
+            {
+              "mode": "unknown",
+              "tried": true,
+              "hit": true,
+              "reason": "missing"
+            }
+          ],
+          "written_at": "2026-09-12T04:07:05+08:00",
+          "run_id": "run_367e0599",
+          "is_first_of_day": false,
+          "history_available": true,
+          "dir_hit_rate": null,
+          "n_test": null,
+          "accuracy_window_days": 40,
+          "industry_baseline_mae_rate": 0.008,
+          "confidence_label": "无可信估算",
+          "confidence_color_class": "cu",
+          "trace_text": "official 未出 → intraday 缺失 → holdings 无持仓报告 → proxy 无映射 → unknown 缺失",
+          "as_of": "2026-09-12"
+        },
+        "nav": {
+          "official_nav": 2.6854,
+          "official_nav_date": "2026-08-25",
+          "official_change_rate": -0.0193,
+          "previous_nav": 2.7383,
+          "is_today_official": false
+        }
+      },
+      {
+        "code": "011840",
+        "name": "天弘中证人工智能主题ETF发起联接C",
+        "valuation": {
+          "valuation_mode": "proxy",
+          "mode_label": "代理近似",
+          "change_rate": -0.0019,
+          "estimated_nav": 1.7026,
+          "source_label": "代理ETF 515070 实时",
+          "confidence": "high",
+          "mae_rate": 0.0013,
+          "nav_date": "2026-08-25",
+          "trace": [
+            {
+              "mode": "official",
+              "tried": true,
+              "hit": false,
+              "reason": "not_published"
+            },
+            {
+              "mode": "intraday",
+              "tried": true,
+              "hit": false,
+              "reason": "missing"
+            },
+            {
+              "mode": "holdings",
+              "tried": true,
+              "hit": false,
+              "reason": "no_report"
+            },
+            {
+              "mode": "proxy",
+              "tried": true,
+              "hit": true,
+              "reason": "hit"
+            }
+          ],
+          "written_at": "2026-09-12T04:04:20+08:00",
+          "run_id": "run_71fc5310",
+          "is_first_of_day": false,
+          "history_available": true,
+          "dir_hit_rate": 1.0,
+          "n_test": 7,
+          "accuracy_window_days": 40,
+          "industry_baseline_mae_rate": 0.008,
+          "confidence_label": "误差达标",
+          "confidence_color_class": "ch",
+          "trace_text": "official 未出 → intraday 缺失 → holdings 无持仓报告 → proxy 命中",
+          "as_of": "2026-09-12"
+        },
+        "nav": {
+          "official_nav": 1.7058,
+          "official_nav_date": "2026-08-25",
+          "official_change_rate": 0.0055,
+          "previous_nav": 1.6964,
+          "is_today_official": false
+        }
+      },
+      {
+        "code": "008087",
+        "name": "华夏中证5G通信主题ETF联接C",
+        "valuation": {
+          "valuation_mode": "proxy",
+          "mode_label": "代理近似",
+          "change_rate": 0.0029,
+          "estimated_nav": 2.8354,
+          "source_label": "代理ETF 515050 实时",
+          "confidence": "high",
+          "mae_rate": 0.0021,
+          "nav_date": "2026-08-25",
+          "trace": [
+            {
+              "mode": "official",
+              "tried": true,
+              "hit": false,
+              "reason": "not_published"
+            },
+            {
+              "mode": "intraday",
+              "tried": true,
+              "hit": false,
+              "reason": "missing"
+            },
+            {
+              "mode": "holdings",
+              "tried": true,
+              "hit": false,
+              "reason": "no_report"
+            },
+            {
+              "mode": "proxy",
+              "tried": true,
+              "hit": true,
+              "reason": "hit"
+            }
+          ],
+          "written_at": "2026-09-12T04:04:21+08:00",
+          "run_id": "run_71fc5310",
+          "is_first_of_day": false,
+          "history_available": true,
+          "dir_hit_rate": 1.0,
+          "n_test": 7,
+          "accuracy_window_days": 40,
+          "industry_baseline_mae_rate": 0.008,
+          "confidence_label": "误差达标",
+          "confidence_color_class": "ch",
+          "trace_text": "official 未出 → intraday 缺失 → holdings 无持仓报告 → proxy 命中",
+          "as_of": "2026-09-12"
+        },
+        "nav": {
+          "official_nav": 2.8273,
+          "official_nav_date": "2026-08-25",
+          "official_change_rate": 0.0031,
+          "previous_nav": 2.8187,
+          "is_today_official": false
+        }
+      },
+      {
+        "code": "017412",
+        "name": "创金合信中证科创创业50指数增强A",
+        "valuation": {
+          "valuation_mode": "proxy",
+          "mode_label": "代理近似",
+          "change_rate": -0.0039,
+          "estimated_nav": 1.6996,
+          "source_label": "代理ETF 159781 实时",
+          "confidence": "high",
+          "mae_rate": 0.001,
+          "nav_date": "2026-08-25",
+          "trace": [
+            {
+              "mode": "official",
+              "tried": true,
+              "hit": false,
+              "reason": "not_published"
+            },
+            {
+              "mode": "intraday",
+              "tried": true,
+              "hit": false,
+              "reason": "missing"
+            },
+            {
+              "mode": "holdings",
+              "tried": true,
+              "hit": false,
+              "reason": "no_report"
+            },
+            {
+              "mode": "proxy",
+              "tried": true,
+              "hit": true,
+              "reason": "hit"
+            }
+          ],
+          "written_at": "2026-09-12T04:04:21+08:00",
+          "run_id": "run_71fc5310",
+          "is_first_of_day": false,
+          "history_available": true,
+          "dir_hit_rate": 1.0,
+          "n_test": 7,
+          "accuracy_window_days": 40,
+          "industry_baseline_mae_rate": 0.008,
+          "confidence_label": "误差达标",
+          "confidence_color_class": "ch",
+          "trace_text": "official 未出 → intraday 缺失 → holdings 无持仓报告 → proxy 命中",
+          "as_of": "2026-09-12"
+        },
+        "nav": {
+          "official_nav": 1.7062,
+          "official_nav_date": "2026-08-25",
+          "official_change_rate": -0.0044,
+          "previous_nav": 1.7137,
+          "is_today_official": false
+        }
+      },
+      {
+        "code": "016665",
+        "name": "天弘全球高端制造混合(QDII)C",
+        "valuation": {
+          "valuation_mode": "unknown",
+          "mode_label": "未知",
+          "change_rate": null,
+          "estimated_nav": null,
+          "source_label": "未知",
+          "confidence": "unknown",
+          "mae_rate": null,
+          "nav_date": "2026-08-24",
+          "trace": [
+            {
+              "mode": "official",
+              "tried": true,
+              "hit": false,
+              "reason": "not_published"
+            },
+            {
+              "mode": "intraday",
+              "tried": true,
+              "hit": false,
+              "reason": "missing"
+            },
+            {
+              "mode": "holdings",
+              "tried": true,
+              "hit": false,
+              "reason": "no_report"
+            },
+            {
+              "mode": "proxy",
+              "tried": false,
+              "hit": false,
+              "reason": "no_mapping"
+            },
+            {
+              "mode": "unknown",
+              "tried": true,
+              "hit": true,
+              "reason": "missing"
+            }
+          ],
+          "written_at": "2026-09-12T04:07:05+08:00",
+          "run_id": "run_367e0599",
+          "is_first_of_day": false,
+          "history_available": true,
+          "dir_hit_rate": null,
+          "n_test": null,
+          "accuracy_window_days": 40,
+          "industry_baseline_mae_rate": 0.008,
+          "confidence_label": "无可信估算",
+          "confidence_color_class": "cu",
+          "trace_text": "official 未出 → intraday 缺失 → holdings 无持仓报告 → proxy 无映射 → unknown 缺失",
+          "as_of": "2026-09-12"
+        },
+        "nav": {
+          "official_nav": 2.7103,
+          "official_nav_date": "2026-08-24",
+          "official_change_rate": -0.039,
+          "previous_nav": 2.8204,
+          "is_today_official": false
+        }
+      },
+      {
+        "code": "012922",
+        "name": "易方达全球成长精选混合(QDII)C",
+        "valuation": {
+          "valuation_mode": "unknown",
+          "mode_label": "未知",
+          "change_rate": null,
+          "estimated_nav": null,
+          "source_label": "未知",
+          "confidence": "unknown",
+          "mae_rate": null,
+          "nav_date": "2026-08-24",
+          "trace": [
+            {
+              "mode": "official",
+              "tried": true,
+              "hit": false,
+              "reason": "not_published"
+            },
+            {
+              "mode": "intraday",
+              "tried": true,
+              "hit": false,
+              "reason": "missing"
+            },
+            {
+              "mode": "holdings",
+              "tried": true,
+              "hit": false,
+              "reason": "no_report"
+            },
+            {
+              "mode": "proxy",
+              "tried": false,
+              "hit": false,
+              "reason": "no_mapping"
+            },
+            {
+              "mode": "unknown",
+              "tried": true,
+              "hit": true,
+              "reason": "missing"
+            }
+          ],
+          "written_at": "2026-09-12T04:07:05+08:00",
+          "run_id": "run_367e0599",
+          "is_first_of_day": false,
+          "history_available": true,
+          "dir_hit_rate": null,
+          "n_test": null,
+          "accuracy_window_days": 40,
+          "industry_baseline_mae_rate": 0.008,
+          "confidence_label": "无可信估算",
+          "confidence_color_class": "cu",
+          "trace_text": "official 未出 → intraday 缺失 → holdings 无持仓报告 → proxy 无映射 → unknown 缺失",
+          "as_of": "2026-09-12"
+        },
+        "nav": {
+          "official_nav": 3.6093,
+          "official_nav_date": "2026-08-24",
+          "official_change_rate": -0.0313,
+          "previous_nav": 3.7261,
+          "is_today_official": false
+        }
+      },
+      {
+        "code": "021662",
+        "name": "国富亚洲机会股票(QDII)C",
+        "valuation": {
+          "valuation_mode": "unknown",
+          "mode_label": "未知",
+          "change_rate": null,
+          "estimated_nav": null,
+          "source_label": "未知",
+          "confidence": "unknown",
+          "mae_rate": null,
+          "nav_date": "2026-08-24",
+          "trace": [
+            {
+              "mode": "official",
+              "tried": true,
+              "hit": false,
+              "reason": "not_published"
+            },
+            {
+              "mode": "intraday",
+              "tried": true,
+              "hit": false,
+              "reason": "missing"
+            },
+            {
+              "mode": "holdings",
+              "tried": true,
+              "hit": false,
+              "reason": "no_report"
+            },
+            {
+              "mode": "proxy",
+              "tried": false,
+              "hit": false,
+              "reason": "no_mapping"
+            },
+            {
+              "mode": "unknown",
+              "tried": true,
+              "hit": true,
+              "reason": "missing"
+            }
+          ],
+          "written_at": "2026-09-12T04:07:05+08:00",
+          "run_id": "run_367e0599",
+          "is_first_of_day": false,
+          "history_available": true,
+          "dir_hit_rate": null,
+          "n_test": null,
+          "accuracy_window_days": 40,
+          "industry_baseline_mae_rate": 0.008,
+          "confidence_label": "无可信估算",
+          "confidence_color_class": "cu",
+          "trace_text": "official 未出 → intraday 缺失 → holdings 无持仓报告 → proxy 无映射 → unknown 缺失",
+          "as_of": "2026-09-12"
+        },
+        "nav": {
+          "official_nav": 2.7546,
+          "official_nav_date": "2026-08-24",
+          "official_change_rate": -0.0236,
+          "previous_nav": 2.8211,
+          "is_today_official": false
+        }
+      },
+      {
+        "code": "000217",
+        "name": "华安黄金ETF联接C",
+        "valuation": {
+          "valuation_mode": "proxy",
+          "mode_label": "代理近似",
+          "change_rate": -0.0154,
+          "estimated_nav": 3.3134,
+          "source_label": "代理ETF 518880 实时",
+          "confidence": "high",
+          "mae_rate": 0.0018,
+          "nav_date": "2026-08-25",
+          "trace": [
+            {
+              "mode": "official",
+              "tried": true,
+              "hit": false,
+              "reason": "not_published"
+            },
+            {
+              "mode": "intraday",
+              "tried": true,
+              "hit": false,
+              "reason": "missing"
+            },
+            {
+              "mode": "holdings",
+              "tried": true,
+              "hit": false,
+              "reason": "no_report"
+            },
+            {
+              "mode": "proxy",
+              "tried": true,
+              "hit": true,
+              "reason": "hit"
+            }
+          ],
+          "written_at": "2026-09-12T04:04:25+08:00",
+          "run_id": "run_71fc5310",
+          "is_first_of_day": false,
+          "history_available": true,
+          "dir_hit_rate": 1.0,
+          "n_test": 7,
+          "accuracy_window_days": 40,
+          "industry_baseline_mae_rate": 0.008,
+          "confidence_label": "误差达标",
+          "confidence_color_class": "ch",
+          "trace_text": "official 未出 → intraday 缺失 → holdings 无持仓报告 → proxy 命中",
+          "as_of": "2026-09-12"
+        },
+        "nav": {
+          "official_nav": 3.3653,
+          "official_nav_date": "2026-08-25",
+          "official_change_rate": -0.0036,
+          "previous_nav": 3.3774,
+          "is_today_official": false
+        }
+      },
+      {
+        "code": "002963",
+        "name": "易方达黄金ETF联接C",
+        "valuation": {
+          "valuation_mode": "proxy",
+          "mode_label": "代理近似",
+          "change_rate": -0.0154,
+          "estimated_nav": 3.1294,
+          "source_label": "代理ETF 518880 实时",
+          "confidence": "high",
+          "mae_rate": 0.0018,
+          "nav_date": "2026-08-25",
+          "trace": [
+            {
+              "mode": "official",
+              "tried": true,
+              "hit": false,
+              "reason": "not_published"
+            },
+            {
+              "mode": "intraday",
+              "tried": true,
+              "hit": false,
+              "reason": "missing"
+            },
+            {
+              "mode": "holdings",
+              "tried": true,
+              "hit": false,
+              "reason": "no_report"
+            },
+            {
+              "mode": "proxy",
+              "tried": true,
+              "hit": true,
+              "reason": "hit"
+            }
+          ],
+          "written_at": "2026-09-12T04:04:26+08:00",
+          "run_id": "run_71fc5310",
+          "is_first_of_day": false,
+          "history_available": true,
+          "dir_hit_rate": 1.0,
+          "n_test": 7,
+          "accuracy_window_days": 40,
+          "industry_baseline_mae_rate": 0.008,
+          "confidence_label": "误差达标",
+          "confidence_color_class": "ch",
+          "trace_text": "official 未出 → intraday 缺失 → holdings 无持仓报告 → proxy 命中",
+          "as_of": "2026-09-12"
+        },
+        "nav": {
+          "official_nav": 3.1784,
+          "official_nav_date": "2026-08-25",
+          "official_change_rate": -0.0036,
+          "previous_nav": 3.1898,
+          "is_today_official": false
+        }
+      }
+    ]
+  },
+  "error": null,
+  "as_of": "2026-09-12"
+}

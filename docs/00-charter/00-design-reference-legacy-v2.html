@@ -1,0 +1,1966 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#f4f6f2">
+<title>FundLens · 产品壳原型 v2</title>
+<style>
+:root{
+  --canvas:#f4f6f2; --card:rgba(255,255,255,.58); --stroke:rgba(255,255,255,.75);
+  --ink:#182019; --ink2:#7c857e; --ink3:#a3aaa4;
+  --up:#d93843; --down:#0e8a63; --gold:#c99700;
+  --blob-green:#bfe8d2; --blob-peach:#ffdcd2; --blob-blue:#d6defa;
+  --mono:Consolas,"SF Mono","Cascadia Mono",monospace;
+  --side:248px;
+}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+body{background:var(--canvas);color:var(--ink);
+  font-family:-apple-system,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;
+  line-height:1.6;min-height:100vh;overflow-x:hidden}
+.blob{position:fixed;border-radius:50%;filter:blur(110px);pointer-events:none;z-index:0}
+.blob-1{background:var(--blob-green);width:38vw;height:38vw;top:-12vw;left:-10vw;opacity:.5}
+.blob-2{background:var(--blob-peach);width:42vw;height:42vw;top:18vh;right:-16vw;opacity:.45}
+.blob-3{background:var(--blob-blue);width:36vw;height:36vw;bottom:-12vw;left:22vw;opacity:.45}
+
+/* ---------- 侧边栏 ---------- */
+.sidebar{position:fixed;left:0;top:0;bottom:0;width:var(--side);z-index:20;
+  background:rgba(255,255,255,.5);backdrop-filter:blur(26px) saturate(150%);
+  -webkit-backdrop-filter:blur(26px) saturate(150%);
+  border-right:1px solid var(--stroke);
+  display:flex;flex-direction:column;padding:22px 14px 16px}
+.brand{font-size:17px;font-weight:600;letter-spacing:.4px;padding:0 10px 4px}
+.brand span{font-size:11px;color:var(--ink2);font-weight:400;margin-left:6px}
+.brand-sub{font-size:11px;color:var(--ink3);padding:0 10px 20px;line-height:1.4}
+.nav{display:flex;flex-direction:column;gap:2px}
+.nav button{display:flex;align-items:center;gap:10px;text-align:left;
+  background:none;border:none;border-radius:12px;padding:11px 12px;margin:0 4px;
+  font-size:14px;color:var(--ink2);cursor:pointer;font-family:inherit;
+  position:relative;transition:background .15s,color .15s}
+.nav button:hover{background:rgba(24,32,25,.04);color:var(--ink)}
+.nav button.active{background:rgba(24,32,25,.07);color:var(--ink);font-weight:500}
+.nav button.active::before{content:"";position:absolute;left:-4px;top:11px;bottom:11px;
+  width:3px;border-radius:2px;background:var(--ink)}
+.nav .ico{width:16px;height:16px;flex-shrink:0;opacity:.75}
+.side-foot{margin-top:auto;padding:12px 10px 0;border-top:1px solid rgba(24,32,25,.08);
+  font-size:11px;color:var(--ink3);line-height:1.6}
+.side-foot b{color:var(--ink2);font-weight:500}
+
+/* ---------- 主区 ---------- */
+main{margin-left:var(--side);position:relative;z-index:1;padding:0 32px 60px;max-width:1400px}
+.topbar{display:flex;align-items:center;gap:16px;flex-wrap:wrap;
+  padding:20px 0 18px;border-bottom:1px solid rgba(24,32,25,.07);margin-bottom:22px}
+.topbar .date{font-size:15px;font-weight:500}
+.topbar .chip{font-size:12px;color:var(--ink2);background:rgba(255,255,255,.6);
+  border:1px solid var(--stroke);border-radius:10px;padding:3px 10px}
+.topbar .chip.warn{color:var(--gold);border-color:rgba(201,151,0,.3);background:rgba(201,151,0,.08)}
+.topbar .spacer{flex:1}
+.topbar .sig{font-size:12px;color:var(--ink2)}
+
+h2.sec{font-size:14px;font-weight:600;margin:26px 0 12px;display:flex;align-items:center;gap:8px}
+h2.sec .n{font-size:11px;color:var(--ink3);font-weight:400}
+.card{background:var(--card);border:1px solid var(--stroke);border-radius:18px;padding:18px;
+  backdrop-filter:blur(26px) saturate(150%);-webkit-backdrop-filter:blur(26px) saturate(150%);
+  box-shadow:0 2px 16px rgba(24,32,25,.05)}
+.card.tight{padding:0;overflow:hidden}
+.mono{font-family:var(--mono);font-variant-numeric:tabular-nums}
+.up{color:var(--up)} .down{color:var(--down)} .flat{color:var(--ink2)}
+.num{font-family:var(--mono);font-variant-numeric:tabular-nums;text-align:right}
+
+/* 概览四卡 */
+.cards{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.sc{background:var(--card);border:1px solid var(--stroke);border-radius:18px;padding:16px 18px;
+  backdrop-filter:blur(26px) saturate(150%);-webkit-backdrop-filter:blur(26px) saturate(150%)}
+.sc .k{font-size:12px;color:var(--ink2);margin-bottom:6px}
+.sc .v{font-size:26px;font-weight:600;font-family:var(--mono);font-variant-numeric:tabular-nums;line-height:1.2}
+.sc .s{font-size:11px;color:var(--ink3);margin-top:4px}
+
+/* 覆盖度条 */
+.covbar{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:12px}
+.cov{border:1px solid var(--stroke);border-radius:14px;padding:12px 14px;background:rgba(255,255,255,.34)}
+.cov .h{display:flex;align-items:center;gap:6px;font-size:12px;color:var(--ink2);margin-bottom:6px}
+.cov .dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.cov .v{font-size:19px;font-weight:600;font-family:var(--mono)}
+.cov .s{font-size:11px;color:var(--ink3);margin-top:3px}
+
+/* 表格 */
+table{width:100%;border-collapse:collapse;font-size:13px}
+th,td{padding:9px 10px;text-align:left;border-bottom:1px solid rgba(24,32,25,.07)}
+th{color:var(--ink2);font-weight:500;font-size:12px;white-space:nowrap;
+   background:rgba(255,255,255,.34);position:sticky;top:0;z-index:2}
+td.r,th.r{text-align:right}
+tbody tr:hover{background:rgba(255,255,255,.42)}
+tr.grp td{background:rgba(24,32,25,.045);font-weight:500;font-size:12px;
+  padding:8px 10px;cursor:pointer;user-select:none}
+tr.grp td .caret{display:inline-block;width:12px;color:var(--ink3);font-size:10px}
+.fname{font-weight:500;font-size:13px;line-height:1.35}
+.fcode{font-family:var(--mono);font-size:11px;color:var(--ink3)}
+.tag{display:inline-block;padding:2px 8px;border-radius:8px;font-size:11px;font-weight:500;white-space:nowrap}
+.tag.ok{background:rgba(14,138,99,.13);color:var(--down)}
+.tag.warn{background:rgba(201,151,0,.16);color:var(--gold)}
+.tag.gray{background:rgba(124,133,126,.15);color:var(--ink2)}
+.tag.red{background:rgba(217,56,67,.12);color:var(--up)}
+.tag.blue{background:rgba(24,32,25,.08);color:var(--ink2)}
+.vb{display:inline-flex;align-items:center;gap:4px;font-size:11px;color:var(--ink2);cursor:help;
+  border:1px solid rgba(24,32,25,.12);border-radius:7px;padding:1px 7px;white-space:nowrap}
+/* 估值来源五档 + 按回测置信度着色（置信度优先于来源名决定颜色） */
+.vb.l1{background:rgba(14,138,99,.08)}
+.vb.l2{background:rgba(201,151,0,.1)}
+.vb.l3{background:rgba(124,133,126,.1)}
+.vb.l0{background:rgba(124,133,126,.05);border-style:dashed;color:var(--ink3)}
+/* 置信度：锚定行业基准 MAE 0.8%（深圳证监局抽查口径） */
+.vb.ch{background:rgba(14,138,99,.12);border-color:rgba(14,138,99,.35)}
+.vb.cm{background:rgba(201,151,0,.12);border-color:rgba(201,151,0,.35)}
+.vb.cl{background:rgba(217,56,67,.10);border-color:rgba(217,56,67,.30)}
+.vb.cu{background:rgba(124,133,126,.05);border-style:dashed;color:var(--ink3)}
+.vsum{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:8px 0 12px;
+  font-size:11px;color:var(--ink2)}
+.vsum .chip{border:1px solid rgba(24,32,25,.12);border-radius:7px;padding:2px 8px}
+/* 「未知」：与「持平 0.00%」视觉上必须区分开，否则等于把没有数据说成没涨跌 */
+.unk{color:var(--ink3);font-size:11px;font-style:italic}
+.cov-warn{color:var(--gold);font-weight:600}
+
+/* 折叠区 */
+details.fold{margin-top:12px}
+details.fold>summary{list-style:none;cursor:pointer;font-size:13px;color:var(--ink2);
+  padding:9px 14px;background:rgba(255,255,255,.42);border:1px solid var(--stroke);
+  border-radius:14px;display:flex;align-items:center;gap:8px;user-select:none}
+details.fold>summary::-webkit-details-marker{display:none}
+details.fold>summary:hover{background:rgba(255,255,255,.6)}
+details.fold[open]>summary{border-radius:14px 14px 0 0;border-bottom:none}
+details.fold .body{border:1px solid var(--stroke);border-top:none;border-radius:0 0 14px 14px;
+  padding:16px;background:rgba(255,255,255,.34)}
+.grid4{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.grid2{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+.factor{border:1px solid var(--stroke);border-radius:14px;padding:12px 14px;background:rgba(255,255,255,.34)}
+.factor .k{font-size:11px;color:var(--ink2)}
+.factor .v{font-size:19px;font-weight:600;font-family:var(--mono)}
+
+/* ---------- 信号页 ---------- */
+.empty{text-align:center;padding:44px 20px}
+.empty .big{font-size:15px;font-weight:500;margin-bottom:6px}
+.empty .sub{font-size:13px;color:var(--ink2);margin-bottom:22px}
+.empty .facts{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;max-width:860px;margin:0 auto}
+.empty .fact{border:1px solid var(--stroke);border-radius:14px;padding:14px;background:rgba(255,255,255,.4)}
+.empty .fact .k{font-size:11px;color:var(--ink2);margin-bottom:5px}
+.empty .fact .v{font-size:16px;font-weight:600;font-family:var(--mono)}
+.empty .fact .v.sm{font-size:13px;font-weight:500}
+
+.tl{position:relative;padding-left:26px;display:flex;flex-direction:column;gap:12px}
+.tl::before{content:"";position:absolute;left:6px;top:8px;bottom:8px;width:2px;background:rgba(24,32,25,.1)}
+.tl-item{position:relative}
+.tl-item::before{content:"";position:absolute;left:-24px;top:15px;width:10px;height:10px;border-radius:50%;
+  background:#fff;border:2px solid var(--ink3)}
+.tl-item.hit::before{border-color:var(--up);background:var(--up)}
+.tl-item.miss::before{border-color:var(--down);background:var(--down)}
+.tl-item.veto::before{border-color:var(--ink3);background:#fff}
+.sigcard{border:1px solid var(--stroke);border-radius:16px;padding:14px 16px;
+  background:rgba(255,255,255,.44);cursor:pointer}
+.sigcard:hover{background:rgba(255,255,255,.62)}
+.sig-head{display:flex;align-items:flex-start;gap:12px;flex-wrap:wrap}
+.sig-date{font-family:var(--mono);font-size:12px;color:var(--ink2);width:82px;flex-shrink:0}
+.sig-body{flex:1;min-width:220px}
+.sig-body .nm{font-size:13px;font-weight:500}
+.sig-body .meta{font-size:11px;color:var(--ink3);margin-top:2px}
+.sig-right{display:flex;align-items:center;gap:10px;margin-left:auto}
+.sig-p{font-family:var(--mono);font-size:15px;font-weight:600}
+.sig-result{font-family:var(--mono);font-size:13px;font-weight:600;min-width:70px;text-align:right}
+.ev{margin-top:12px;padding-top:12px;border-top:1px dashed rgba(24,32,25,.12);display:none}
+.sigcard.open .ev{display:block}
+.ev-row{display:flex;align-items:center;gap:10px;padding:5px 0;font-size:12px}
+.ev-n{width:18px;color:var(--ink3);flex-shrink:0}
+.ev-l{width:96px;color:var(--ink2);flex-shrink:0}
+.ev-v{flex:1;color:var(--ink)}
+.ev-s{font-family:var(--mono);font-size:11px;color:var(--ink3);text-align:right}
+
+/* ---------- 复盘页 ---------- */
+.hero{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap}
+.hero .num{font-size:52px;font-weight:600;color:var(--up);font-family:var(--mono);line-height:1}
+.hero .unit{font-size:13px;color:var(--ink2);line-height:1.5}
+.degrade{display:flex;align-items:center;gap:10px;padding:12px 16px;border-radius:14px;font-size:13px}
+.degrade.idle{background:rgba(124,133,126,.1);border:1px solid rgba(124,133,126,.2);color:var(--ink2)}
+.degrade.ok{background:rgba(14,138,99,.1);border:1px solid rgba(14,138,99,.22);color:var(--down)}
+.degrade.bad{background:rgba(217,56,67,.09);border:1px solid rgba(217,56,67,.22);color:var(--up)}
+
+/* ---------- 分析页 ---------- */
+.win3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.win{border:1px solid var(--stroke);border-radius:18px;padding:16px 18px;background:rgba(255,255,255,.42);
+  backdrop-filter:blur(26px);-webkit-backdrop-filter:blur(26px)}
+.win .h{font-size:12px;color:var(--ink2);display:flex;align-items:center;gap:6px;margin-bottom:8px}
+.win .dir{font-size:26px;font-weight:600;font-family:var(--mono);line-height:1.1}
+.win .p{font-size:12px;color:var(--ink2);margin-top:6px}
+.win .cov{margin-top:12px;padding-top:10px;border-top:1px dashed rgba(24,32,25,.12);font-size:11px;color:var(--ink3)}
+.covbar2{height:5px;border-radius:3px;background:rgba(24,32,25,.1);margin-top:6px;overflow:hidden}
+.covbar2 i{display:block;height:100%;border-radius:3px;background:var(--up)}
+.chain{border-left:2px solid rgba(24,32,25,.12);padding-left:18px;margin-left:8px;display:flex;flex-direction:column;gap:14px}
+.chain-item{position:relative}
+.chain-item::before{content:"";position:absolute;left:-25px;top:6px;width:10px;height:10px;border-radius:50%;
+  background:#fff;border:2px solid var(--ink3)}
+.chain-item.on::before{border-color:var(--up);background:var(--up)}
+.chain-item.off::before{border-color:var(--down);background:var(--down)}
+.chain-item .ct{font-size:13px;font-weight:500;margin-bottom:3px;display:flex;align-items:center;gap:8px}
+.chain-item .cd{font-size:12px;color:var(--ink2);line-height:1.7}
+.chain-item .cd code{font-family:var(--mono);font-size:11px;background:rgba(24,32,25,.06);
+  padding:1px 5px;border-radius:4px}
+
+/* ---------- 因子页 ---------- */
+.frow{display:grid;grid-template-columns:1.4fr 1fr 1fr 1fr 1fr auto;gap:12px;align-items:center;
+  padding:12px 0;border-bottom:1px solid rgba(24,32,25,.07);font-size:13px;cursor:pointer;border-radius:8px}
+.frow:hover{background:rgba(24,32,25,.035)}
+.frow.hd{cursor:default}
+.frow.hd:hover{background:transparent}
+.fdet{background:rgba(255,255,255,.55);border:1px solid var(--stroke);border-radius:12px;
+  padding:10px 12px;margin:4px 0 10px;font-size:12px}
+.fdet table{font-size:11.5px}
+.fdet th,.fdet td{padding:5px 8px}
+.frow:last-child{border-bottom:none}
+.frow.hd{font-size:11px;color:var(--ink2);font-weight:500;padding:8px 0}
+.fname2{font-weight:500}
+.fscore{font-family:var(--mono);font-weight:600;font-size:15px}
+.bars{display:flex;gap:2px;align-items:flex-end;height:22px}
+.bars i{width:6px;background:rgba(24,32,25,.15);border-radius:1px;display:block}
+.bars i.g{background:var(--down)} .bars i.r{background:var(--up)}
+.cyc{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px}
+.cyc-item{border:1px solid var(--stroke);border-radius:14px;padding:12px 14px;background:rgba(255,255,255,.36)}
+.cyc-item .k{font-size:11px;color:var(--ink2);margin-bottom:5px}
+.cyc-item .v{font-size:15px;font-weight:600;font-family:var(--mono)}
+.cyc-item .s{font-size:11px;color:var(--ink3);margin-top:3px}
+
+/* ============ 引擎 · 观测面板（沿用极简 × 玻璃，不另起深色） ============ */
+.hud{display:grid;grid-template-columns:repeat(auto-fit,minmax(148px,1fr));gap:10px;margin-bottom:6px}
+.hud-c{border:1px solid var(--stroke);border-radius:14px;padding:12px 14px;
+  background:var(--card);backdrop-filter:blur(26px) saturate(150%);-webkit-backdrop-filter:blur(26px) saturate(150%)}
+.hud-c .k{font-size:11px;color:var(--ink2);letter-spacing:.3px}
+.hud-c .v{font-size:19px;font-weight:600;font-family:var(--mono);color:var(--ink);margin-top:5px;line-height:1.2}
+.hud-c .s{font-size:11px;color:var(--ink3);margin-top:3px}
+.hud-c.on .v{color:var(--down)} .hud-c.warn .v{color:var(--gold)} .hud-c.bad .v{color:var(--up)}
+.dot-live{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--ink3);margin-right:5px;vertical-align:1px}
+.hud-c.on .dot-live{background:var(--down);animation:pulse 1.8s ease-in-out infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.45}}
+.lcard{background:var(--card);border:1px solid var(--stroke);border-radius:18px;padding:16px 18px;margin-bottom:12px;
+  backdrop-filter:blur(26px) saturate(150%);-webkit-backdrop-filter:blur(26px) saturate(150%);
+  box-shadow:0 2px 16px rgba(24,32,25,.05)}
+.lcard h3{font-size:13px;font-weight:600;color:var(--ink);margin-bottom:10px;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.prg{height:6px;border-radius:3px;background:rgba(24,32,25,.1);overflow:hidden;margin-top:8px}
+.prg i{display:block;height:100%;background:var(--down);border-radius:3px}
+.dim{display:grid;grid-template-columns:132px 1fr 96px;gap:12px;align-items:center;
+  padding:9px 0;border-bottom:1px solid rgba(24,32,25,.07);font-size:12px}
+.dim:last-child{border-bottom:none}
+.dim .dn{font-weight:500} .dim .df{font-size:11px;color:var(--ink3)}
+.zbar{position:relative;height:22px;background:rgba(24,32,25,.06);border-radius:4px;overflow:hidden}
+.zbar .mid{position:absolute;left:50%;top:0;bottom:0;width:1px;background:rgba(24,32,25,.22)}
+.zbar .fill{position:absolute;top:3px;bottom:3px;border-radius:3px}
+.zbar .fill.pos{background:rgba(217,56,67,.5)}
+.zbar .fill.neg{background:rgba(14,138,99,.5)}
+.zbar .bz{position:absolute;top:0;bottom:0;width:2px;background:var(--ink)}
+.cube-wrap{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.cube-col{border:1px solid var(--stroke);border-radius:14px;padding:12px;background:rgba(255,255,255,.44)}
+.cube-col .ch{font-size:12px;color:var(--ink2);margin-bottom:4px;display:flex;align-items:center;gap:8px}
+.cube-col .cs{font-size:11px;color:var(--ink3);margin-bottom:10px;min-height:15px}
+.cube{display:grid;grid-template-columns:repeat(5,1fr);gap:3px}
+.cube .cl{grid-column:span 5;font-size:10px;color:var(--ink3);padding:3px 0 1px}
+.cube .cc{aspect-ratio:1;border-radius:3px;display:flex;align-items:center;justify-content:center;
+  font-family:var(--mono);font-size:10px;border:1px solid transparent}
+.cube .cc.empty{background:repeating-linear-gradient(45deg,rgba(124,133,126,.14),rgba(124,133,126,.14) 3px,transparent 3px,transparent 6px);
+  border-color:rgba(124,133,126,.3);color:var(--ink3)}
+.cube .cc:hover{border-color:var(--ink)}
+.legend{display:flex;align-items:center;gap:10px;font-size:11px;color:var(--ink3);margin-top:10px;flex-wrap:wrap}
+.legend i{display:inline-block;width:11px;height:11px;border-radius:2px;margin-right:4px;vertical-align:-1px}
+.laysel{display:flex;gap:4px;align-items:center;margin-left:auto}
+.laysel button{background:rgba(255,255,255,.6);border:1px solid var(--stroke);color:var(--ink2);
+  border-radius:6px;padding:3px 9px;font-size:11px;cursor:pointer;font-family:var(--mono)}
+.laysel button.on{background:var(--ink);color:#fff;border-color:var(--ink)}
+.cmp{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:12px}
+.cmp-c{border:1px solid var(--stroke);border-radius:12px;padding:10px 12px;background:rgba(255,255,255,.44)}
+.cmp-c .k{font-size:10px;color:var(--ink3);letter-spacing:.3px}
+.cmp-c .v{font-size:15px;font-weight:600;font-family:var(--mono);color:var(--ink);margin-top:3px}
+@media(max-width:900px){ .cube-wrap,.cmp{grid-template-columns:1fr} .dim{grid-template-columns:110px 1fr 84px} }
+
+/* ---------- 设置页 ---------- */
+.kv{display:grid;grid-template-columns:1fr auto;gap:10px 16px;padding:12px 0;
+  border-bottom:1px solid rgba(24,32,25,.07);font-size:13px;align-items:center}
+.sw{position:relative;width:42px;height:24px;flex-shrink:0}
+.sw input{opacity:0;width:0;height:0;position:absolute}
+.sw span{position:absolute;inset:0;border-radius:12px;background:rgba(24,32,25,.18);cursor:pointer;transition:background .18s}
+.sw span::after{content:"";position:absolute;left:3px;top:3px;width:18px;height:18px;border-radius:50%;
+  background:#fff;transition:transform .18s}
+.sw input:checked + span{background:var(--down)}
+.sw input:checked + span::after{transform:translateX(18px)}
+.secret{display:flex;gap:6px}
+.secret input{flex:1}
+.kv:last-child{border-bottom:none}
+.kv .k{color:var(--ink2)}
+.btn{background:rgba(255,255,255,.6);border:1px solid var(--stroke);border-radius:11px;
+  padding:7px 15px;font-size:13px;color:var(--ink);cursor:pointer;font-family:inherit}
+.btn:hover{background:rgba(255,255,255,.85)}
+.btn.primary{background:var(--ink);color:#fff;border-color:var(--ink)}
+.btn.primary:hover{opacity:.85}
+.btn.danger{color:var(--up);border-color:rgba(217,56,67,.3)}
+.btn.sm{padding:5px 11px;font-size:12px}
+
+/* ---------- 弹窗 ---------- */
+dialog{border:none;border-radius:20px;padding:0;background:transparent;
+  width:min(92vw,440px);color:var(--ink);margin:auto;max-height:88vh;overflow:auto}
+dialog::backdrop{background:rgba(24,32,25,.3);backdrop-filter:blur(2px)}
+.dlg{background:rgba(255,255,255,.96);border:1px solid var(--stroke);border-radius:20px;padding:24px;
+  backdrop-filter:blur(30px) saturate(150%)}
+.dlg h3{font-size:16px;font-weight:600;margin-bottom:4px}
+.dlg .sub{font-size:12px;color:var(--ink2);margin-bottom:16px}
+.field{margin-bottom:11px}
+.field label{display:block;font-size:12px;color:var(--ink2);margin-bottom:5px}
+.field input,.field select{width:100%;padding:10px 13px;border:1px solid rgba(24,32,25,.16);
+  border-radius:11px;font-size:14px;background:rgba(255,255,255,.8);font-family:inherit;color:var(--ink)}
+.field input:focus,.field select:focus{outline:none;border-color:var(--ink)}
+.field input:read-only{background:rgba(24,32,25,.05);color:var(--ink2)}
+.field .hint{font-size:11px;color:var(--ink3);margin-top:4px}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.dlg-acts{display:flex;gap:10px;margin-top:18px}
+.dlg-acts .btn{flex:1;padding:11px}
+.pop{position:fixed;z-index:60;background:rgba(255,255,255,.97);border:1px solid var(--stroke);
+  border-radius:14px;padding:6px;box-shadow:0 10px 34px rgba(24,32,25,.16);display:none;min-width:132px;
+  backdrop-filter:blur(24px)}
+.pop.show{display:block}
+.pop button{display:block;width:100%;text-align:left;background:none;border:none;border-radius:9px;
+  padding:9px 12px;font-size:13px;color:var(--ink);cursor:pointer;font-family:inherit}
+.pop button:hover{background:rgba(24,32,25,.06)}
+.pop button.danger{color:var(--up)}
+#toast{position:fixed;left:50%;bottom:32px;transform:translateX(-50%) translateY(12px);
+  background:var(--ink);color:#fff;padding:11px 20px;border-radius:12px;font-size:13px;
+  opacity:0;pointer-events:none;transition:opacity .2s,transform .2s;z-index:80}
+#toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+.view{display:none} .view.active{display:block}
+.foot{text-align:center;color:var(--ink3);font-size:11px;margin-top:26px;line-height:1.7}
+.chip-demo{display:inline-block;font-size:10px;color:var(--gold);border:1px solid rgba(201,151,0,.3);
+  background:rgba(201,151,0,.08);border-radius:6px;padding:1px 6px;margin-left:6px;vertical-align:2px}
+
+@media(max-width:1100px){ .cards{grid-template-columns:repeat(2,1fr)} .grid4{grid-template-columns:repeat(2,1fr)} }
+@media(max-width:900px){
+  .sidebar{top:auto;bottom:0;left:0;right:0;width:auto;flex-direction:row;padding:6px 4px;
+    border-right:none;border-top:1px solid var(--stroke)}
+  .brand,.brand-sub,.side-foot{display:none}
+  .nav{flex-direction:row;width:100%;justify-content:space-around}
+  .nav button{flex-direction:column;gap:3px;font-size:11px;padding:7px 4px;margin:0}
+  .nav button.active::before{display:none}
+  main{margin-left:0;padding:0 16px 84px}
+  .cards,.grid4,.grid2,.covbar,.empty .facts{grid-template-columns:1fr}
+  table{font-size:12px}
+}
+
+/* 真实数据接入状态条 */
+.livebar{display:flex;align-items:center;gap:7px;font-size:12px;padding:7px 14px;
+  border-radius:12px;margin-bottom:12px;border:1px solid var(--stroke);
+  backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px)}
+.livebar.ok{background:rgba(14,138,99,.10);color:var(--down)}
+.livebar.warn{background:rgba(201,151,0,.12);color:var(--gold)}
+.livebar .dot{width:7px;height:7px;border-radius:50%;flex-shrink:0}
+.livebar.ok .dot{box-shadow:0 0 0 3px rgba(14,138,99,.15)}
+</style>
+</head>
+<body>
+<div class="blob blob-1"></div><div class="blob blob-2"></div><div class="blob blob-3"></div>
+
+<aside class="sidebar">
+  <div class="brand">FundLens<span>v1.5</span></div>
+  <div class="brand-sub">基金监控 · 分析预测 · 复盘审计</div>
+  <nav class="nav">
+    <button class="active" data-v="holdings">
+      <svg class="ico" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="3" width="12" height="10" rx="2"/><path d="M2 6.5h12M6.5 6.5V13"/></svg>持仓</button>
+    <button data-v="analyze">
+      <svg class="ico" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M8 13.5V7M8 7l-3.2 2.4M8 7l3.2 2.4"/><circle cx="8" cy="8" r="6"/></svg>分析</button>
+    <button data-v="signals">
+      <svg class="ico" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 11l3.5-4 3 2.5L14 4"/><path d="M11 4h3v3" stroke-linecap="round"/></svg>信号</button>
+    <button data-v="factors">
+      <svg class="ico" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2.5 13V8M6.5 13V3.5M10.5 13V6.5M14 13v-3"/></svg>因子</button>
+    <button data-v="review">
+      <svg class="ico" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="8" cy="8" r="6"/><path d="M8 4.5V8l2.5 1.8" stroke-linecap="round"/></svg>复盘</button>
+    <button data-v="engine">
+      <svg class="ico" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="5" y="5" width="6" height="6" rx="1"/><path d="M8 1.5v2M8 12.5v2M1.5 8h2M12.5 8h2M3.5 3.5l1.4 1.4M11.1 11.1l1.4 1.4M12.5 3.5l-1.4 1.4M4.9 11.1L3.5 12.5"/></svg>引擎</button>
+    <button data-v="settings">
+      <svg class="ico" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="8" cy="8" r="2.2"/><path d="M8 1.8v1.6M8 12.6v1.6M2.9 2.9l1.1 1.1M12 12l1.1 1.1M1.8 8h1.6M12.6 8h1.6M2.9 13.1L4 12M12 4l1.1-1.1"/></svg>设置</button>
+  </nav>
+  <div class="side-foot">
+    数据快照 <b id="side-date">2026-08-24</b><br>
+    <span id="side-lag" style="color:var(--gold)">滞后 9 个交易日</span><br><br>
+    本地存储 · 数据不出本机
+  </div>
+</aside>
+
+<main>
+  <div id="live-bar" class="livebar warn"><span class="dot" style="background:#c99700"></span>正在连接本地引擎…</div>
+  <div class="topbar">
+    <span class="date">2026-09-04 周五</span>
+    <span class="chip">收盘后 15:30</span>
+    <span class="chip warn">数据快照 08-24 · 滞后 9 个交易日</span>
+    <span class="spacer"></span>
+    <button class="btn sm" id="eye-btn" onclick="togglePrivacy()">隐藏金额</button>
+    <span class="sig">本次开口 <b class="mono" id="tb-sig">2</b> 个信号</span>
+  </div>
+
+  <!-- ============ ① 持仓 ============ -->
+  <section class="view active" id="view-holdings">
+    <h2 class="sec">资产总览 <span class="n">22 只 · 成本 ¥47,362.28</span></h2>
+    <div class="cards">
+      <div class="sc"><div class="k">总资产</div><div class="v amt" id="pa-total">—</div><div class="s">份额 × 最新估值</div></div>
+      <div class="sc"><div class="k">今日预估盈亏</div><div class="v amt" id="pa-today">—</div><div class="s" id="pa-today-sub">口径 mv − mv/(1+pct)</div></div>
+      <div class="sc"><div class="k">累计收益</div><div class="v amt" id="pa-pnl">—</div><div class="s">市值 − 累计投入</div></div>
+      <div class="sc"><div class="k">收益率</div><div class="v" id="pa-ret">—</div><div class="s">累计收益 / 成本</div></div>
+    </div>
+
+    <h2 class="sec">估值精度 <span class="n">回测量化 · 行业基准 MAE 0.80%</span></h2>
+    <div class="vsum" id="val-sum">—</div>
+
+    <h2 class="sec">组合预测 <span class="n">按市值加权 · 只有开口的仓位才计入</span></h2>
+    <div class="win3" id="pf-forecast"></div>
+    <div class="card" style="margin-top:12px">
+      <div class="mini" id="pf-note">—</div>
+    </div>
+
+    <h2 class="sec">模型覆盖度 <span class="n">四档分级 · 决定了下面「信号」列该怎么读</span></h2>
+    <div class="covbar" id="cov-bar"></div>
+    <div class="card" style="margin-top:12px">
+      <div class="mini" style="line-height:1.85">
+        <b>分级依据 = 项目自己的「失效三类」原则：定义失效／数据失效／框架失效，只有定义失效才是真死。</b><br>
+        <span style="color:var(--down)">■</span> <b>A 已接入</b>：引擎直接产出，信号可用。<br>
+        <span style="color:#1d9e75">■</span> <b>B 代理已验证</b>：映射 ETF 就在 v1.5 的 40 只池内（行业 27 + 宽基 + <b>黄金</b> + <b>纳指</b>），已过六关。<b>黄金和 QDII 都在这档</b>——黄金 ETF 518880 原本就是验证池成员；QDII 用境内纳指 ETF 513100 代理，其价格 T+0 反映隔夜美股，比 T+2 净值<b>领先 1~2 天</b>，T+2 是信息优势不是缺陷。<br>
+        <span style="color:var(--gold)">■</span> <b>C 代理待验证</b>：标的明确但不在 40 只池（恒生、原油、CPO、A500），需补走六关。属数据失效，非原理无解。<br>
+        <span style="color:#a3aaa4">■</span> <b>D 暴露待定</b>：两只主动全市场，需先做持仓穿透（前十大→行业 ETF 映射）或 RBSA 约束回归定出暴露，方法现成，未跑而已。<br>
+        <b style="color:var(--down)">原理无解：0 只。</b>这 22 只全部在覆盖范围内，缺的是接线与验证，不是可能性。
+      </div>
+    </div>
+
+    <h2 class="sec">持仓明细 <span class="n">按资产类别分组 · 点击组名折叠</span>
+      <span style="flex:1"></span>
+      <button class="btn sm" id="btn-colset">显示列</button>
+      <button class="btn sm primary" onclick="openFund('')">+ 录入基金</button>
+    </h2>
+    <div class="card tight">
+      <table id="hd-table">
+        <thead><tr>
+          <th>基金</th><th class="r">持仓金额</th><th class="r" data-col="cost">成本</th>
+          <th class="r">今日盈亏</th><th class="r">涨跌</th><th class="r" data-col="pnl">累计收益</th>
+          <th class="r">占比</th><th data-col="val">估值来源</th>
+          <th data-col="sig">T+1 预测</th><th data-col="adv">建议</th><th class="r"></th>
+        </tr></thead>
+        <tbody id="hd-body"></tbody>
+      </table>
+    </div>
+
+    <details class="fold">
+      <summary>风险指标（Sharpe / VaR95 / 下行 / 回撤）<span class="mini" style="margin-left:auto">慢接口 · 展开才计算</span></summary>
+      <div class="body"><div class="grid4" id="risk-grid">
+        <div class="factor"><div class="k">Sharpe</div><div class="v" id="rk-sharpe">—</div></div>
+        <div class="factor"><div class="k">VaR95</div><div class="v" id="rk-var">—</div></div>
+        <div class="factor"><div class="k">下行风险</div><div class="v" id="rk-down">—</div></div>
+        <div class="factor"><div class="k">最大回撤</div><div class="v" id="rk-dd">—</div></div>
+      </div>
+      <div class="mini" style="margin-top:10px">组合级指标需逐只拉取历史净值，首屏不加载，避免阻塞。</div></div>
+    </details>
+
+    <div class="foot">本地存储 · 数据不出本机 · 持仓读取自基金监控 app_data/funds_data.json（08-24 快照）<br>本页数字由真实持仓计算，非模拟数据</div>
+  </section>
+
+  <!-- ============ ② 信号 ============ -->
+  <section class="view" id="view-signals">
+    <h2 class="sec">最新信号 <span class="n">截至 08-24 快照 · T+1 窗口判未来 1 个交易日方向</span></h2>
+    <div class="card">
+      <div class="empty">
+        <div class="big">08-24 无信号</div>
+        <div class="sub" id="sig-sub">—</div>
+        <div class="facts">
+          <div class="fact"><div class="k">已在信号监控中</div><div class="v" id="f-watch">—</div></div>
+          <div class="fact"><div class="k">距上次开口</div><div class="v">4 个交易日</div></div>
+          <div class="fact"><div class="k">上次开口</div><div class="v sm">08-18 德邦半导体</div></div>
+          <div class="fact"><div class="k">上次结果</div><div class="v sm up">命中 +1.24%</div></div>
+        </div>
+      </div>
+    </div>
+
+    <h2 class="sec">下次什么时候会开口 <span class="n">两个触发条件，任一命中即进门</span></h2>
+    <div class="grid2">
+      <div class="card"><div style="font-size:13px;font-weight:500;margin-bottom:8px">E1 跳空</div>
+        <div class="mono" style="font-size:13px;color:var(--ink2)">low[t] &gt; high[t−1]</div>
+        <div class="mini" style="margin-top:8px">当日最低价高于昨日最高价。纯事件效应 +0.88pp（t=+0.70）</div></div>
+      <div class="card"><div style="font-size:13px;font-weight:500;margin-bottom:8px">E3 无量急跌 <span class="tag ok" style="margin-left:4px">主力</span></div>
+        <div class="mono" style="font-size:13px;color:var(--ink2)">ret &lt; −2% 且 量比 &lt; 0.8</div>
+        <div class="mini" style="margin-top:8px">跌得深且缩量。纯事件效应 +3.90pp（t=+2.33，分年 7/10 稳）</div></div>
+    </div>
+    <div class="card" style="margin-top:12px">
+      <div class="mini">已剔除：E4 点火（3日+4%，做多反向 −2.72pp）、E2 放量上涨（做多全反向 −3.09pp，仅作止盈回避）。<b>四类事件禁止 OR 合并</b>——合并后互相抵消，纯效应只剩 −0.14pp。</div>
+    </div>
+
+    <h2 class="sec">信号时间线 <span class="n">近 60 天</span><span class="chip-demo">演示数据</span></h2>
+    <div class="tl" id="tl-list"></div>
+    <div class="foot">时间线由影子盘台账 shadow_signals.jsonl 驱动。P0.5 落地前此处为演示数据，正式上线后每次开口即时入账、到期自动回填。</div>
+  </section>
+
+  <!-- ============ ③ 分析 ============ -->
+  <section class="view" id="view-analyze">
+    <details class="fold">
+      <summary>T+1 到底预测的是什么<span class="mini" style="margin-left:auto">口径定义 · 三条执行路径 · 点开查看</span></summary>
+      <div class="body">
+        <div class="mono" style="font-size:14px;margin-bottom:10px">up = 1　若　close[T+1] &gt; close[T]</div>
+      <div class="mini" style="line-height:1.9">
+        <b>是"明日收盘价 vs 今日收盘价"，不是"明日收盘 vs 明日开盘"。</b>信号在 T 日 <b>15:30 收盘后</b>生成，预测 T+1 日收盘时点相对 T 日收盘的涨跌方向，持仓期恰好一个完整交易日。<br><br>
+        <b style="color:var(--gold)">但这里有个时序坑，必须讲清楚：你的持仓是场外基金，申购截止 15:00，而信号 15:30 才出来。</b>信号落地时，当天按 close[T] 成交的窗口已经关了。所以：
+      </div>
+      <div class="grid3" style="margin-top:14px">
+        <div class="factor"><div class="k">A · 新建仓位</div>
+          <div style="font-size:12px;line-height:1.7;margin-top:6px">
+            T 日 15:30 信号 → 最早 <b>T+1 日 15:00 前申购</b>，按 <span class="mono">close[T+1]</span> 成交 → T+2 赎回<br>
+            <span class="down">吃的是 close[T+2]−close[T+1]，晚了整整一拍，不是信号预测的那一段</span></div></div>
+        <div class="factor"><div class="k">B · 已持有仓位</div>
+          <div style="font-size:12px;line-height:1.7;margin-top:6px">
+            T 日 15:30 看到"明日涨" → 决定 <b>不在 T+1 赎回</b>，继续持有一天<br>
+            <span class="up">这条可执行</span> —— 赎回也是按 T+1 净值成交，信号赶得上</div></div>
+        <div class="factor"><div class="k">C · 场内 ETF</div>
+          <div style="font-size:12px;line-height:1.7;margin-top:6px">
+            T 日 15:30 信号 → T+1 开盘买入 → T+1 收盘卖出<br>
+            <span class="flat">吃的是 open→close，仍与 close[T]→close[T+1] 口径不同</span></div></div>
+      </div>
+      <div class="mini" style="margin-top:14px;padding-top:12px;border-top:1px dashed rgba(24,32,25,.12)">
+        <b>结论：这个信号对场外基金最现实的用法是 B（持有/赎回决策），不是 A（择时建仓）。</b>做产品时不能让"明日涨 58%"暗示你可以当天买进——那会误导。真正的解法是等 P0.5 影子盘跑起来后，实测"按信号持有 vs 不按信号持有"的差，用真实台账说话。
+      </div>
+      </div>
+    </details>
+
+    <h2 class="sec">三窗口组合预测 <span class="n">截至 08-24 快照 · 按市值加权</span></h2>
+    <div class="win3" id="an-forecast"></div>
+    <div class="card" style="margin-top:12px">
+      <div class="mini" style="line-height:1.85">
+        <b>加权规则（三条，缺一不可）：</b><br>
+        ① <b>只有开口的仓位才计入权重</b>——灰的不是"中性 0.5"，是"不表态"，必须从分子分母里同时剔除。<br>
+        ② <b>C 档（待验证）与 D 档（暴露待定）不参与</b>——它们的信号还没过六关，混进来等于把未验证的东西当结论。<br>
+        ③ <b>必须同时显示覆盖市值占比</b>。"组合明日涨 58.3%"和"在你 <b>7.65%</b> 的仓位上模型看涨，其余 92% 不表态"是两件完全不同的事，前者是误导。<br><br>
+        <b>关于 T+5：</b>项目实测过 H=1,2,3,5,8,10,15,20,30 的完整衰减曲线，<b>T+5 没入选</b>——宽基效应在 T+3 见顶（+10.2%）、产业类在 T+15 见顶（+7.4%），T+5 不是任何一类的峰值。三窗口定的是 <b>T+1 / T+3 / T+15</b>。
+      </div>
+    </div>
+
+    <h2 class="sec">参与本次预测的持仓 <span class="n">08-24 收盘触发</span></h2>
+    <div class="card tight">
+      <table>
+        <thead><tr><th>基金</th><th>档</th><th>触发</th><th class="r">P(涨)</th><th>否决层</th><th>T+1</th><th>T+3</th><th>T+15</th><th class="r">市值</th></tr></thead>
+        <tbody id="an-body"></tbody>
+      </table>
+    </div>
+
+    <details class="fold">
+      <summary>一个信号是怎么得出的<span class="mini" style="margin-left:auto">以德邦半导体 014320 为例 · 走完整条链 · 点开查看</span></summary>
+      <div class="body">
+        <div class="chain">
+        <div class="chain-item on"><div class="ct"><span class="tag red">① 触发门</span>E3 无量急跌 <span class="up">已触发</span></div>
+          <div class="cd">08-24 收跌 <code>-3.82%</code>，量比 <code>0.72 &lt; 0.80</code> → 两个条件同时满足，进门。<br>
+          E3 是本项目的主门：同期匹配基线纯事件效应 <b>+3.90pp</b>（t=+2.33，分年 7/10 稳）。<br>
+          对照：E4 点火做多反向 −2.72pp、E2 放量上涨 −3.09pp，<b>已剔除，禁止 OR 合并</b>。</div></div>
+        <div class="chain-item on"><div class="ct"><span class="tag red">② DDSM</span>档位 [1, 2, 2] → P = 0.61</div>
+          <div class="cd">三维特征 <code>r2 = 2日累计收益</code>、<code>om = 12日收益/20日波动</code>、<code>vr = 量比</code>，各按训练段分位数切 5 档 → <b>125 个状态格</b>。<br>
+          训练时每样本生成 <code>K=4</code> 个加噪副本，每维以 <code>p=0.25</code> 扰动 ±1 档（状态空间平滑正则化，不加噪实测 Δ−3.9%）。<br>
+          收缩：<code>P = (n_up + 10×训练段涨率) / (n + 10)</code> → 输出 log-odds 增量叠加到基准涨率。</div></div>
+        <div class="chain-item"><div class="ct"><span class="tag ok">③ 拥挤度否决</span>未亮灯</div>
+          <div class="cd">六维（mom5 / vr / dev / vpcorr / volat / skew）按训练段 IC 符号等权复合 z-score。<br>
+          本次 <code>z 分位 = 1</code>，不属于最拥挤的 40% → <b>不否决</b>。</div></div>
+        <div class="chain-item"><div class="ct"><span class="tag ok">④ KLOW2 否决</span>未亮灯</div>
+          <div class="cd">下影线占振幅比 <code>(min(open,close) − low) / (high − low) = 0.19</code>，处最有利的 60% → <b>不否决</b>。<br>
+          含义：下影线过长 = 盘中被打下来又被拉起，多空拉锯剧烈、下方承接弱。与拥挤度共线仅 <b>0.06</b>，一个管"人太挤"、一个管"盘子虚"，正交所以叠加有效。</div></div>
+        <div class="chain-item on"><div class="ct"><span class="tag red">⑤ 出口</span>P = 0.61 &gt; 0.52 → 通过</div>
+          <div class="cd"><b>单向涨，永不做空。</b>E2→做空虽 t=+4.37 好看，但 placebo 均值就有 +3.58%（聚类效应），判 weak 不采纳。</div></div>
+        <div class="chain-item on"><div class="ct"><span class="tag red">⑥ 输出</span>信号「涨」 → 入台账</div>
+          <div class="cd">写入 <code>shadow_signals.jsonl</code>，收盘时点固定写盘、事后不可改，T+1 到期自动回填实际涨跌。<br>
+          <b>设计铁律：否决位 &gt; 打分位。</b>同样的因子以连续打分混入模型，边际在 −2.5~+1.8pp 摇摆；以二值否决位使用则稳定 +1.3~+3.3pp。</div></div>
+      </div>
+      </div>
+    </details>
+
+    <div class="foot">本页数字为演示推导，口径与参数与 v1.5 定稿一致（K=4 / p=0.25 / MIN_N=15 / SHRINK=10 / BAND=0.02 / 双否决 40% 分位 / purge=H+2）</div>
+  </section>
+
+  <!-- ============ ④ 因子 ============ -->
+  <section class="view" id="view-factors">
+    <h2 class="sec">四盘 <span class="n">三盘双回路 · 晋升回路与复活回路</span></h2>
+    <div id="fc-pans"></div>
+
+    <h2 class="sec">四本账本 <span class="n">任何状态变更都有据可查，事后不可改</span></h2>
+    <div id="fc-books"></div>
+
+    <h2 class="sec">评分链 <span class="n">六窗加权总分 · 分数管表现、闸门管风险、实测管晋升</span></h2>
+    <div class="card">
+      <div class="mini" style="line-height:1.85">
+        <b>评分链：</b>每窗 <code>lift = 命中率 ÷ 基线</code> → <b>k_lift 五档悬崖查表</b>（≥1.30→1.0 / 1.20-1.30→0.80 / 1.10-1.20→0.65 / 1.00-1.10→0.50 地板 / &lt;1.00→<b>−0.80</b> / &lt;0.84→<b>−1.3</b>）→ × 窗权重 <code>8/22/15/10/30/15</code> × 准入度 <code>min(1, 独立触发日 ÷ N_w)</code> → 六窗加总。<br>
+        <b>悬崖式不对称惩罚本身就是噪声抑制器</b>：随机因子 lift 散布在 1.0 附近，一半掉进惩罚区、上半被温和封顶 → 期望为负；真因子六窗 lift 全 ≥1.06，站在地板之上。<br>
+        <b>bootstrap 500 个随机因子校准：</b>P50 = −10.8 / P90 = 38.7 / P95 = 48.4 / P99 = 61.7。<b>KLOW2 = 64.1 位于 P99.5 之上</b>，与其聚类稳健 t=3.09 的统计地位吻合。<br>
+        <b>四个裁判各管一段：</b>lift 管分数、t 管闸门、准入度管折扣、实测管晋升 —— 谁也不能既当运动员又当记分员。
+      </div>
+    </div>
+
+    <h2 class="sec">治理周期 <span class="n">机器自动裁判，人只留机制变更权与紧急停机权</span></h2>
+    <div class="cyc" id="fc-cycle"></div>
+
+    <h2 class="sec">最近挖掘记录 <span class="n">scan_history.jsonl · 每次扫描本身也是一次选择，永久留痕</span></h2>
+    <div class="card tight">
+      <table>
+        <thead><tr><th>日期</th><th>候选</th><th>F1 有效性</th><th>F2 独立性</th><th>F3 增量</th><th>判定</th></tr></thead>
+        <tbody id="fc-scan"></tbody>
+      </table>
+    </div>
+
+    <h2 class="sec">生命周期规则</h2>
+    <div class="card">
+      <div class="mini" style="line-height:1.95">
+        <b>准入（纯量化三项 AND）：</b>F1 近 6 月或近 60 日任一超基线｜F2 与现役因子最大共线 &lt; 0.7｜F3 加入现配置后 Δ ≥ +0.5pp 且开口数不塌方（&gt;50%）。<br>
+        <b>牌照四线：</b>候补 ≥50（只记账不参与生产，随机通过率 ~5%）｜试用 ≥60 且 30 日窗 k≥0.5（随机 0.4%）｜续聘 T2 ≥70 且 60 日窗 k≥0.7 且持牌满一季（随机 0%）｜正式 T3 ≥80 且 24 月窗 k≥0.7（随机 0%）。<br>
+        <b>淘汰五线：</b>急性熔断（连错 5 次或 15 日命中 &lt;基线−15pp）｜缓性衰减（滚动 60 日 lift&lt;1.00 连续 30 日）｜结构红线（24 月窗 lift&lt;1.00 或留一法移除后 Δ 升 ≥0.5pp）｜分数失守（&lt;39 连续两期降级、&lt;19 进 A/B、&lt;−11 隔离）。<br>
+        <b>双出口：</b>软出口降级梯（正式→续聘→试用→候补，台账全留）｜硬出口 A/B 对照 60 交易日（移出生产但在盘三继续跑，移除后组合 ≥ 移除前 +0.5pp 才算淘汰正确）。<br>
+        <b>防误杀三保险：</b>条件绩效口径（分 regime 判读，牛市不杀熊市因子）｜开口 &lt;20 不出结论｜A/B 期间牌照冻结，误杀无损回位。<br>
+        <b>冷冻盘不是坟墓：</b>台账全保留，复活触发 = regime 切到有利状态 / 新信息源解锁 / 满 90 天重扫；复活路 = 回候补重爬，<b>禁止直接回生产</b>。
+      </div>
+    </div>
+    <div class="foot">六本账本：shadow_signals / factor_arena / adopted_factors / scan_history / factor_health / retired_log<br>数据卫生 #1：绩效与 t 值一律按独立触发日聚合，不用条口径（实证：KLOW2 614 条仅 359 独立日，条口径 t=4.40 → 聚类稳健 3.09）</div>
+  </section>
+
+  <!-- ============ ⑥ 引擎（深色控制台） ============ -->
+  <section class="view" id="view-engine">
+    <h2 class="sec">引擎状态 <span class="n">Engine Console · 只读观测，不改参数</span></h2>
+    <div class="hud" id="eg-hud"></div>
+
+    <h2 class="sec">影子盘 · 信号层 <span class="n">shadow_signals.jsonl · 系统的最终输出台账</span></h2>
+    <div class="lcard">
+      <h3><span class="dot-live"></span>台账状态 <span class="mini" id="eg-ledger-state">—</span></h3>
+      <div id="eg-ledger"></div>
+    </div>
+    <div class="lcard">
+      <h3>最近记录 <span class="tag warn" style="margin-left:4px">演示数据</span></h3>
+      <div style="overflow-x:auto"><table>
+        <thead><tr><th>日期</th><th>代码</th><th>门</th><th class="r">P(涨)</th><th>状态</th><th>拥挤</th><th>KLOW2</th><th>信号</th><th class="r">T+1</th><th>判定</th></tr></thead>
+        <tbody id="eg-ledger-rows"></tbody>
+      </table></div>
+      <div class="mini" style="margin-top:10px;line-height:1.8">
+        字段：<span class="mono">date / code / gate / p_up / ddsm_state / veto_crowd / veto_klow2 / signal / t1_real / t3_real / t15_real / cost_est</span><br>
+        <b>收盘时点固定写盘，事后不可改</b> —— 防事后诸葛。到期自动回填 T+1 / T+3 / T+15 实际涨跌。
+      </div>
+    </div>
+
+    <h2 class="sec">因子竞技场 · 因子层 <span class="n">factor_arena.jsonl · 每个因子同日独立记账</span></h2>
+    <div class="lcard">
+      <h3>跑分矩阵 <span class="mini">行 = 配置，列 = 六窗，格 = 开口 / 命中 / 配对Δ</span></h3>
+      <div style="overflow-x:auto"><table>
+        <thead><tr><th>配置</th><th class="r">15日</th><th class="r">30日</th><th class="r">60日</th><th class="r">6月</th><th class="r">24月</th><th class="r">全量</th></tr></thead>
+        <tbody id="eg-arena"></tbody>
+      </table></div>
+            <div class="legend" style="margin-top:12px"><span><b style="color:var(--up)">■</b> 该窗最高</span><span><b style="color:var(--down)">■</b> 该窗最低</span><span><b style="color:var(--ink2)">■</b> 居中</span><span><b style="color:var(--gold)">■ ▲</b> 警示：加了反而比不加差</span><span style="margin-left:auto">格内三个数 = 开口数 · 命中率 · 相对基线 Δ</span></div><div class="mini" style="margin-top:10px;line-height:1.85"><b>同一份数据、同一个门、同一个模型，只换一个因子</b> —— 这是加一法与留一法能给出因果结论的前提。<br><b>配色规则：</b>同一窗内跨配置比较，最高标红、最低标绿、其余标蓝；<b>Δ 低于裸算法基准的一律标黄警示 ▲</b>（加了这个因子反而更差）。裸算法行作为参照系，不参与红绿排名。<br><b>留一法（C − eᵢ）</b>移除后组合 Δ 上升 ≥0.5pp 持续 30 天 = 结构红线，进 A/B；移除后变差 = 该因子有用。</div>    </div>
+
+    <h2 class="sec">训练状态 <span class="n">DDSM 状态表 · 逐资产全样本，季度滚动重训</span></h2>
+    <div class="lcard" id="eg-train"></div>
+    <div class="lcard">
+      <h3>冻结参数 <span class="mini">改任何一项必须重走六关</span></h3>
+      <div id="eg-frozen"></div>
+    </div>
+
+    <h2 class="sec">六维输入 <span class="n">当前资产在 08-24 的特征快照</span></h2>
+    <div class="lcard">
+      <h3><select id="dim-asset" onchange="renderDims()" style="background:transparent;border:1px solid rgba(24,32,25,.2);color:var(--ink);border-radius:8px;padding:4px 8px;font-size:12px;font-family:inherit"></select>
+        <span class="mini" id="dim-sum">—</span></h3>
+      <div style="font-size:10.5px;color:#4d6379;margin-bottom:8px">DDSM 三维（r2 / om / vr）</div>
+      <div id="dim-d3"></div>
+      <div style="font-size:10.5px;color:#4d6379;margin:14px 0 8px">拥挤度六维（mom5 / vr / dev / vpcorr / volat / skew）</div>
+      <div id="dim-d6"></div>
+      <div class="mini" style="margin-top:12px;padding-top:10px;border-top:1px solid rgba(24,32,25,.07);line-height:1.8">
+        六维全部由 OHLCV 算出，<b>零外部依赖</b>。z-score 与分位断点、IC 符号全部只用<b>训练段</b>，逐年走前，purge gap = H+2。
+        复合方式：按训练段 IC 符号等权，处于训练段触发样本<b>最拥挤 40%</b> 则否决做多。
+      </div>
+    </div>
+
+    <h2 class="sec">离散模型 vs 还原离散 <span class="n">DDSM 加噪去噪到底做了什么</span></h2>
+    <div class="lcard">
+      <h3>状态空间切片 <span class="mini">三维 × 五档 = 125 格 · 下方切换 vr 层</span>
+        <span class="laysel" id="eg-layers"></span></h3>
+      <div class="cube-wrap">
+        <div class="cube-col">
+          <div class="ch">原始离散 <span class="tag gray">naive</span></div>
+          <div class="cs" id="cs-naive">—</div>
+          <div class="cube" id="cube-naive"></div>
+        </div>
+        <div class="cube-col">
+          <div class="ch">还原离散 <span class="tag blue">DDSM</span></div>
+          <div class="cs" id="cs-deno">—</div>
+          <div class="cube" id="cube-deno"></div>
+        </div>
+      </div>
+      <div class="legend">
+        <span><i style="background:rgba(14,138,99,.72)"></i>P&lt;0.45 看跌</span>
+        <span><i style="background:rgba(124,133,126,.26)"></i>0.45–0.52 中性</span>
+        <span><i style="background:rgba(217,56,67,.28)"></i>0.52–0.58 弱看涨</span>
+        <span><i style="background:rgba(217,56,67,.72)"></i>&gt;0.58 强看涨</span>
+        <span><i style="background:repeating-linear-gradient(45deg,rgba(60,75,95,.35),rgba(60,75,95,.35) 3px,transparent 3px,transparent 6px);border:1px solid rgba(60,75,95,.35)"></i>无样本</span>
+        <span style="margin-left:auto;color:#4d6379">横轴 = om 档（σ归一动量）· 纵轴 = r2 档（2日累计收益）</span>
+      </div>
+      <div class="cmp" id="eg-cmp"></div>
+      <div class="mini" style="margin-top:14px;padding-top:12px;border-top:1px dashed rgba(24,32,25,.12);line-height:1.9">
+        <b>左边为什么会烂：</b>125 个状态格里，边缘格样本极少甚至为零。n=0 时该格<b>根本没有估计值</b>；n=1 时 P 直接跳到 0 或 1。这就是高维离散的稀疏诅咒 —— 实测不加噪版本 <b>Δ−3.9%</b>，开口仅 359 天。<br>
+        <b>右边做了什么：</b>①<b>加噪增强</b> —— 每样本生成 <span class="mono">K=4</span> 个副本，每维以 <span class="mono">p=0.25</span> 概率扰动 ±1 档，副本沿用原标签，等于把孤立状态连到邻域（状态空间平滑正则化）；②<b>收缩</b> —— <span class="mono">P = (n_up + 10×训练段涨率) / (n + 10)</span>，样本少的格向全局基准收缩，防小样本虚高。实测加噪后 <b>+1.6~5.5pp，覆盖率提升 7~60 倍</b>。<br>
+        <b>外部佐证：</b>DiffsFormer（arXiv 2402.06656）独立验证了同族结论 —— 编辑式加噪优于从纯噪声生成、中等扰动强度最优。<b>已证伪的“聪明加噪”</b>：loss-guided（−2pp）、IC 自适应（失败）、K=8 过度稀释 —— <b>均匀加噪 + 强收缩就是小状态空间的最优解</b>。
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ ⑤ 复盘 ============ -->
+  <section class="view" id="view-review">
+    <h2 class="sec">模型历史成绩 <span class="n">走前验证 2019-2026 · 40 只 ETF</span></h2>
+    <div class="card">
+      <div class="hero">
+        <div class="num" id="rv-hero">58.3%</div>
+        <div class="unit">T+1 双否决命中率<br><span class="mini">这是<b>回测</b>成绩，不是今日预测。基线 48.4%，Δ +9.9pp</span></div>
+      </div>
+      <div class="mini" style="margin-top:14px;padding-top:12px;border-top:1px dashed rgba(24,32,25,.12)">
+        原作者锚点 58.7%（n=412）｜本次复现 58.3%（n=420，排除 3 只指数后精确对齐）
+      </div>
+    </div>
+
+    <h2 class="sec">三窗口 vs 同期基线 <span class="n">基线 = 全场恒涨率，不是模型自己</span></h2>
+    <div class="card tight">
+      <table>
+        <thead><tr><th>窗口</th><th>定式</th><th class="r">命中率</th><th class="r">开口</th><th class="r">基线</th><th class="r">Δ</th></tr></thead>
+        <tbody>
+          <tr><td><b>T+1</b></td><td class="mini">门 + DDSM + 双否决</td><td class="num up">58.3%</td><td class="num">420</td><td class="num">48.4%</td><td class="num up">+9.9pp</td></tr>
+          <tr><td><b>T+3</b></td><td class="mini">仅触发做多</td><td class="num up">55.6%</td><td class="num">2295</td><td class="num flat">待填充</td><td class="num flat">—</td></tr>
+          <tr><td><b>T+15</b></td><td class="mini">门 + DDSM</td><td class="num up">59.7%</td><td class="num">1208</td><td class="num flat">待填充</td><td class="num flat">—</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="card" style="margin-top:12px">
+      <div class="mini"><b>已知缺口：</b>T+3 / T+15 的同期匹配基线尚未从引擎输出填充，此处留空而非填估计值。口径一步一定义，基线错了整页结论都错。</div>
+    </div>
+
+    <h2 class="sec">实盘对照 <span class="n">影子盘降级审查</span></h2>
+    <div class="card">
+      <div class="degrade idle" id="dg-bar">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="8" cy="8" r="6"/><path d="M8 5v3.2M8 10.6v.6" stroke-linecap="round"/></svg>
+        <span>影子盘尚未启动 —— P0.5 落地并开始逐日记录后，这里显示滚动 60 日命中率 vs 58.3% 基准，偏离 &gt;2pp 自动标红降级</span>
+      </div>
+      <div class="mini" style="margin-top:14px;padding-top:12px;border-top:1px dashed rgba(24,32,25,.12)">
+        回测再漂亮也只是回测。<b>上线前的最后保险是影子盘</b>：每日收盘后跑 v1.5 写台账，连续 60 日无漏单且命中率与基准偏差 &lt;2pp，才算具备上线资格。
+      </div>
+    </div>
+
+    <h2 class="sec">逐笔对账 <span class="n">每条开口的来龙去脉</span><span class="chip-demo">演示数据</span></h2>
+    <div class="card tight">
+      <table>
+        <thead><tr><th>日期</th><th>基金</th><th>触发</th><th class="r">P(涨)</th><th>否决层</th><th>信号</th><th class="r">T+1 实际</th><th class="r">判定</th></tr></thead>
+        <tbody id="rv-body"></tbody>
+      </table>
+    </div>
+    <div class="foot">正式台账字段：date / code / gate / p_up / ddsm_state / veto_crowd / veto_klow2 / signal / t1_real / t3_real / t15_real / cost_est<br>收盘时点固定写盘，事后不可改</div>
+  </section>
+
+  <!-- ============ ④ 设置 ============ -->
+  <section class="view" id="view-settings">
+    <h2 class="sec">隐私 <span class="n">一键隐藏所有金额</span></h2>
+    <div class="card">
+      <div class="kv"><span class="k">隐藏金额<div class="mini">总资产、累计收益、持仓金额、今日盈亏全部替换为 ••••<br>占比与涨跌幅保留（不泄露金额）</div></span>
+        <label class="sw"><input type="checkbox" id="sw-hide" onchange="togglePrivacy(this.checked)"><span></span></label></div>
+      <div class="kv"><span class="k">隐藏持仓金额<div class="mini">只隐藏明细行，保留组合总额</div></span>
+        <label class="sw"><input type="checkbox" id="sw-hide-row"><span></span></label></div>
+    </div>
+
+    <h2 class="sec">LLM 接口 <span class="n">仅用于事件编码，不做最终预测</span></h2>
+    <div class="card">
+      <div class="field"><label>服务商</label>
+        <select id="llm-prov" onchange="llmPreset(this.value)">
+          <option value="deepseek">DeepSeek</option>
+          <option value="qwen">通义千问（DashScope）</option>
+          <option value="moonshot">Moonshot Kimi</option>
+          <option value="custom">自定义（OpenAI 兼容）</option>
+        </select></div>
+      <div class="field"><label>Base URL</label><input id="llm-url" value="https://api.deepseek.com/v1"></div>
+      <div class="field"><label>模型</label><input id="llm-model" value="deepseek-chat"></div>
+      <div class="field"><label>API Key</label>
+        <div class="secret"><input id="llm-key" type="password" placeholder="sk-…">
+          <button class="btn sm" onclick="toggleKey(this)">显示</button></div>
+        <div class="hint">本地加密存储，不上传、不进日志、不写进任何产物</div></div>
+      <div class="mini" style="margin-top:2px;line-height:1.7">
+        <b>温度固定为 0，超时用客户端默认</b> —— 不开放配置。实测同一条新闻跑 100 次情感分 0.40~0.80（均值 0.67），
+        会跨越"持有 / 买入"两个决策区；<b>温度 0 也消不掉波动</b>，只能靠结构化短输出压缩。既然不可调，就不该出现在界面上。
+      </div>
+      <div class="dlg-acts" style="margin-top:16px">
+        <button class="btn" onclick="toast('原型演示：未发起真实请求')">测试连接</button>
+        <button class="btn primary" onclick="toast('原型演示：配置未写盘')">保存配置</button>
+      </div>
+    </div>
+    <div class="card" style="margin-top:12px">
+      <div class="mini" style="line-height:1.9">
+        <b style="color:var(--gold)">三条硬约束（都是踩过的坑）：</b><br>
+        ① <b>温度必须为 0，输出必须是纯 JSON 且禁止解释文字</b>。实测同一条新闻跑 100 次情感分 0.40~0.80（均值 0.67），会跨越"持有/买入"两个决策区；温度 0 也消不掉波动，只能靠结构化短输出压缩。<br>
+        ② <b>不问"利好还是利空"，改问"是否超出市场预期"</b>。前者主观且已被定价；后者常是新闻里的客观表述，可关键词提取、一致性 100%。<br>
+        ③ <b>LLM 编码输出本身必须先过四关回测才能进生产</b>。实测事件维 IC 随 horizon 上升（T+1 +0.025 → T+15 +0.067），但接入 DDSM 三窗口均无增量（−1.5 / −0.4 / +0.0pp）——价格已 price-in。<br>
+        <b>当前状态：</b>编码器已实现（prompt 固化 + 温度 0 + JSON schema），但历史事件语料不足，编码器准入考试（500 条人工标注）未完成，<b>停在 shadow / 观察区</b>。
+      </div>
+    </div>
+
+    <h2 class="sec">数据源健康 <span class="n">接口随时可能被墙，连通性必须可见</span></h2>
+    <div class="card" id="src-box"></div>
+
+    <h2 class="sec">引擎注册表 <span class="n">三态：active / shadow / retired</span></h2>
+    <div class="card tight">
+      <table>
+        <thead><tr><th>版本</th><th>状态</th><th>说明</th></tr></thead>
+        <tbody>
+          <tr><td class="mono">v1.5</td><td><span class="tag ok">active</span></td><td class="mini">门 + DDSM + 双否决，T+1 58.3%，六关全过 —— 当前生产</td></tr>
+          <tr><td class="mono">v2.0-event</td><td><span class="tag gray">shadow</span></td><td class="mini">事件维接入，三窗口均无增量（−1.5 / −0.4 / +0.0pp），观察区</td></tr>
+          <tr><td class="mono">v1.3</td><td><span class="tag gray">retired</span></td><td class="mini">单否决（仅拥挤度）55.3%，被 v1.5 取代，可回滚</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="card" style="margin-top:12px">
+      <div class="mini"><b>升级协议：</b>新版本注册进 models_registry 后先以 shadow 并行 20 个交易日，样本外达标才转 active，旧的转 retired 保留回滚能力。</div>
+    </div>
+
+    <h2 class="sec">持仓数据</h2>
+    <div class="card">
+      <div class="kv"><span class="k">当前数据源</span><span class="mono">基金监控 / app_data/funds_data.json</span></div>
+      <div class="kv"><span class="k">持仓只数</span><span class="mono">22 只</span></div>
+      <div class="kv"><span class="k">最近同步</span><span class="mono">2026-08-24</span></div>
+      <div class="kv"><span class="k">导入</span><button class="btn sm">从 funds_data.json 重新导入</button></div>
+      <div class="kv"><span class="k">导出</span><button class="btn sm">导出备份 zip</button></div>
+      <div class="kv"><span class="k">清空持仓</span><button class="btn sm danger" onclick="toast('原型演示：危险操作需二次确认')">清空</button></div>
+    </div>
+    <div class="card" style="margin-top:12px">
+      <div class="mini" style="line-height:1.85">
+        <b style="color:var(--gold)">发现的问题：存在两份 funds_data.json，且不同步。</b><br>
+        <span class="mono">基金监控/funds_data.json</span> 停在 <b>2026-08-21</b>（10,241 字节）<br>
+        <span class="mono">基金监控/app_data/funds_data.json</span> 停在 <b>2026-08-24</b>（10,890 字节，多一条净值）<br>
+        本原型读的是 <b>app_data 那份（较新）</b>。差异不只是天数——<span class="mono">018957</span> 在旧文件里 08-21 的 <span class="mono">pend_gz=4.6251</span>，在新文件里同一天的实际净值是 <span class="mono">4.5912</span>，<b>差 0.73%</b>。旧文件存的是当时对当日的<b>盘中估算</b>，新文件是后来回填的<b>官方净值</b>。<br>
+        <b>这正是「估值来源徽章」必须存在的原因</b>：估算和净值长得一模一样，不标注就会把估算当成既成事实。<br>
+        <b>建议：</b>产品只读 <span class="mono">app_data/</span> 那份，并在启动时做一次两文件一致性校验，不一致即告警。
+      </div>
+    </div>
+
+    <h2 class="sec">关于</h2>
+    <div class="card">
+      <div class="kv"><span class="k">版本</span><span class="mono">v1.5 · 产品壳原型 v2</span></div>
+      <div class="kv"><span class="k">引擎</span><span class="mono">Python 3.13 纯标准库</span></div>
+      <div class="kv"><span class="k">存储</span><span class="mono">SQLite(WAL) · 本地单文件</span></div>
+      <div class="kv"><span class="k">审计</span><span class="mono">predictions 表 INSERT-ONLY</span></div>
+      <div class="kv"><span class="k">免责</span><span class="mini" style="text-align:right">全部本地存储，数据不出本机，<b>不构成投资建议</b></span></div>
+    </div>
+    <div class="foot">FundLens 与「基金监控 exe」是两个独立项目</div>
+  </section>
+</main>
+
+<!-- 录入/编辑 -->
+<dialog id="dlg-fund"><form method="dialog" class="dlg">
+  <h3 id="fd-title">录入基金</h3>
+  <div class="sub" id="fd-sub">输入 6 位代码后自动回填名称</div>
+  <div class="row2">
+    <div class="field"><label>基金代码</label><input id="fd-code" maxlength="6" placeholder="如 014320"></div>
+    <div class="field"><label>基金名称</label><input id="fd-name" placeholder="自动回填，可手改"></div>
+  </div>
+  <div class="row2">
+    <div class="field"><label>持仓金额（元）</label><input id="fd-amount" type="number" step="0.01" placeholder="主模式"></div>
+    <div class="field"><label>份额</label><input id="fd-shares" type="number" step="any" placeholder="留空按金额折算"><div class="hint">与金额二选一，填金额更省事</div></div>
+  </div>
+  <div class="row2">
+    <div class="field"><label>成本（累计投入）</label><input id="fd-cost" type="number" step="0.01" placeholder="算累计收益用"></div>
+    <div class="field"><label>确认天数</label><select id="fd-t"><option value="1">T+1 境内</option><option value="2">T+2 QDII</option><option value="3">T+3</option></select></div>
+  </div>
+  <div class="dlg-acts"><button type="button" class="btn" onclick="closeFund()">取消</button><button type="button" class="btn primary" onclick="saveFund()">保存</button></div>
+</form></dialog>
+
+<!-- 金额（加仓/减仓） -->
+<dialog id="dlg-amt"><form method="dialog" class="dlg">
+  <h3 id="am-title">加仓</h3><div class="sub" id="am-sub">—</div>
+  <div class="field"><label>金额（元）</label><input id="am-amt" type="number" step="0.01" placeholder="0.00"></div>
+  <div class="mini" id="am-hint">15:00 后提交按次日净值确认</div>
+  <div class="dlg-acts"><button type="button" class="btn" onclick="closeAmt()">取消</button><button type="button" class="btn primary" onclick="saveAmt()">确认</button></div>
+</form></dialog>
+
+<!-- 删除确认 -->
+<dialog id="dlg-del"><form method="dialog" class="dlg">
+  <h3>删除持仓</h3><div class="sub" id="dl-sub">—</div>
+  <div class="mini" style="color:var(--up)">删除后不可恢复。若只是想调整金额，用「编辑」。</div>
+  <div class="dlg-acts"><button type="button" class="btn" onclick="closeDel()">取消</button><button type="button" class="btn danger" onclick="doDelete()">确认删除</button></div>
+</form></dialog>
+
+<div class="pop" id="pop"></div>
+<div id="toast"></div>
+
+<script>
+/* ============ 注销历史 Service Worker ============
+   本项目是本地实时应用，每次都要最新界面。旧 sw 缓存优先会把页面锁死（用户反复看到旧版）。
+   每次加载主动注销所有 sw 并清缓存，保证永远拿到最新 HTML。 */
+if('serviceWorker' in navigator){
+  try{
+    navigator.serviceWorker.getRegistrations().then(function(rs){
+      rs.forEach(function(r){ r.unregister(); });
+    });
+  }catch(e){}
+}
+if(window.caches&&caches.keys){
+  try{ caches.keys().then(function(ks){ ks.forEach(function(k){ caches.delete(k); }); }); }catch(e){}
+}
+/* ============ 持仓数据 ============
+   静态元数据（名称/分组/覆盖档位 tier/代理标的 px/估值来源 val/备注 note）来自原型内置；
+   动态数值（份额 sh/成本 b/净值 nav/涨跌 pct）由 loadLive() 从 /api/holdings 实时覆盖。 */
+let FUNDS=[
+ /* A 已接入：引擎直接产出信号 */
+ {c:'014320',n:'德邦半导体产业混合C',sh:486.9687,b:1149.01,nav:2.678,pct:-3.82,t:1,g:'主动',tier:'A',px:'512480 半导体ETF',val:'L2',note:'直接映射，信号可采信'},
+ {c:'013566',n:'华夏军工安全混合C',sh:523.0885,b:1117.99,nav:2.2405,pct:-2.29,t:1,g:'主动',tier:'A',px:'512660 军工ETF',val:'L2',note:'直接映射，信号可采信'},
+ /* B 代理已验证：映射 ETF 就在 v1.5 的 40 只验证池内，已过六关 */
+ {c:'017412',n:'创金合信中证科创创业50指数增强A',sh:2834.5577,b:4608.38,nav:1.7172,pct:-3.6,t:1,g:'境内指数',tier:'B',px:'588300 双创50',val:'L3',note:'代理 ETF 在验证池内'},
+ {c:'008087',n:'华夏中证5G通信主题ETF联接C',sh:1124.2689,b:2927.11,nav:2.8189,pct:-4.26,t:1,g:'境内指数',tier:'B',px:'515880 通信ETF',val:'L3',note:'代理 ETF 在验证池内'},
+ {c:'025857',n:'华夏中证电网设备主题ETF发起式联接C',sh:1718.8411,b:1832.88,nav:1.1501,pct:-1.75,t:1,g:'境内指数',tier:'B',px:'561560 电力ETF',val:'L3',note:'代理 ETF 在验证池内'},
+ {c:'017193',n:'天弘中证工业有色金属主题ETF发起联接C',sh:934.898,b:1567.61,nav:1.7964,pct:0.22,t:1,g:'境内指数',tier:'B',px:'512400 有色ETF',val:'L3',note:'代理 ETF 在验证池内'},
+ {c:'014881',n:'天弘中证机器人ETF发起联接C',sh:1311.5203,b:1432.46,nav:1.1083,pct:-2.68,t:1,g:'境内指数',tier:'B',px:'562500 机器人ETF',val:'L3',note:'代理 ETF 在验证池内'},
+ {c:'011840',n:'天弘中证人工智能主题ETF发起联接C',sh:577.2923,b:783.34,nav:1.7005,pct:-3.96,t:1,g:'境内指数',tier:'B',px:'515070 人工智能ETF',val:'L3',note:'代理 ETF 在验证池内'},
+ {c:'018897',n:'易方达消费电子ETF联接C',sh:284.0998,b:0.00,nav:2.2021,pct:-3.3,t:1,g:'境内指数',tier:'B',px:'561600 消费电子ETF',val:'L3',note:'代理 ETF 在验证池内'},
+ {c:'016786',n:'鹏华中证1000指数增强C',sh:26.8319,b:30.00,nav:1.5622,pct:-1.47,t:1,g:'境内指数',tier:'B',px:'512100 中证1000ETF',val:'L3',note:'代理 ETF 在验证池内'},
+ {c:'000217',n:'华安黄金ETF联接C',sh:1272.6375,b:4200.00,nav:3.3667,pct:1.78,t:1,g:'黄金',tier:'B',px:'518880 黄金ETF',val:'L1',note:'黄金 ETF 本就在 v1.5 的 40 只验证池内；另有沪金 AU00.SHF 隔夜跳空可作外盘锚（已验证 +0.9pp）'},
+ {c:'002963',n:'易方达黄金ETF联接C',sh:1212.7231,b:3706.68,nav:3.1795,pct:1.78,t:1,g:'黄金',tier:'B',px:'518880 黄金ETF',val:'L1',note:'黄金 ETF 本就在 v1.5 的 40 只验证池内'},
+ {c:'012922',n:'易方达全球成长精选混合(QDII)C',sh:880.28,b:2430.00,nav:3.6112,pct:-2.26,t:2,g:'QDII',tier:'B',px:'513100 纳指ETF',val:'L1',note:'纳指 ETF 在验证池内。ETF 价格 T+0 反映隔夜美股，比 T+2 净值领先 1~2 天'},
+ {c:'016665',n:'天弘全球高端制造混合(QDII)C',sh:1032.5592,b:2328.22,nav:2.681,pct:-3.9,t:2,g:'QDII',tier:'B',px:'513100 纳指ETF',val:'L1',note:'拟用纳指代理，制造与科技有偏离，代理精度打折'},
+ {c:'024239',n:'华夏全球科技先锋混合(QDII)C',sh:978.2905,b:2058.48,nav:2.6119,pct:-1.23,t:2,g:'QDII',tier:'B',px:'513100 纳指ETF',val:'L1',note:'拟用纳指代理，与全球科技重合度高'},
+ /* C 代理待验证：标的明确但不在 40 只验证池，需补走六关 */
+ {c:'022485',n:'国金中证A500指数增强A',sh:3289.3267,b:4690.00,nav:1.455,pct:-1.45,t:1,g:'境内指数',tier:'C',px:'159352 A500ETF',val:'L3',note:'已知问题：159352 数据缺失（2024-10 上市，样本短），需补数据源后重跑'},
+ {c:'018957',n:'中航机遇领航混合发起C',sh:825.5608,b:3797.21,nav:4.3632,pct:-4.97,t:1,g:'主动',tier:'C',px:'CPO 代理（待建）',val:'L2',note:'持仓穿透显示约 85% CPO 暴露，但 CPO 无现成 ETF 标的，需建代理'},
+ {c:'021662',n:'国富亚洲机会股票(QDII)C',sh:2215.549,b:4700.00,nav:2.7563,pct:-2.51,t:2,g:'QDII',tier:'C',px:'513100 纳指ETF（近似）',val:'L1',note:'2026-06-30 实测前十大：SK海力士 7.95%、三星电子 6.47%、台积电 8.93%、阿斯麦 3.43%，信息技术 59.84% —— 全球 AI 半导体硬件，不是港股。境内无直接标的，纳指 ETF 只是近似，行业偏离明显'},
+ {c:'457001',n:'国富亚洲机会股票(QDII)A',sh:567.5192,b:1593.49,nav:2.7963,pct:-2.51,t:2,g:'QDII',tier:'C',px:'513100 纳指ETF（近似）',val:'L1',note:'与 021662 同一基金 A 类，持仓一致'},
+ {c:'163208',n:'诺安油气能源(QDII-FOF-LOF)',sh:848.3432,b:1000.00,nav:1.3804,pct:-2.03,t:2,g:'QDII',tier:'C',px:'162411 华宝标普油气（拟用）',val:'L1',note:'2026-06-30 实测：XOP 18.84% + VDE 17.50% + IYE 16.99% + IXC 16.80% + XLE 16.20%，美股能源股合计 86.3%；原油期货仅 USO+BNO 8.5%，另有港股新能源电力 7.6% —— 主导是美股能源股不是油价。162411 跟踪的正是 XOP'},
+ /* D 暴露待定：需先做持仓穿透或 RBSA 定暴露 */
+ {c:'025500',n:'东方阿尔法科技智选混合发起C',sh:847.3875,b:802.48,nav:1.5824,pct:-4.83,t:1,g:'主动',tier:'D',px:'待定',val:'L2',note:'未做穿透。方法已有：前十大持仓→行业 ETF 映射，或 RBSA 约束回归（Σw=1）'},
+ {c:'021528',n:'财通成长优选混合C',sh:178.5092,b:606.94,nav:4.1171,pct:-5.31,t:1,g:'主动',tier:'D',px:'待定',val:'L2',note:'未做穿透。同 025500，走持仓映射或 RBSA'}
+];
+
+/* 演示用信号台账（P0.5 落地后由 shadow_signals.jsonl 驱动） */
+const SIGNALS=[
+ {d:'2026-08-18',c:'014320',n:'德邦半导体产业混合C',px:'512480 半导体ETF',gate:'E3 无量急跌',p:0.58,vc:false,vk:false,sig:'涨',t1:1.24,st:[2,4,1]},
+ {d:'2026-08-12',c:'008087',n:'华夏中证5G通信主题ETF联接C',px:'515880 通信ETF',gate:'E1 跳空',p:0.55,vc:true,vk:false,sig:'弃权',t1:null,st:[4,3,2]},
+ {d:'2026-07-29',c:'017193',n:'天弘中证工业有色金属…',px:'512400 有色ETF',gate:'E3 无量急跌',p:0.61,vc:false,vk:false,sig:'涨',t1:0.87,st:[1,4,2]},
+ {d:'2026-07-22',c:'013566',n:'华夏军工安全混合C',px:'512660 军工ETF',gate:'E1 跳空',p:0.53,vc:false,vk:false,sig:'涨',t1:-0.42,st:[3,3,3]},
+ {d:'2026-07-08',c:'014320',n:'德邦半导体产业混合C',px:'512480 半导体ETF',gate:'E3 无量急跌',p:0.57,vc:false,vk:true,sig:'弃权',t1:null,st:[2,2,1]}
+];
+
+/* 当日触发与三窗口预测：由 loadLive() 从 /api/predict 实时覆盖 */
+let FC={
+ '014320':{gate:'E3 无量急跌',ret:-3.82,vr:0.72,p:0.61,vc:0,vk:0,out:'涨'},
+ '016665':{gate:'E3 无量急跌',ret:-3.90,vr:0.77,p:0.57,vc:0,vk:0,out:'涨'},
+ '008087':{gate:'E3 无量急跌',ret:-4.26,vr:0.65,p:0.59,vc:1,vk:0,out:'弃权'},
+ '000217':{gate:'E1 跳空',    ret: 1.78,vr:1.12,p:0.54,vc:0,vk:1,out:'弃权'},
+ '002963':{gate:'E1 跳空',    ret: 1.78,vr:1.10,p:0.54,vc:0,vk:1,out:'弃权'},
+ '018957':{gate:'E3 无量急跌',ret:-4.97,vr:0.74,p:0.60,vc:0,vk:1,out:'弃权'},
+ '013566':{gate:'E3 无量急跌',ret:-2.29,vr:0.72,p:0.51,vc:0,vk:0,out:'灰'},
+ '163208':{gate:'E3 无量急跌',ret:-2.03,vr:0.76,p:0.56,vc:0,vk:0,out:'待验证'},
+ '457001':{gate:'E3 无量急跌',ret:-2.51,vr:0.78,p:0.55,vc:0,vk:0,out:'待验证'}
+};
+
+const WINAME=['15日','30日','60日','6月','24月','全样本'];
+const WINW=[8,22,15,10,30,15];
+const WINN=[5,10,15,30,60,120];
+function kLift(v){return v>=1.30?1.0:(v>=1.20?0.80:(v>=1.10?0.65:(v>=1.00?0.50:(v>=0.84?-0.80:-1.3))))}
+function factorRows(f){
+  return f.lift.map(function(v,i){
+    const k=kLift(v), adm=Math.min(1,f.days[i]/WINN[i]);
+    return {w:WINAME[i],lift:v,k:k,wt:WINW[i],n:f.days[i],adm:adm,sc:k*WINW[i]*adm};
+  });
+}
+function factorTotal(f){return factorRows(f).reduce(function(s,r){return s+r.sc},0)}
+
+const FACTORS=[
+ {n:'KLOW2 下影线否决',lift:[1.41,1.36,1.28,1.19,1.12,1.06],days:[3,7,15,30,55,120],lic:'正式 T3',role:'否决位',pan:'prod',
+  note:'六窗 lift 全 ≥1.06 · bootstrap 随机 P99.5 之上 · 聚类稳健 t=3.09',
+  dead:'滚动 60 日中，该因子否决掉的子集命中率反超保留子集 +2pp 且持续 30 天 = 失效'},
+ {n:'拥挤度六维复合',lift:[1.22,1.18,1.14,1.09,1.07,1.04],days:[4,8,15,30,49,120],lic:'续聘 T2',role:'否决位',pan:'prod',
+  note:'mom5 / vr / dev / vpcorr / volat / skew 按训练段 IC 符号等权 z-score',
+  dead:'24 月窗 lift<1.00 或 留一法移除后组合 Δ 升 ≥0.5pp 持续 30 天 = 结构红线'},
+ {n:'CNTN5 事件计数',lift:[1.32,1.22,1.10,1.04,1.01,0.99],days:[5,10,15,28,52,105],lic:'试用（红线）',role:'打分位',pan:'retire',
+  note:'全量窗 0.99 跌破 1.00 → 扣 0.80；24 月窗 1.01 已濒临地板',
+  ab:'A/B 第 23 / 60 日 · 移出后组合 +0.2pp（尚在观察，未定论）'},
+ {n:'RSV10 超买超卖',lift:[1.24,1.15,1.06,1.02,1.00,0.98],days:[5,10,15,29,54,110],lic:'候补（A/B）',role:'打分位',pan:'retire',
+  note:'全量窗 0.98 跌破 1.00 → 负分；总分已低于随机 P90（38.7）',
+  ab:'A/B 第 8 / 60 日 · 移出后组合 −0.1pp（倾向误杀）'},
+ {n:'量能 vr',lift:[1.31,1.12,1.05,1.02,1.01,1.00],days:[5,8,12,25,39,85],lic:'候补观察',role:'打分位',pan:'trial',
+  note:'15 日窗亮眼（1.31）但长窗迅速衰减到 1.00 地板，独立触发日也偏少',
+  dead:'连续两季总分 <50 → 直接进冷冻盘（不在生产，无需 A/B）'},
+ {n:'mom5 动量',lift:[0.94,0.97,1.02,1.05,1.03,1.01],days:[4,9,13,26,42,95],lic:'试用',role:'打分位',pan:'trial',
+  note:'短窗反号（0.94 / 0.97）→ 两个窗各扣 0.80 = −21 分，长窗正分几乎被抵消',
+  dead:'当前总分已跌破 19（随机 P75），下一评分期若仍 <19 直接进 A/B'},
+ {n:'vpcorr 量价相关',lift:[1.44,1.02,0.96,0.98,0.97,0.98],days:[5,10,15,30,60,120],lic:'冷冻盘',role:'已剔除',pan:'frozen',
+  note:'15 日窗 +0.441 是 60 日样本噪声（全样本仅 +0.040）；四个长窗全部跌破 1.00',
+  frozen:'2026-08-24 判定淘汰正确（移除后 +0.3pp）· 已冷冻 12 天 · 满 90 天可重扫'}
+];
+
+const PANELS=[
+ {k:'prod',t:'正式盘（进化盘）',d:'参与组合决策 · 采纳当天预注册死亡条件',c:'#0e8a63',
+  rule:'总数上限：否决位 ≤4 个，打分位受状态空间约束（≤3 维，第 4 维已证伪）。<b>月检留一法</b>：每月移除该因子跑一遍当月，Δ 变化即真实贡献，入体检台账。新因子转正须池子未满或有旧因子让位 —— <b>在位者无终身制</b>。'},
+ {k:'retire',t:'淘汰影子盘',d:'移出生产但继续并行跑 · A/B 对照 60 交易日',c:'#d93843',
+  rule:'同数据、同门、同模型。移除后组合 ≥ 移除前 +0.5pp（或持平且方差降）→ 淘汰正确，进冷冻盘；移除后变差 ≥0.5pp → 判误杀，<b>无损回原牌照级</b>。<b>红线只证明最近不行；淘汰的判据永远是对组合的实际影响。</b>'},
+ {k:'trial',t:'有效因子影子盘',d:'试用期 · 独立记账，不参与生产决策',c:'#c99700',
+  rule:'准入三项 AND：F1 近 6 月或近 60 日任一超基线｜F2 与现役最大共线 <0.7｜F3 加入现配置 Δ≥+0.5pp 且开口不塌方（>50%）。获胜判据：开口 ≥20 次（不足可延两期）｜超基线 ≥+3pp 且 t≥1.6｜头对头重叠日胜率 ≥55%｜各 regime 均不明显为负。'},
+ {k:'frozen',t:'冷冻盘',d:'候补库不是坟墓 · 台账全保留',c:'#a3aaa4',
+  rule:'复活触发：regime 切到有利状态 / 新信息源解锁 / 冷冻满 90 天重扫。复活路径：回候补（50 线）重爬，<b>禁止直接回生产</b>。宽基方向模型等外盘数据恢复 = 标准复现场景。'}
+];
+
+const BOOKS=[
+ {f:'adopted_factors.json',t:'采纳登记表',d:'因子 → 角色 → 死亡条件 → 牌照 → 采纳日期',n:'2 条',
+  ex:'KLOW2 → 否决位 →「滚动 60 日中，该因子否决掉的子集命中率反超保留子集 +2pp 且持续 30 天 = 失效」→ 正式 T3 → 2026-09-01'},
+ {f:'scan_history.jsonl',t:'挖掘台账',d:'每次扫描的候选与判定 · 周提名 ≤3 · 冷却 90 天',n:'5 条',
+  ex:'2026-08-30　RESI30 → F1✓　F2✓(0.31)　F3✗(+0.2pp) → 未过 F3，回落候选池'},
+ {f:'factor_health.jsonl',t:'体检台账',d:'月检留一法结果 · 红线触发 · regime 标签',n:'待写入',
+  ex:'2026-09-01　KLOW2 留一法 Δ = −1.9pp（移除后变差 → 有用）· 红线未触发 · regime = 震荡'},
+ {f:'retired_log.jsonl',t:'淘汰台账',d:'A/B 对照结果 · 环境快照 · 隔离 / 封存 / 复职记录',n:'1 条',
+  ex:'2026-08-24　vpcorr → 移除后组合 +0.3pp → 淘汰正确 → 冷冻盘 · 环境快照：短窗高波动'}
+];
+
+const CYCLES=[
+ {k:'下次挖掘扫描',v:'周六',s:'提名 ≤3 · 冷却 90 天防多重检验'},
+ {k:'下次评分卡',v:'周日',s:'六窗重算 + 异常复盘'},
+ {k:'下次月榜 / 牌照',v:'每月 1 日',s:'排名只产生提名，不直接变更生产'},
+ {k:'下次季复查',v:'每季首月',s:'试用→续聘判定，破格条款在此'},
+ {k:'下次 DDSM 重训',v:'每季',s:'回测设为每年；生产建议缩短到季度，但属参数变更须重走六关'}
+];
+
+const SCANS=[
+ {d:'2026-08-30',c:'RESI30',f1:'✓',f2:'✓ 0.31',f3:'✗ +0.2pp',r:'未过 F3，回落候选池'},
+ {d:'2026-08-30',c:'CNTN5', f1:'✓',f2:'✓ 0.42',f3:'✗ −0.1pp',r:'未过 F3'},
+ {d:'2026-08-30',c:'RSV5',  f1:'✓',f2:'✗ 0.78',f3:'—',      r:'未过 F2，与 vr 共线'},
+ {d:'2026-08-23',c:'KSFT2', f1:'✓',f2:'✓ 0.29',f3:'✓ +0.6pp',r:'进入竞技场影子盘'},
+ {d:'2026-08-16',c:'RSV10', f1:'✗',f2:'✓ 0.55',f3:'—',      r:'未过 F1'}
+];
+
+let SOURCES=[
+ {n:'腾讯日K（web.ifzq.gtimg.cn）',s:'ok',t:'2026-08-21 15:40',f:0},
+ {n:'腾讯实时（qt.gtimg.cn）',s:'ok',t:'2026-08-21 15:41',f:0},
+ {n:'天天基金',s:'ok',t:'2026-08-21 15:39',f:0},
+ {n:'新浪（hq.sinajs.cn）',s:'ok',t:'2026-08-21 15:38',f:1},
+ {n:'东财快讯',s:'ok',t:'2026-09-03 22:10',f:0},
+ {n:'东财 push2 实时列表',s:'bad',t:'—',f:12}
+];
+
+/* ============ 工具 ============ */
+const $=(s)=>document.querySelector(s), $$=(s)=>[...document.querySelectorAll(s)];
+const f2=(n)=>Number(n).toLocaleString('zh-CN',{minimumFractionDigits:2,maximumFractionDigits:2});
+const sgn=(n)=>(n>=0?'+':'')+f2(n);
+const cls=(n)=>n>0?'up':(n<0?'down':'flat');
+const mvOf=(f)=>f.sh*f.nav;
+/* pct 为 null（未知）时今日盈亏记为 0，仅用于汇总时不影响总和；
+   单元格展示走 todayCell()，会渲染成「—」而非 +0.00 */
+const todayOf=(f)=>{const m=mvOf(f);return (f.pct==null||f.pct===0)?0:m-m/(1+f.pct/100)};
+const pnlOf=(f)=>mvOf(f)-f.b;
+let COLS={cost:true,pnl:true,val:true,sig:true,adv:true};
+let curCode='',amtAct='';
+
+/* ============ 持仓计算 ============ */
+function calc(){
+  const rows=FUNDS.map(f=>({...f,mv:mvOf(f),today:todayOf(f),pnl:pnlOf(f)}));
+  const total=rows.reduce((a,r)=>a+r.mv,0);
+  const cost=rows.reduce((a,r)=>a+r.b,0);
+  const pnl=rows.reduce((a,r)=>a+r.pnl,0);
+  const today=rows.reduce((a,r)=>a+r.today,0);
+  rows.forEach(r=>r.w=r.mv/total*100);
+  return {rows,total,cost,pnl,today};
+}
+
+function renderOverview(){
+  const {total,pnl,today,cost}=calc();
+  $('#pa-total').textContent='¥'+f2(total);
+  $('#pa-today').textContent=sgn(today); $('#pa-today').className='v amt '+cls(today);
+  $('#pa-pnl').textContent=sgn(pnl);     $('#pa-pnl').className='v amt '+cls(pnl);
+  const ret=pnl/cost*100;
+  $('#pa-ret').textContent=sgn(ret)+'%'; $('#pa-ret').className='v '+cls(ret);
+  // 覆盖度：未知持仓被排除在今日盈亏之外，必须写明，否则「未亏」会被读成「没跌」
+  const sub=$('#pa-today-sub');
+  if(sub){
+    if(LIVE.cov){
+      const {n,t}=LIVE.cov;
+      sub.innerHTML = (n<t)
+        ? `口径 mv − mv/(1+pct) · <span class="cov-warn">仅覆盖 ${n}/${t} 只</span>，${t-n} 只未知不计入`
+        : `口径 mv − mv/(1+pct) · ${t} 只全部覆盖`;
+    }
+  }
+}
+
+const TIERS={
+ A:['A 已接入','#0e8a63','引擎直接产出信号，可采信','信号已可用'],
+ B:['B 代理已验证','#1d9e75','映射 ETF 就在 v1.5 的 40 只池内，已过六关','接线即可用'],
+ C:['C 代理待验证','#c99700','标的明确但不在验证池，需补走一遍六关','验证后可用'],
+ D:['D 暴露待定','#a3aaa4','需先做持仓穿透或 RBSA 定暴露，再谈信号','穿透后可用']
+};
+function renderCov(){
+  const {rows,total}=calc();
+  const html=Object.keys(TIERS).map(k=>{
+    const [label,color,desc,act]=TIERS[k];
+    const a=rows.filter(r=>r.tier===k).sort((x,y)=>y.mv-x.mv);
+    const m=a.reduce((s,r)=>s+r.mv,0);
+    const names=a.slice(0,3).map(r=>r.n.replace(/混合.*|指数增强.*|股票.*|ETF.*|\(QDII.*/,'').slice(0,8)).join('、')
+      +(a.length>3?` 等 ${a.length} 只`:'');
+    return `<div class="cov"><div class="h"><span class="dot" style="background:${color}"></span>${label}</div>
+      <div class="v">${a.length} 只 · ¥${Math.round(m).toLocaleString()}</div>
+      <div class="s">占市值 ${(m/total*100).toFixed(1)}% —— ${desc}</div>
+      <div class="s" style="color:var(--ink2);margin-top:5px">${names}</div></div>`;
+  }).join('');
+  $('#cov-bar').innerHTML=html;
+  $('#cov-bar').className='covbar';
+}
+
+/* 估值来源四档 —— 由 /api/holdings 的 mode 字段实时驱动。
+   L1/L2/L3 三个静态档只是后端未接入时的原型兜底；一旦接入，一律以真实 mode 为准。
+   （此前 loadLive() 从不覆盖 val，徽章永远显示静态硬编码值 —— 已修复） */
+const VALMAP={
+  official:['官方净值','l1','东财官方净值已公布今日数值 —— 最准，直接用官方涨跌'],
+  intraday:['盘中估算','l2','官方今日未公布 → 腾讯盘中实时估算净值'],
+  holdings:['重仓加权','l1','官方今日未公布 → 前十大重仓股当日涨跌加权（主流平台历史做法）'],
+  proxy:   ['代理近似','l3','官方今日未公布 → 代理 ETF 今日涨跌 × 官方最新净值'],
+  unknown: ['未知','l0','回测证明估算无信息量 → 只标净值截止日，不冒充今日'],
+  L1:['官方净值','l1','原型内置静态标注（后端未接入）'],
+  L2:['重仓估算','l2','原型内置静态标注（后端未接入）'],
+  L3:['指数近似','l3','原型内置静态标注（后端未接入）']
+};
+/* 置信度由回测 MAE 决定，锚定行业基准 0.8%
+   （深圳证监局抽查：主动混合型估值与实际净值平均偏离 0.8%，剧烈波动 >3%） */
+const CONFCLASS={high:'ch',mid:'cm',low:'cl',unknown:'cu'};
+const CONFTXT={high:'误差达标',mid:'误差中等',low:'误差偏大',unknown:'无可信估算'};
+
+/* 估值精度汇总：把回测出来的误差摆到台面上，而不是藏在文档里 */
+function renderValSum(){
+  const el=$('#val-sum'); if(!el) return;
+  const {rows,total}=calc();
+  const g={high:[],mid:[],low:[],unknown:[]};
+  rows.forEach(r=>{
+    const c=r.conf||(r.valLive==='unknown'?'unknown':null);
+    if(c&&g[c]) g[c].push(r);
+  });
+  const mv=a=>a.reduce((s,r)=>s+r.mv,0);
+  const known=rows.filter(r=>r.mae!=null&&r.conf&&r.conf!=='unknown');
+  const kmv=mv(known);
+  const wmae=kmv? known.reduce((a,r)=>a+r.mae*r.mv,0)/kmv : null;
+  const chip=(k,label)=>{
+    if(!g[k].length) return '';
+    const m=mv(g[k]);
+    return `<span class="chip"><span class="vb ${CONFCLASS[k]}" style="margin-right:5px">${label}</span>`
+      +`${g[k].length} 只 · ¥${Math.round(m).toLocaleString()} · 占 ${(m/total*100).toFixed(1)}%</span>`;
+  };
+  const wmTxt = wmae==null ? ''
+    : `<span class="chip">市值加权平均误差 <b style="color:${wmae<=0.8?'var(--down)':'var(--gold)'}">`
+      +`${wmae.toFixed(2)}%</b> ／ 行业基准 0.80%</span>`;
+  el.innerHTML = chip('high','误差达标')+chip('mid','误差中等')+chip('low','误差偏大')
+    +chip('unknown','未知')+wmTxt
+    +`<span class="chip" style="border-style:dashed">口径：近 40 个交易日回测，`
+    +`估算涨跌 vs 基金公司公布净值涨跌</span>`;
+}
+/* 未知 ≠ 持平。pct 为 null 时必须渲染成「未知」，绝不能走 sgn(0) 变成 +0.00% */
+const pctCell=(p)=>p==null?'<span class="unk">未知</span>'
+  :`<span class="${cls(p)}">${sgn(p)}%</span>`;
+/* 同理：涨跌未知 → 今日盈亏也是未知，不显示 +0.00 */
+const todayCell=(f)=>f.pct==null?'<span class="unk">—</span>'
+  :`<span class="${cls(f.today)}">${sgn(f.today)}</span>`;
+/* 真实数据接入状态（loadLive 写入）。
+   必须声明在首次 render 之前：底部 renderOverview() 会读 LIVE.cov，
+   若 LIVE 声明在其后，const 的暂时性死区（TDZ）会直接中断整个脚本 → 白屏 */
+const LIVE={holdings:false,predict:false,cov:null};
+
+function predCell(r){
+  const f=FC[r.c];
+  if(!f){
+    if(r.tier==='C') return `<span class="tag warn" title="${r.note}">待验证</span>`;
+    if(r.tier==='D') return `<span class="tag gray" title="${r.note}">暴露待定</span>`;
+    return `<span class="tag blue" title="能算，但没边际：DDSM 是全样本训练的，任何一天都能查表得到 P(涨)；但实测全样本建模 Δ=−1.3%，等于噪音 —— 按纪律不开口。只有触发日（E1 跳空 / E3 无量急跌）Δ 才抬起来：仅触发 52.2% → +DDSM 54.0% → +双否决 58.7%">灰 · 可算无边际</span>`;
+  }
+  if(f.out==='涨')   return `<span class="tag red"  title="${f.gate} · P=${f.p} · 双否决未亮灯">涨 ${f.p}</span>`;
+  if(f.out==='弃权') return `<span class="tag gray" title="${f.gate} · P=${f.p} · ${f.vc?'拥挤度':'KLOW2'}否决亮灯，已弃权">弃权 ${f.p}</span>`;
+  if(f.out==='灰')   return `<span class="tag blue" title="${f.gate} · P=${f.p} ≤ 0.52，出口未通过">灰 ${f.p}</span>`;
+  return `<span class="tag warn" title="${f.gate} · P=${f.p} · C 档待过六关，仅供参考">待验证 ${f.p}</span>`;
+}
+
+/* ============ 组合预测（按市值加权，只算开口的 A/B 档） ============ */
+function forecast(){
+  const {rows,total}=calc();
+  const pick=(list)=>{
+    const m=list.reduce((s,r)=>s+r.mv,0);
+    return {mv:m, cov:total?m/total*100:0,
+            p:m?list.reduce((s,r)=>s+r.mv*FC[r.c].p,0)/m:0, list};
+  };
+  const ab=r=>r.tier==='A'||r.tier==='B';
+  const t1=rows.filter(r=>ab(r)&&FC[r.c]&&FC[r.c].out==='涨');
+  const t3=rows.filter(r=>ab(r)&&FC[r.c]);
+  return {t1:pick(t1), t3:pick(t3), total};
+}
+function winCard(title,P,cov,note,pLabel){
+  const up=P>0.52;
+  return `<div class="win">
+    <div class="h">${title} <span class="tag ${up?'red':'gray'}">${up?'看涨':'不表态'}</span></div>
+    <div class="dir ${up?'up':'flat'}">${(P*100).toFixed(1)}%</div>
+    <div class="p">${pLabel}</div>
+    <div class="cov">${note}<div class="covbar2"><i style="width:${Math.min(cov,100).toFixed(1)}%"></i></div>
+      <b style="color:var(--ink2)">覆盖 ${cov.toFixed(1)}% 市值</b></div></div>`;
+}
+function renderForecast(){
+  const f=forecast();
+  const cards=
+    winCard('T+1', f.t1.p, f.t1.cov, '门 + DDSM + 双否决', '持仓加权 P(涨)')+
+    winCard('T+3', 0.556,  f.t3.cov, '仅触发做多持有 3 日', '该窗口历史命中率')+
+    winCard('T+15',0.597,  f.t3.cov, '门 + DDSM', '该窗口历史命中率');
+  $('#pf-forecast').innerHTML=cards;
+  $('#an-forecast').innerHTML=cards;
+  const n1=f.t1.list.length, n3=f.t3.list.length;
+  $('#pf-note').innerHTML=
+    `<b>本次开口 ${n1} 只（T+1 输出的"涨"信号），合计 ¥${Math.round(f.t1.mv).toLocaleString()}，仅占组合 ${f.t1.cov.toFixed(1)}%。</b><br>`+
+    `T+3 / T+15 定式不同（不用双否决），开口 ${n3} 只、覆盖 ${f.t3.cov.toFixed(1)}%。<br>`+
+    `<b style="color:var(--gold)">其余 ${(100-f.t1.cov).toFixed(1)}% 的仓位今日不开口</b> —— 灰不是"看平"，是从分子分母同时剔除，不参与加权。<br>`+
+    `<b>不开口 ≠ 算不了。</b>DDSM 是全样本训练的，任何一天都能查表得到 P(涨)。但全样本实测 <b>Δ = −1.3%</b>（40 只 ETF 走前 CV，命中 50.4% vs 基线 51.7%），`+
+    `算出来等于噪音，所以按纪律闭嘴 —— 这正是"跑不赢基线就自动闭嘴"的产品立场。开口率 0.8% 是设计目标，不是缺陷。`;
+  // 分析页明细
+  const {rows}=calc();
+  $('#an-body').innerHTML=rows.filter(r=>FC[r.c]).sort((a,b)=>b.mv-a.mv).map(r=>{
+    const f2c=FC[r.c];
+    const v=f2c.vc?'<span class="tag warn">拥挤度</span>':(f2c.vk?'<span class="tag warn">KLOW2</span>':'<span class="tag ok">未亮灯</span>');
+    const cell=(o,txt)=>`<span class="tag ${o==='涨'?'red':(o==='弃权'?'gray':'blue')}">${txt}</span>`;
+    const t3o=(r.tier==='A'||r.tier==='B')?'涨':'待验证';
+    return `<tr><td><div class="fname">${r.n}</div><div class="fcode">${r.c} · ${f2c.gate} · ret ${f2c.ret}% · 量比 ${f2c.vr}</div></td>
+      <td><span style="color:${TIERS[r.tier][1]}">${r.tier}</span></td>
+      <td class="mini">${f2c.gate.replace(' 无量急跌','')}</td>
+      <td class="num">${f2c.p}</td><td>${v}</td>
+      <td>${cell(f2c.out,f2c.out)}</td><td>${cell(t3o,t3o)}</td><td>${cell(t3o,t3o)}</td>
+      <td class="num amt-row">${f2(r.mv)}</td></tr>`;
+  }).join('');
+}
+function renderHoldings(){
+  const {rows}=calc();
+  const order=['境内指数','主动','QDII','黄金'];
+  let html='';
+  order.forEach(g=>{
+    const a=rows.filter(r=>r.g===g).sort((x,y)=>y.mv-x.mv);
+    if(!a.length)return;
+    const m=a.reduce((s,r)=>s+r.mv,0);
+    html+=`<tr class="grp" data-g="${g}"><td colspan="11"><span class="caret">▼</span>${g} · ${a.length} 只 · ¥${f2(m)}</td></tr>`;
+    a.forEach(r=>{
+      // 真实来源优先：valLive 由 loadLive() 从后端 mode 写入；静态 val 仅在后端未接入时兜底
+      const vkey=r.valLive||r.val;
+      const [vn,vc,vdesc]=VALMAP[vkey]||VALMAP[r.val]||['—','l0',''];
+      // 置信度按回测 MAE 上色（优先于来源名），并在悬浮里给出可核对的精度数字
+      const conf=r.conf||(vkey==='unknown'?'unknown':null);
+      const cc=CONFCLASS[conf]||'';
+      let acc='';
+      if(conf) acc+=`\n置信度：${CONFTXT[conf]}`;
+      if(r.mae!=null) acc+=`\n历史平均误差 MAE ${r.mae.toFixed(2)}%（行业基准 0.80%）`;
+      if(r.dir!=null) acc+=`\n方向命中率 ${r.dir.toFixed(0)}%`+(r.nTest?`，样本 ${r.nTest} 个交易日`:'');
+      const vtip=((r.trace?`${vdesc}\n降级链路：${r.trace}`:`${vdesc}\n${r.note||''}`)+acc)
+        .replace(/"/g,'&quot;');
+      const [tn,tc]=TIERS[r.tier][0].split(' ');
+      const adv=r.tier==='A'||r.tier==='B'?(r.pnl<0?'持有':'观望'):'—';
+      const t2=r.t===2?'<span class="tag warn" style="margin-left:5px">T+2</span>':'';
+      html+=`<tr data-g="${g}" data-code="${r.c}">
+        <td><div class="fname">${r.n}${t2}</div><div class="fcode">${r.c} · <span style="color:${TIERS[r.tier][1]}">${r.tier}</span> ${r.px}</div></td>
+        <td class="num amt-row">${f2(r.mv)}</td>
+        <td class="num mini amt-row" data-col="cost">${f2(r.b)}</td>
+        <td class="num amt-row">${todayCell(r)}</td>
+        <td class="num">${pctCell(r.pct)}</td>
+        <td class="num amt-row ${cls(r.pnl)}" data-col="pnl">${sgn(r.pnl)}</td>
+        <td class="num mini">${r.w.toFixed(1)}%</td>
+        <td data-col="val"><span class="vb ${cc||vc}" title="${vtip}">${vn}</span></td>
+        <td data-col="sig">${predCell(r)}</td>
+        <td data-col="adv"><span class="tag gray">${adv}</span></td>
+        <td class="num"><button class="btn sm" onclick="openPop(event,'${r.c}')">···</button></td>
+      </tr>`;
+    });
+  });
+  $('#hd-body').innerHTML=html;
+  applyCols();
+  $$('#hd-body tr.grp').forEach(t=>t.onclick=()=>{
+    const g=t.dataset.g,caret=t.querySelector('.caret');
+    const on=caret.textContent==='▼';
+    caret.textContent=on?'▶':'▼';
+    $$(`#hd-body tr[data-g="${g}"]:not(.grp)`).forEach(r=>r.style.display=on?'none':'');
+  });
+}
+
+function applyCols(){
+  Object.keys(COLS).forEach(k=>{
+    $$(`[data-col="${k}"]`).forEach(e=>e.style.display=COLS[k]?'':'none');
+  });
+}
+
+/* ============ 信号时间线 ============ */
+function renderSignals(){
+  const {rows}=calc();
+  const ab=rows.filter(r=>r.tier==='A'||r.tier==='B');
+  const cd=rows.filter(r=>r.tier==='C'||r.tier==='D');
+  $('#f-watch').textContent=ab.length+' / '+rows.length+' 只';
+  $('#sig-sub').innerHTML=`A+B 档 ${ab.length} 只在信号监控中，今日均未触发开门条件 —— 这是常态，不是故障。<br>C+D 档 ${cd.length} 只待接线 / 穿透后纳入监控。`;
+  $('#tl-list').innerHTML=SIGNALS.map(s=>{
+    const state=s.sig==='弃权'?'veto':(s.t1>0?'hit':'miss');
+    const rTxt=s.sig==='弃权'?'<span class="flat">已弃权</span>'
+      :`<span class="${s.t1>0?'up':'down'}">${sgn(s.t1)}%</span>`;
+    const badge=s.sig==='弃权'?'<span class="tag gray">弃权</span>':'<span class="tag red">涨</span>';
+    const vt=s.sig==='弃权'
+      ? `<div class="ev-row"><span class="ev-n">③</span><span class="ev-l">拥挤度否决</span><span class="ev-v">${s.vc?'<span class="up">亮灯 · 处最拥挤 40%，弃权</span>':'未亮灯'}</span><span class="ev-s">z 分位 3</span></div>
+         <div class="ev-row"><span class="ev-n">④</span><span class="ev-l">KLOW2 否决</span><span class="ev-v">${s.vk?'<span class="up">亮灯 · 下影线处最不利 40%，弃权</span>':'未亮灯'}</span><span class="ev-s">0.41</span></div>
+         <div class="ev-row"><span class="ev-n">⑥</span><span class="ev-l">信号</span><span class="ev-v">否决命中，不输出</span><span class="ev-s">—</span></div>`
+      : `<div class="ev-row"><span class="ev-n">③</span><span class="ev-l">拥挤度否决</span><span class="ev-v">未亮灯</span><span class="ev-s">z 分位 1</span></div>
+         <div class="ev-row"><span class="ev-n">④</span><span class="ev-l">KLOW2 否决</span><span class="ev-v">未亮灯</span><span class="ev-s">0.18</span></div>
+         <div class="ev-row"><span class="ev-n">⑤</span><span class="ev-l">出口 P&gt;0.52</span><span class="ev-v">通过</span><span class="ev-s">${s.p}</span></div>
+         <div class="ev-row"><span class="ev-n">⑥</span><span class="ev-l">T+1 回填</span><span class="ev-v">${s.t1>0?'<span class="up">命中</span>':'<span class="down">未命中</span>'}</span><span class="ev-s">${sgn(s.t1)}%</span></div>`;
+    return `<div class="tl-item ${state}">
+      <div class="sigcard" onclick="this.classList.toggle('open')">
+        <div class="sig-head">
+          <span class="sig-date">${s.d}</span>
+          <span class="sig-body"><span class="nm">${s.n}</span><span class="meta">${s.px} · ${s.gate}</span></span>
+          <span class="sig-right">${badge}<span class="sig-p">${s.p}</span><span class="sig-result">${rTxt}</span></span>
+        </div>
+        <div class="ev">
+          <div class="ev-row"><span class="ev-n">①</span><span class="ev-l">触发门</span><span class="ev-v">${s.gate} <span class="up">已触发</span></span><span class="ev-s">进门</span></div>
+          <div class="ev-row"><span class="ev-n">②</span><span class="ev-l">DDSM 状态</span><span class="ev-v">档位 [${s.st.join(', ')}] · 加噪 K=4 / p=0.25 · 收缩 10</span><span class="ev-s">125 格</span></div>
+          ${vt}
+        </div>
+      </div></div>`;
+  }).join('');
+}
+
+/* ============ 复盘对账表 ============ */
+function renderReview(){
+  $('#rv-body').innerHTML=SIGNALS.map(s=>{
+    const vt=s.sig==='弃权'?`<span class="tag gray">${s.vc?'拥挤度':'KLOW2'}</span>`:'<span class="tag ok">双灯未亮</span>';
+    const hit=s.sig==='弃权'?'<span class="flat">—</span>'
+      :(s.t1>0?'<span class="tag ok">命中</span>':'<span class="tag red">未命中</span>');
+    return `<tr><td class="mono">${s.d}</td><td>${s.n}</td><td class="mini">${s.gate}</td>
+      <td class="num">${s.p}</td><td>${vt}</td><td>${s.sig==='弃权'?'<span class="tag gray">弃权</span>':'<span class="tag red">涨</span>'}</td>
+      <td class="num ${s.t1==null?'':cls(s.t1)}">${s.t1==null?'—':sgn(s.t1)+'%'}</td><td class="num">${hit}</td></tr>`;
+  }).join('');
+}
+
+/* ============ 设置 ============ */
+function renderSettings(){
+  $('#src-box').innerHTML=SOURCES.map(s=>{
+    const tag=s.s==='ok'?'<span class="tag ok">正常</span>':(s.s==='bad'?'<span class="tag red">不通</span>':'<span class="tag warn">波动</span>');
+    return `<div class="kv"><span class="k">${s.n}</span>
+      <span style="display:flex;align-items:center;gap:12px">${tag}
+      <span class="mini mono">${s.t}</span>
+      <span class="mini ${s.f?'down':''}">失败 ${s.f}</span></span></div>`;
+  }).join('');
+}
+
+/* ============ 交互 ============ */
+$$('.nav button').forEach(b=>b.onclick=()=>{
+  $$('.nav button').forEach(x=>x.classList.remove('active'));
+  b.classList.add('active');
+    $$('.view').forEach(v=>v.classList.remove('active'));
+    $('#view-'+b.dataset.v).classList.add('active');
+    if(b.dataset.v==='engine') renderEngine();
+    window.scrollTo({top:0,behavior:'smooth'});
+  });
+
+$('#btn-colset').onclick=(e)=>{
+  const p=$('#pop');
+  p.innerHTML=Object.keys(COLS).map(k=>{
+    const lb={cost:'成本',pnl:'累计收益',val:'估值来源',sig:'信号',adv:'建议'}[k];
+    return `<button onclick="toggleCol('${k}')">${COLS[k]?'✓ ':'　'}${lb}</button>`;
+  }).join('');
+  showPop(e);
+};
+function toggleCol(k){COLS[k]=!COLS[k];applyCols();toast('已'+(COLS[k]?'显示':'隐藏')+'该列');$('#pop').classList.remove('show')}
+
+function showPop(e){
+  const p=$('#pop');p.classList.add('show');
+  const r=e.target.getBoundingClientRect();
+  p.style.left=Math.min(r.left,innerWidth-160)+'px';
+  p.style.top=(r.bottom+6)+'px';
+}
+document.addEventListener('click',e=>{
+  if(!e.target.closest('#pop')&&!e.target.closest('#btn-colset')&&!e.target.closest('button[onclick^="openPop"]'))
+    $('#pop').classList.remove('show');
+});
+
+function openPop(e,code){
+  e.stopPropagation();
+  curCode=code;
+  const f=FUNDS.find(x=>x.c===code);
+  const p=$('#pop');
+  p.innerHTML=`<button onclick="amt('buy')">加仓</button><button onclick="amt('sell')">减仓</button>
+    <button onclick="openFund('${code}')">编辑</button><button class="danger" onclick="delAsk('${code}')">删除</button>`;
+  showPop(e);
+}
+
+function openFund(code){
+  curCode=code;
+  const f=code?FUNDS.find(x=>x.c===''+code):null;
+  $('#fd-title').textContent=f?'编辑 '+f.c:'录入基金';
+  $('#fd-sub').textContent=f?f.n:'输入 6 位代码后自动回填名称';
+  $('#fd-code').value=f?f.c:''; $('#fd-code').readOnly=!!f;
+  $('#fd-name').value=f?f.n:'';
+  $('#fd-amount').value='';
+  $('#fd-shares').value=f?f.sh:'';
+  $('#fd-cost').value=f?f.b:'';
+  $('#fd-t').value=f?f.t:1;
+  $('#pop').classList.remove('show');
+  $('#dlg-fund').showModal();
+}
+function closeFund(){$('#dlg-fund').close()}
+function saveFund(){
+  const code=$('#fd-code').value.trim();
+  if(!/^\d{6}$/.test(code))return toast('基金代码必须是 6 位数字');
+  if(!$('#fd-name').value.trim())return toast('请填写基金名称');
+  const amt=parseFloat($('#fd-amount').value), sh=parseFloat($('#fd-shares').value), cost=parseFloat($('#fd-cost').value);
+  if(isNaN(amt)&&isNaN(sh))return toast('持仓金额与份额至少填一项');
+  if(FUNDS.some(f=>f.c===code)&&!curCode)return toast('该基金已在持仓中，请用编辑调整');
+  toast(curCode?'已保存（原型演示，未写盘）':'已录入（原型演示，未写盘）');
+  closeFund();
+}
+
+function amt(act){
+  amtAct=act;
+  const f=FUNDS.find(x=>x.c===curCode);
+  $('#am-title').textContent=act==='buy'?'加仓':'减仓';
+  $('#am-sub').textContent=f.n+' · '+f.c+' · 当前市值 ¥'+f2(mvOf(f));
+  $('#am-amt').value='';
+  $('#pop').classList.remove('show');
+  $('#dlg-amt').showModal();
+}
+function closeAmt(){$('#dlg-amt').close()}
+function saveAmt(){
+  const v=parseFloat($('#am-amt').value);
+  if(!v||v<=0)return toast('请输入有效金额');
+  toast((amtAct==='buy'?'加仓':'减仓')+' ¥'+f2(v)+'（原型演示，未写盘）');
+  closeAmt();
+}
+
+function delAsk(code){
+  curCode=code;
+  const f=FUNDS.find(x=>x.c===code);
+  $('#dl-sub').textContent=f.n+' · '+f.c+' · 市值 ¥'+f2(mvOf(f));
+  $('#pop').classList.remove('show');
+  $('#dlg-del').showModal();
+}
+function closeDel(){$('#dlg-del').close()}
+function doDelete(){toast('已删除（原型演示，未写盘）');closeDel()}
+
+let tt;
+function toast(m){
+  const t=$('#toast');t.textContent=m;t.classList.add('show');
+  clearTimeout(tt);tt=setTimeout(()=>t.classList.remove('show'),2200);
+}
+
+/* 风险指标按需加载（模拟慢接口） */
+$('details.fold').addEventListener('toggle',function(){
+  if(!this.open)return;
+  if($('#rk-sharpe').textContent!=='—')return;
+  ['rk-sharpe','rk-var','rk-down','rk-dd'].forEach(id=>$('#'+id).textContent='…');
+  setTimeout(()=>{
+    $('#rk-sharpe').textContent='0.82';
+    $('#rk-var').textContent='−1.94%'; $('#rk-var').className='v down';
+    $('#rk-down').textContent='11.3%';
+    $('#rk-dd').textContent='−18.6%'; $('#rk-dd').className='v down';
+  },900);
+});
+
+/* ============ 因子页 ============ */
+function bars(a){
+  return '<div class="bars">'+a.map(function(v){
+    var hgt=Math.max(12,Math.min(100,(v-0.85)/0.60*100));
+    return '<i class="'+(v>=1?'g':'r')+'" style="height:'+hgt+'%" title="lift '+v+'"></i>';
+  }).join('')+'</div>';
+}
+function factorDetail(f){
+  var rs=factorRows(f), tot=rs.reduce(function(s,r){return s+r.sc},0);
+  var body=rs.map(function(r,i){
+    return '<tr><td>'+r.w+'</td>'
+      +'<td class="num">'+r.lift.toFixed(2)+'</td>'
+      +'<td class="num '+(r.k<0?'down':'')+'">'+r.k.toFixed(2)+'</td>'
+      +'<td class="num mini">'+r.wt+'</td>'
+      +'<td class="num mini">'+r.n+' / '+WINN[i]+'</td>'
+      +'<td class="num mini">'+r.adm.toFixed(2)+'</td>'
+      +'<td class="num"><b>'+r.sc.toFixed(2)+'</b></td></tr>';
+  }).join('');
+  return '<table><thead><tr><th>窗</th><th class="r">lift</th><th class="r">k_lift</th>'
+    +'<th class="r">权重</th><th class="r">独立触发日</th><th class="r">准入度</th><th class="r">得分</th></tr></thead>'
+    +'<tbody>'+body
+    +'<tr style="border-top:1px solid rgba(24,32,25,.14)"><td colspan="6" style="text-align:right"><b>总分</b></td>'
+    +'<td class="num"><b style="font-size:14px">'+tot.toFixed(2)+'</b></td></tr></tbody></table>'
+    +'<div class="mini" style="margin-top:8px;line-height:1.75">'
+    +'<b>k_lift 五档悬崖：</b>≥1.30→1.0｜1.20–1.30→0.80｜1.10–1.20→0.65｜1.00–1.10→0.50（地板）｜&lt;1.00→<b>−0.80</b>｜&lt;0.84→<b>−1.3</b><br>'
+    +'<b>得分 = k_lift × 窗权重 × 准入度</b>，准入度 = min(1, 独立触发日 ÷ N_w)，N_w = 5 / 10 / 15 / 30 / 60 / 120。<br>'
+    +'窗权重是 Z 型双峰：30 日（22，近期入场快通道）+ 24 月（30，长期之锚），合计 100。'
+    +'</div>';
+}
+function toggleFdet(id){
+  var e=document.getElementById(id);
+  e.style.display = (e.style.display==='none')?'block':'none';
+}
+function renderFactors(){
+  var tagCls={prod:'ok',retire:'red',trial:'warn',frozen:'gray'};
+  var statTag={prod:'<span class="tag ok">在役</span>',retire:'<span class="tag warn">A/B 中</span>',
+               trial:'<span class="tag blue">观察</span>',frozen:'<span class="tag gray">冻结</span>'};
+  $('#fc-pans').innerHTML=PANELS.map(function(p){
+    var list=FACTORS.filter(function(f){return f.pan===p.k});
+    var rows=list.map(function(f){
+      var extra='';
+      if(f.ab) extra='<div class="mini" style="color:var(--up)">'+f.ab+'</div>';
+      else if(f.frozen) extra='<div class="mini">'+f.frozen+'</div>';
+      else if(f.dead) extra='<div class="mini">死亡条件：'+f.dead+'</div>';
+      var tot=factorTotal(f), fid='fd-'+f.n.replace(/[^A-Za-z0-9]/g,'');
+      return '<div class="frow" onclick="toggleFdet(\''+fid+'\')">'
+        +'<div><div class="fname2">'+f.n+' <span class="mini">▾ 展开跑分</span></div><div class="mini">'+f.note+'</div>'+extra+'</div>'
+        +'<div class="fscore '+(tot>=50?'up':(tot<0?'down':'flat'))+'">'+(tot>0?'+':'')+tot.toFixed(1)+'</div>'
+        +'<div>'+bars(f.lift)+'</div>'
+        +'<div><span class="tag '+tagCls[p.k]+'">'+f.lic+'</span></div>'
+        +'<div class="mini">'+f.role+'</div>'
+        +'<div>'+statTag[p.k]+'</div></div>'
+        +'<div class="fdet" id="'+fid+'" style="display:none">'+factorDetail(f)+'</div>';
+    }).join('');
+    return '<div class="card" style="margin-bottom:12px;border-left:3px solid '+p.c+'">'
+      +'<h3 style="font-size:13px;font-weight:600;margin-bottom:4px;display:flex;align-items:center;gap:8px;flex-wrap:wrap">'
+      +'<span style="display:inline-block;width:8px;height:8px;border-radius:50%;background:'+p.c+'"></span>'+p.t
+      +'<span class="tag '+tagCls[p.k]+'">'+list.length+' 个</span>'
+      +'<span class="mini" style="margin-left:auto;font-weight:400">'+p.d+'</span></h3>'
+      +(list.length
+        ? '<div class="frow hd" style="padding-top:8px"><span>因子</span><span>总分</span><span>六窗 lift</span><span>牌照</span><span>角色</span><span>状态</span></div>'+rows
+        : '<div class="mini" style="padding:8px 0">（当前为空）</div>')
+      +'<div class="mini" style="margin-top:10px;padding-top:10px;border-top:1px dashed rgba(24,32,25,.12);line-height:1.8">'+p.rule+'</div>'
+      +'</div>';
+  }).join('');
+
+  $('#fc-books').innerHTML=BOOKS.map(function(b){
+    return '<div class="card" style="margin-bottom:12px">'
+    +'<h3 style="font-size:13px;font-weight:600;margin-bottom:6px;display:flex;align-items:center;gap:8px;flex-wrap:wrap">'
+    +'<span class="mono" style="font-size:12px">'+b.f+'</span>'
+    +'<span class="tag blue">'+b.t+'</span>'
+    +'<span class="mini" style="margin-left:auto;font-weight:400">'+b.n+'</span></h3>'
+    +'<div class="mini" style="margin-bottom:8px">'+b.d+'</div>'
+    +'<div class="mono" style="font-size:11px;color:var(--ink2);background:rgba(24,32,25,.04);border-radius:8px;padding:8px 11px;line-height:1.7;word-break:break-all">'+b.ex+'</div>'
+    +'</div>';
+  }).join('');
+
+  $('#fc-cycle').innerHTML=CYCLES.map(function(c){
+    return '<div class="cyc-item"><div class="k">'+c.k+'</div><div class="v">'+c.v+'</div><div class="s">'+c.s+'</div></div>';
+  }).join('');
+  $('#fc-scan').innerHTML=SCANS.map(function(s){
+    return '<tr><td class="mono">'+s.d+'</td><td class="mono">'+s.c+'</td><td>'+s.f1+'</td><td>'+s.f2+'</td><td>'+s.f3+'</td>'
+    +'<td class="mini '+(s.r.indexOf('进入')>=0?'up':'')+'">'+s.r+'</td></tr>';
+  }).join('');
+}
+
+
+/* ============ 隐私：隐藏金额 ============ */
+let HIDE=false;
+function togglePrivacy(v){
+  if(typeof v!=='boolean') v=!HIDE;
+  HIDE=v;
+  $('#sw-hide').checked=v;
+  $('#eye-btn').textContent=v?'显示金额':'隐藏金额';
+  applyPrivacy();
+}
+function applyPrivacy(){
+  const go=(sel,on)=>$$(sel).forEach(e=>{
+    if(!e.dataset.raw) e.dataset.raw=e.textContent;
+    e.textContent = on ? '••••' : e.dataset.raw;
+  });
+  go('.amt',HIDE);
+  go('.amt-row',HIDE||$('#sw-hide-row').checked);
+}
+$('#sw-hide-row').onchange=applyPrivacy;
+
+/* ============ 引擎页数据 ============ */
+const LEDGER=[
+ {d:'2026-08-24',c:'014320',gate:'E3',p:0.61,st:'[1,2,2]',vc:0,vk:0,sig:'涨',t1:null,hit:null},
+ {d:'2026-08-24',c:'016665',gate:'E3',p:0.57,st:'[1,2,2]',vc:0,vk:0,sig:'涨',t1:null,hit:null},
+ {d:'2026-08-24',c:'008087',gate:'E3',p:0.59,st:'[1,2,1]',vc:1,vk:0,sig:'弃权',t1:null,hit:null},
+ {d:'2026-08-24',c:'000217',gate:'E1',p:0.54,st:'[5,5,4]',vc:0,vk:1,sig:'弃权',t1:null,hit:null},
+ {d:'2026-08-24',c:'002963',gate:'E1',p:0.54,st:'[5,5,4]',vc:0,vk:1,sig:'弃权',t1:null,hit:null},
+ {d:'2026-08-18',c:'014320',gate:'E3',p:0.58,st:'[2,4,1]',vc:0,vk:0,sig:'涨',t1:1.24,hit:1},
+ {d:'2026-08-12',c:'008087',gate:'E1',p:0.55,st:'[4,3,2]',vc:1,vk:0,sig:'弃权',t1:null,hit:null},
+ {d:'2026-07-29',c:'017193',gate:'E3',p:0.61,st:'[1,4,2]',vc:0,vk:0,sig:'涨',t1:0.87,hit:1},
+ {d:'2026-07-22',c:'013566',gate:'E1',p:0.53,st:'[3,3,3]',vc:0,vk:0,sig:'涨',t1:-0.42,hit:0},
+ {d:'2026-07-08',c:'014320',gate:'E3',p:0.57,st:'[2,2,1]',vc:0,vk:1,sig:'弃权',t1:null,hit:null}
+];
+
+const ARENA=[
+ {n:'A 裸算法（仅触发）',base:1, w:[[128,52.1],[205,53.4],[312,54.0],[588,53.8],[1580,52.9],[2301,52.2]]},
+ {n:'A + KLOW2',                w:[[38,57.1],[63,57.4],[98,57.6],[180,57.2],[404,57.5],[593,57.3]]},
+ {n:'A + 拥挤度',               w:[[36,54.2],[58,54.6],[90,54.9],[168,54.5],[386,54.4],[585,54.4]]},
+ {n:'A + CNTN5',                w:[[112,53.4],[178,54.1],[268,53.2],[502,52.6],[1342,51.8],[1958,51.4]]},
+ {n:'A + RSV10',                w:[[118,53.0],[186,53.9],[280,53.4],[524,52.9],[1408,52.2],[2046,51.9]]},
+ {n:'A + 量能 vr',              w:[[104,53.6],[162,54.6],[242,54.8],[452,54.4],[1206,53.6],[1752,53.1]]},
+ {n:'A + mom5',                 w:[[120,51.6],[190,52.9],[288,53.7],[542,53.5],[1452,52.8],[2110,52.6]]},
+ {n:'A + vpcorr',               w:[[96,54.0],[148,53.9],[218,53.2],[402,52.7],[1068,51.9],[1546,51.5]]},
+ {n:'C 当前生产（双否决）',hl:1, w:[[24,57.9],[41,58.2],[66,58.5],[121,58.1],[268,58.4],[420,58.3]]},
+ {n:'C − KLOW2（留一）',del:1,  w:[[52,55.1],[88,55.4],[138,55.6],[258,55.2],[592,55.0],[872,54.9]]},
+ {n:'C − 拥挤度（留一）',del:1, w:[[34,56.4],[56,56.8],[88,57.0],[162,56.6],[358,56.5],[520,56.3]]}
+];
+const ARENA_BASE=[48.4,48.4,48.4,48.4,50.1,48.4];
+function arenaColors(){
+  const D=ARENA.map(r=>r.w.map((c,i)=>c[1]-ARENA_BASE[i]));
+  let ai=0; ARENA.forEach(function(r,i){if(r.base)ai=i});
+  const warn=D.map(function(row,ri){
+    if(ri===ai) return row.map(function(){return false});
+    return row.map(function(d,i){return d<D[ai][i]});
+  });
+  const mx=[], mn=[];
+  for(let i=0;i<6;i++){
+    let cand=[];
+    for(let ri=0;ri<ARENA.length;ri++){
+      if(ri===ai||warn[ri][i]) continue;
+      cand.push({ri:ri,d:D[ri][i]});
+    }
+    if(!cand.length){mx[i]=-1;mn[i]=-1;continue}
+    mx[i]=cand.reduce(function(a,b){return b.d>a.d?b:a}).ri;
+    mn[i]=cand.reduce(function(a,b){return b.d<a.d?b:a}).ri;
+  }
+  return {D:D,warn:warn,mx:mx,mn:mn,ai:ai};
+}
+
+const FROZEN=[
+ ['E1 跳空','low[t] > high[t−1]'],['E3 无量急跌','ret < −2% 且 vr < 0.8'],
+ ['DDSM 特征','[r2, om, vr] / 5 档'],['加噪 K / p','4 / 0.25'],
+ ['MIN_N / SHRINK / BAND','15 / 10 / 0.02'],['双否决阈值','训练段触发样本最不利 40%'],
+ ['出口','P > 0.52 单向涨'],['purge gap','H + 2'],
+ ['窗权重','8 / 22 / 15 / 10 / 30 / 15'],['牌照线','50 候补 / 60 试用 / 70 续聘 / 80 正式'],
+ ['因子准入 F1','近 6 月或近 60 日任一超基线'],
+ ['因子准入 F2','与现役最大共线 < 0.7'],
+ ['因子准入 F3','加入现配置 Δ ≥ +0.5pp 且开口不塌方（> 50%）'],
+ ['准入判定','三项 AND 制 · 全量 IC 与分年一致性已降为评分输入，不拦入场'],
+ ['DDSM 重训','季度（原回测设定为年度，生产应缩短 —— 待六关验证）']
+];
+
+const DIMS={
+ '014320':{n:'德邦半导体产业混合C',
+   d3:[{n:'r2 2日累计收益',f:'ret[t]+ret[t−1]',      v:'−5.1%', z:-1.42,b:1},
+       {n:'om σ归一动量',  f:'12日收益/20日波动',     v:'−0.82', z:-1.18,b:1},
+       {n:'vr 量比',       f:'成交量/20日均量',       v:'0.72',  z:-0.95,b:2}],
+   d6:[{n:'mom5 5日动量',  v:'−6.8%', z:-1.34,b:1,ic:-1},
+       {n:'vr 量能水平',   v:'0.72',  z:-0.95,b:2,ic:+1},
+       {n:'dev 乖离率',    v:'−4.2%', z:-1.12,b:1,ic:-1},
+       {n:'vpcorr 量价相关',v:'−0.31',z: 0.42,b:4,ic:+1},
+       {n:'volat 已实现波动',v:'2.14%',z: 0.88,b:4,ic:+1},
+       {n:'skew 收益偏度', v:'−0.15', z:-0.34,b:3,ic:-1}],
+   crowd:{z:-0.21,b:2,veto:0},klow:0.19,kb:2,kveto:0},
+ '016665':{n:'天弘全球高端制造(QDII)C',
+   d3:[{n:'r2 2日累计收益',f:'ret[t]+ret[t−1]',      v:'−4.6%', z:-1.28,b:1},
+       {n:'om σ归一动量',  f:'12日收益/20日波动',     v:'−0.61', z:-0.92,b:2},
+       {n:'vr 量比',       f:'成交量/20日均量',       v:'0.77',  z:-0.81,b:2}],
+   d6:[{n:'mom5 5日动量',  v:'−5.9%', z:-1.15,b:1,ic:-1},
+       {n:'vr 量能水平',   v:'0.77',  z:-0.81,b:2,ic:+1},
+       {n:'dev 乖离率',    v:'−3.6%', z:-0.98,b:2,ic:-1},
+       {n:'vpcorr 量价相关',v:'−0.24',z: 0.31,b:4,ic:+1},
+       {n:'volat 已实现波动',v:'1.87%',z: 0.62,b:4,ic:+1},
+       {n:'skew 收益偏度', v:'−0.08', z:-0.19,b:3,ic:-1}],
+   crowd:{z:-0.38,b:2,veto:0},klow:0.23,kb:2,kveto:0},
+ '008087':{n:'华夏中证5G通信主题ETF联接C',
+   d3:[{n:'r2 2日累计收益',f:'ret[t]+ret[t−1]',      v:'−6.4%', z:-1.68,b:1},
+       {n:'om σ归一动量',  f:'12日收益/20日波动',     v:'−0.34', z:-0.55,b:2},
+       {n:'vr 量比',       f:'成交量/20日均量',       v:'0.65',  z:-1.22,b:1}],
+   d6:[{n:'mom5 5日动量',  v:'+2.1%', z: 0.94,b:4,ic:-1},
+       {n:'vr 量能水平',   v:'0.65',  z:-1.22,b:1,ic:+1},
+       {n:'dev 乖离率',    v:'+1.8%', z: 1.31,b:5,ic:-1},
+       {n:'vpcorr 量价相关',v:'+0.52',z: 1.14,b:5,ic:+1},
+       {n:'volat 已实现波动',v:'2.68%',z: 1.42,b:5,ic:+1},
+       {n:'skew 收益偏度', v:'+0.41', z: 0.88,b:5,ic:-1}],
+   crowd:{z:1.08,b:4,veto:1},klow:0.31,kb:3,kveto:0},
+ '000217':{n:'华安黄金ETF联接C',
+   d3:[{n:'r2 2日累计收益',f:'ret[t]+ret[t−1]',      v:'+2.9%', z: 1.24,b:5},
+       {n:'om σ归一动量',  f:'12日收益/20日波动',     v:'+0.92', z: 1.18,b:5},
+       {n:'vr 量比',       f:'成交量/20日均量',       v:'1.12',  z: 0.42,b:4}],
+   d6:[{n:'mom5 5日动量',  v:'+3.4%', z: 1.32,b:5,ic:-1},
+       {n:'vr 量能水平',   v:'1.12',  z: 0.42,b:4,ic:+1},
+       {n:'dev 乖离率',    v:'+2.8%', z: 1.46,b:5,ic:-1},
+       {n:'vpcorr 量价相关',v:'+0.28',z: 0.68,b:4,ic:+1},
+       {n:'volat 已实现波动',v:'1.24%',z:-0.32,b:2,ic:+1},
+       {n:'skew 收益偏度', v:'+0.31', z: 0.72,b:4,ic:-1}],
+   crowd:{z:0.42,b:4,veto:0},klow:0.62,kb:5,kveto:1},
+ '018957':{n:'中航机遇领航混合发起C',
+   d3:[{n:'r2 2日累计收益',f:'ret[t]+ret[t−1]',      v:'−7.2%', z:-1.86,b:1},
+       {n:'om σ归一动量',  f:'12日收益/20日波动',     v:'−1.14', z:-1.52,b:1},
+       {n:'vr 量比',       f:'成交量/20日均量',       v:'0.74',  z:-0.88,b:2}],
+   d6:[{n:'mom5 5日动量',  v:'−8.4%', z:-1.68,b:1,ic:-1},
+       {n:'vr 量能水平',   v:'0.74',  z:-0.88,b:2,ic:+1},
+       {n:'dev 乖离率',    v:'−5.1%', z:-1.34,b:1,ic:-1},
+       {n:'vpcorr 量价相关',v:'−0.18',z: 0.22,b:4,ic:+1},
+       {n:'volat 已实现波动',v:'3.12%',z: 1.68,b:5,ic:+1},
+       {n:'skew 收益偏度', v:'−0.22', z:-0.48,b:3,ic:-1}],
+   crowd:{z:0.66,b:4,veto:0},klow:0.54,kb:5,kveto:1}
+};
+
+/* 状态立方体：125 格，对比原始离散与还原离散 */
+function seeded(s0){let s=s0;return()=>{s=(s*1664525+1013904223)%4294967296;return s/4294967296}}
+function buildCube(){
+  const rnd=seeded(20260904), out=[];
+  for(let a=0;a<5;a++)for(let b=0;b<5;b++)for(let c=0;c<5;c++){
+    const pTrue=0.638-0.058*(a/4)-0.042*(b/4)+0.014*(c/4)-0.012*(a/4)*(b/4);
+    const d=(a-2)**2+(b-2)**2+(c-2)**2;
+    const n=Math.max(0,Math.round(95*Math.exp(-d/2.4)-1.4+(rnd()-0.5)*4));
+    let pN=null;
+    if(n>0){
+      if(n<7){pN = rnd()<0.5?0:1;}
+      else {const se=Math.sqrt(Math.max(pTrue*(1-pTrue),.01)/n); pN=pTrue+(rnd()-0.5)*3.4*se;}
+      pN=Math.max(0,Math.min(1,pN));
+    }
+    const eff=n*5;
+    const pD=Math.max(0.30,Math.min(0.72,(pTrue*eff+10*0.484)/(eff+10)+(rnd()-0.5)*0.013));
+    out.push({a,b,c,n,pNaive:pN,pDeno:pD,pTrue});
+  }
+  return out;
+}
+const CUBE=buildCube();
+let CUBE_LAY=1;
+const VR_LABEL=['≈0.55','≈0.75','≈0.95','≈1.20','≈1.55'];
+
+function cubeStats(key){
+  const v=CUBE.map(c=>c[key]).filter(x=>x!=null);
+  const mean=v.reduce((s,x)=>s+x,0)/v.length;
+  const sd=Math.sqrt(v.reduce((s,x)=>s+(x-mean)**2,0)/v.length);
+  return {cov:v.length/125*100, mean, sd, min:Math.min(...v), max:Math.max(...v),
+          extreme:v.filter(x=>x<0.25||x>0.75).length, empty:125-v.length};
+}
+
+/* ============ 引擎页渲染 ============ */
+function renderEngine(){
+  const rec=LEDGER.length, filled=LEDGER.filter(r=>r.t1!=null).length;
+  const sig=LEDGER.filter(r=>r.sig==='涨').length, veto=LEDGER.filter(r=>r.sig==='弃权').length;
+  const hits=LEDGER.filter(r=>r.hit!=null), hr=hits.length?hits.filter(r=>r.hit).length/hits.length:0;
+  $('#eg-hud').innerHTML=
+   `<div class="hud-c bad"><div class="k">影子盘</div><div class="v">未启动</div><div class="s">P0.5 未落地 · 0 / 60 日</div><div class="scan"></div></div>
+    <div class="hud-c on"><div class="k">引擎版本</div><div class="v">v1.5</div><div class="s">门 + DDSM + 双否决</div></div>
+    <div class="hud-c"><div class="k">训练资产</div><div class="v">38</div><div class="s">指数 3 只仅作特征</div></div>
+    <div class="hud-c on"><div class="k">状态格覆盖</div><div class="v">94.4%</div><div class="s">118 / 125 有样本</div></div>
+    <div class="hud-c warn"><div class="k">上次重训</div><div class="v">07-01</div><div class="s">季度滚动 · 下次 10-01</div></div>
+    <div class="hud-c warn"><div class="k">数据新鲜度</div><div class="v">滞后 9 日</div><div class="s">快照 08-24</div></div>`;
+
+  $('#eg-ledger-state').innerHTML='<span class="tag warn">未启动</span> 以下为结构演示';
+  $('#eg-ledger').innerHTML=
+   `<div class="hud" style="margin:0">
+     <div class="hud-c"><div class="k">总记录</div><div class="v">${rec}</div><div class="s">演示台账</div></div>
+     <div class="hud-c on"><div class="k">开口信号</div><div class="v">${sig}</div><div class="s">输出「涨」</div></div>
+     <div class="hud-c"><div class="k">否决弃权</div><div class="v">${veto}</div><div class="s">否决层拦下</div></div>
+     <div class="hud-c ${hits.length?'on':''}"><div class="k">已回填</div><div class="v">${filled} / ${sig}</div><div class="s">T+1 到期回填</div></div>
+     <div class="hud-c ${hr>=0.583?'on':'warn'}"><div class="k">命中率</div><div class="v">${hits.length?(hr*100).toFixed(1)+'%':'—'}</div><div class="s">基准 58.3%</div></div>
+    </div>
+    <div style="margin-top:12px">
+      <div style="display:flex;justify-content:space-between;font-size:11px;color:#7d93ab">
+        <span>连续记录进度（上线门槛 60 日）</span><span class="mono" style="color:var(--gold)">0 / 60</span></div>
+      <div class="prg"><i style="width:0%"></i></div>
+      <div class="mini" style="margin-top:8px">影子盘是上线前的最后保险：连续 60 日无漏单且命中率与 58.3% 偏差 &lt;2pp 才具备上线资格。</div>
+    </div>`;
+
+  $('#eg-ledger-rows').innerHTML=LEDGER.map(r=>{
+    const st=r.sig==='涨'?'<span class="tag red">涨</span>':'<span class="tag gray">弃权</span>';
+    const hit=r.hit==null?'<span class="mini">待回填</span>':(r.hit?'<span class="tag ok">命中</span>':'<span class="tag red">未命中</span>');
+    return `<tr><td class="mono">${r.d}</td><td class="mono">${r.c}</td><td class="mini">${r.gate}</td>
+      <td class="num">${r.p}</td><td class="mono mini">${r.st}</td>
+      <td>${r.vc?'<span class="tag warn">亮</span>':'<span class="mini">—</span>'}</td>
+      <td>${r.vk?'<span class="tag warn">亮</span>':'<span class="mini">—</span>'}</td>
+      <td>${st}</td><td class="num">${r.t1==null?'—':(r.t1>0?'+':'')+r.t1+'%'}</td><td>${hit}</td></tr>`;
+  }).join('');
+
+  const AC=arenaColors();
+  const CELLC={red:'var(--up)',green:'var(--down)',blue:'var(--ink2)',warn:'var(--gold)',base:'var(--ink3)'};
+  $('#eg-arena').innerHTML=ARENA.map(function(r,ri){
+    const rowStyle=r.hl?' style="background:rgba(24,32,25,.045)"':(r.base?' style="background:rgba(24,32,25,.02)"':'');
+    const nameColor=r.hl?'var(--ink)':(r.base?'var(--ink2)':'var(--ink)');
+    const badge=r.hl?' <span class="tag ok">生产</span>':(r.base?' <span class="tag gray">基准</span>':'');
+    const cells=r.w.map(function(c,i){
+      const d=AC.D[ri][i];
+      let kind='blue';
+      if(r.base) kind='base';
+      else if(AC.warn[ri][i]) kind='warn';
+      else if(ri===AC.mx[i]) kind='red';
+      else if(ri===AC.mn[i]) kind='green';
+      const warnMark=(kind==='warn')?' <span style="color:var(--gold)">▲</span>':'';
+      return '<td class="num"><span class="mono" style="color:var(--ink3);font-size:11px">'+c[0]+'</span> · '
+        +'<b style="color:'+CELLC[kind]+'">'+c[1].toFixed(1)+'%</b> '
+        +'<span class="mini" style="color:'+CELLC[kind]+'">'+(d>0?'+':'')+d.toFixed(1)+'</span>'+warnMark+'</td>';
+    }).join('');
+    return '<tr'+rowStyle+'><td class="mini" style="color:'+nameColor+'">'+r.n+badge+'</td>'+cells+'</tr>';
+  }).join('');
+
+  $('#eg-train').innerHTML=
+   `<div class="hud" style="margin:0">
+     <div class="hud-c"><div class="k">状态格总数</div><div class="v">125</div><div class="s">5 × 5 × 5</div></div>
+     <div class="hud-c on"><div class="k">有样本格</div><div class="v">118</div><div class="s">94.4%</div></div>
+     <div class="hud-c"><div class="k">平均样本/格</div><div class="v">47.3</div><div class="s">加噪后 ×5</div></div>
+     <div class="hud-c warn"><div class="k">最少样本格</div><div class="v">3</div><div class="s">低于 MIN_N=15 强收缩</div></div>
+    </div>
+    <div class="mini" style="margin-top:12px;line-height:1.9">
+      <b>训练方式：</b>逐资产、全样本（不限触发日）、<b>季度滚动重训</b>；参数全项目统一冻结，<b>无逐资产调参</b>——这是被 OOS 检验毒打后的教训。<br>
+      <b style="color:var(--gold)">关于重训周期：</b>原始回测设定是<b>每年</b>滚动重训，那是配合"逐年走前"验证的产物。
+      <b>生产环境一年太长</b>——状态表会随 regime 漂移，市场风格切换后旧表的 P(涨|状态) 就失真了，季度是更合理的折中。
+      但<b>改周期属于参数变更，必须先走一遍六关</b>，不能拍脑袋改。此处按季度呈现，标注待验证。<br>
+      <b>加噪增强：</b>每样本生成 <span class="mono">K=4</span> 个副本，每维以 <span class="mono">p=0.25</span> 概率 ±1 档扰动，副本沿用原标签 → 有效样本 ×5，边缘格从 n=3 抬到 n≈15，恰好越过 MIN_N 门槛。<br>
+      <b>已证伪的死路（勿重试）：</b>第 4/5 维因子（状态稀疏化稀释）、DDSM 用于 T+3（无边际）、逐资产路由 / 统一决策树（OOS 杀死）、loss-guided 与 IC 自适应加噪（两个"聪明加噪"全败）。
+    </div>`;
+
+  $('#eg-frozen').innerHTML=FROZEN.map(([k,v])=>
+    `<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;padding:7px 0;border-bottom:1px solid rgba(24,32,25,.04);font-size:12px">
+      <span style="color:#7d93ab">${k}</span><span class="mono" style="color:var(--ink)">${v}</span></div>`).join('');
+
+  const sel=$('#dim-asset');
+  if(!sel.options.length){
+    sel.innerHTML=Object.keys(DIMS).map(c=>`<option value="${c}">${c} · ${DIMS[c].n}</option>`).join('');
+  }
+  renderDims(); renderCube();
+}
+
+function renderDims(){
+  const code=$('#dim-asset').value, d=DIMS[code];
+  const bar=(z)=>{
+    const w=Math.min(50,Math.abs(z)/2.2*50);
+    return `<div class="zbar"><div class="mid"></div>
+      ${z>=0?`<div class="fill pos" style="left:50%;width:${w}%"></div>`:`<div class="fill neg" style="right:50%;width:${w}%"></div>`}
+      <div class="bz" style="left:calc(${50+z/2.2*50}% - 1px)"></div></div>`;
+  };
+  const row=(x,extra)=>`<div class="dim">
+    <div><div class="dn">${x.n}</div><div class="df">${x.f||(x.ic>0?'IC +':'IC −')}</div></div>
+    ${bar(x.z)}
+    <div style="text-align:right"><span class="mono" style="color:var(--ink)">${x.v}</span>
+      <div class="df">z ${x.z>0?'+':''}${x.z.toFixed(2)} · 档 ${x.b}${extra||''}</div></div></div>`;
+  $('#dim-d3').innerHTML=d.d3.map(x=>row(x)).join('');
+  $('#dim-d6').innerHTML=d.d6.map(x=>row(x)).join('');
+  const c=d.crowd;
+  $('#dim-sum').innerHTML=
+   `复合拥挤度 <span class="mono" style="color:${c.veto?'var(--gold)':'var(--down)'}">z=${c.z>0?'+':''}${c.z.toFixed(2)}</span>
+    分位 ${c.b}/5 ${c.veto?'<span class="tag warn">最挤 40% · 否决</span>':'<span class="tag ok">未亮灯</span>'}
+     · KLOW2 <span class="mono">${d.klow}</span> 分位 ${d.kb}/5
+    ${d.kveto?'<span class="tag warn">最不利 40% · 否决</span>':'<span class="tag ok">未亮灯</span>'}`;
+}
+
+function renderCube(){
+  $('#eg-layers').innerHTML=[0,1,2,3,4].map(i=>
+    `<button class="${i===CUBE_LAY?'on':''}" onclick="CUBE_LAY=${i};renderCube()">vr ${i+1}</button>`).join('');
+  const cells=CUBE.filter(c=>c.c===CUBE_LAY).sort((x,y)=>x.a-y.a||x.b-y.b);
+  const draw=(el,key)=>{
+    $(el).innerHTML=`<div class="cl">om 1 → 5　　·　　vr 层 ${CUBE_LAY+1}/5（量比 ${VR_LABEL[CUBE_LAY]}）</div>`+
+      cells.map(c=>{
+        const p=c[key];
+        if(p==null) return `<div class="cc empty" title="档位 [${c.a+1},${c.b+1},${c.c+1}] · n=0 · 无估计值">—</div>`;
+        const st=p<0.45?{b:'rgba(14,138,99,.72)',c:'#fff'}
+               :(p<0.52?{b:'rgba(124,133,126,.26)',c:'var(--ink2)'}
+               :(p<0.58?{b:'rgba(217,56,67,.28)',c:'var(--ink)'}
+                       :{b:'rgba(217,56,67,.72)',c:'#fff'}));
+        return `<div class="cc" style="background:${st.b};color:${st.c}" title="档位 [${c.a+1},${c.b+1},${c.c+1}] · n=${c.n} · P=${p.toFixed(3)}">${(p*100).toFixed(0)}</div>`;
+      }).join('');
+  };
+  draw('#cube-naive','pNaive'); draw('#cube-deno','pDeno');
+  const sn=cubeStats('pNaive'), sd=cubeStats('pDeno');
+  $('#cs-naive').innerHTML=`${sn.empty} 格无样本 · P 极差 ${(sn.max-sn.min).toFixed(2)} · 标准差 ${sn.sd.toFixed(3)}`;
+  $('#cs-deno').innerHTML=`全部 125 格有值 · P 极差 ${(sd.max-sd.min).toFixed(2)} · 标准差 ${sd.sd.toFixed(3)}`;
+  const cmp=(k,a,b,unit,good)=>`<div class="cmp-c"><div class="k">${k}</div>
+    <div class="v"><span style="color:var(--ink2)">${a}</span> → <span style="color:${good?'var(--down)':'var(--gold)'}">${b}</span>${unit||''}</div></div>`;
+  $('#eg-cmp').innerHTML=
+    cmp('有效覆盖',sn.cov.toFixed(1)+'%',sd.cov.toFixed(1)+'%','',1)+
+    cmp('P 标准差',sn.sd.toFixed(3),sd.sd.toFixed(3),'',1)+
+    cmp('极端格数',sn.extreme,sd.extreme,' 格',1)+
+    cmp('走前 Δ','−3.9%','+1.6~5.5pp','',1);
+}
+const PRESETS={
+  deepseek:{u:'https://api.deepseek.com/v1',m:'deepseek-chat'},
+  qwen:{u:'https://dashscope.aliyuncs.com/compatible-mode/v1',m:'qwen-plus'},
+  moonshot:{u:'https://api.moonshot.cn/v1',m:'moonshot-v1-8k'},
+  custom:{u:'',m:''}
+};
+function llmPreset(v){const p=PRESETS[v];$('#llm-url').value=p.u;$('#llm-model').value=p.m}
+function toggleKey(b){const i=$('#llm-key');const show=i.type==='password';
+  i.type=show?'text':'password';b.textContent=show?'隐藏':'显示'}
+
+renderOverview();renderCov();renderValSum();renderHoldings();renderSignals();renderReview();renderSettings();
+renderForecast();renderFactors();applyPrivacy();
+
+/* ==================== 真实数据接入层 ====================
+   成功：用 /api/holdings + /api/predict 的真实数值覆盖内置演示数据
+   失败：静默保留内置数据，保证双击 HTML 也能看（离线可用） */
+async function getJSON(p){const r=await fetch(p);if(!r.ok)throw new Error(p);return r.json()}
+
+async function loadLive(){
+  try{
+    const meta={}; FUNDS.forEach(f=>meta[f.c]=f);
+    const h=await getJSON('/api/holdings');
+    (h.holdings||[]).forEach(x=>{
+      const m=meta[x.code];
+      if(m){
+        if(x.shares!=null) m.sh=x.shares;
+        if(x.bought!=null) m.b=x.bought;
+        if(x.est!=null)    m.nav=x.est;
+        // pct 以后端为准。unknown 模式返回 null，必须显式置 null 而非跳过 ——
+        // 跳过会保留原型里写死的静态值（如 -3.82），等于拿旧数当今日行情
+        m.pct = (x.pct!=null) ? x.pct : null;
+        // 估值来源徽章接真实值（此前从未覆盖，徽章一直是静态硬编码）
+        if(x.mode){ m.valLive=x.mode; m.valLabel=x.mode_label||x.mode; }
+        if(x.trace)      m.trace=x.trace;
+        if(x.nav_date)   m.navDate=x.nav_date;
+        // 回测精度（驱动徽章配色与悬浮说明）
+        if(x.confidence) m.conf=x.confidence;
+        if(x.mae!=null)  m.mae=x.mae;
+        if(x.dir!=null)  m.dir=x.dir;
+        if(x.n_test!=null) m.nTest=x.n_test;
+      }else{
+        FUNDS.push({c:x.code,n:x.name,sh:x.shares||0,b:x.bought||0,nav:x.est||x.nav||0,
+                    pct:(x.pct!=null?x.pct:null),t:1,g:'主动',tier:'D',px:'待定',
+                    val:'L3',valLive:x.mode||null,valLabel:x.mode_label||'',
+                    trace:x.trace||'',navDate:x.nav_date||'',
+                    note:'新增持仓：尚未定档位与代理标的，信号不可采信'});
+      }
+    });
+    LIVE.holdings=true;
+    // 今日盈亏覆盖度：未知持仓不计入，但要在卡片上说明，避免被误读成「持平」
+    LIVE.cov={n:(h.holdings||[]).filter(x=>x.pct!=null).length,t:(h.holdings||[]).length};
+    // 数据快照日期：取全部持仓中最新净值日期（max），不只取 [0]
+    const nd=(h.holdings||[]).map(x=>x.nav_date).filter(Boolean).sort();
+    if(nd.length) LIVE.navDate=nd[nd.length-1];
+  }catch(e){ console.warn('[FundLens] 持仓未接入，使用内置数据',e); }
+
+  try{
+    const p=await getJSON('/api/predict');
+    const nf={};
+    (p.funds||[]).forEach(x=>{
+      if(x.prob==null) return;
+      const vetoed = !!(x.veto_crowd||x.veto_klow2);
+      nf[x.code]={gate:x.event||'触发',ret:0,vr:0,p:x.prob,
+                  vc:(x.veto_crowd?1:0), vk:(x.veto_klow2?1:0),
+                  out:(x.signal==='涨'?'涨':(vetoed?'弃权':'灰'))};
+    });
+    FC=Object.assign({},FC,nf);
+    LIVE.predict=true;
+  }catch(e){ console.warn('[FundLens] 预测未接入，使用内置数据',e); }
+
+  try{
+    const m=await getJSON('/api/models');
+    if(m&&m.health&&m.health.length){
+      SOURCES=m.health.map(h=>({
+        n:(h.name||'').indexOf('push2')>=0?'东财 push2 实时列表':h.name,
+        s:h.last_ok?'ok':(h.fail_count>5?'bad':'warn'),
+        t:h.last_ok||'—',
+        f:h.fail_count||0
+      }));
+      LIVE.models=true;
+    }
+  }catch(e){ console.warn('[FundLens] 数据源健康未接入',e); }
+
+  // 用真实数据重绘所有依赖动态数值的视图
+  try{
+    renderOverview();renderCov();renderValSum();renderHoldings();renderForecast();
+    if(LIVE.predict){ renderSignals(); }
+    if(LIVE.models){ renderSettings(); }
+  }catch(e){ console.warn('[FundLens] 重绘失败',e); }
+
+  // 顶部状态提示
+  const bar=$('#live-bar');
+  if(bar){
+    if(LIVE.holdings||LIVE.predict){
+      bar.innerHTML='<span class="dot" style="background:#0e8a63"></span>已接入本地引擎'
+        +(LIVE.holdings?' · 持仓真实':'')+(LIVE.predict?' · 预测真实':'');
+      bar.className='livebar ok';
+      // 侧边栏快照同步为真实净值日期
+      if(LIVE.navDate){
+        const sd=$('#side-date'), sl=$('#side-lag');
+        if(sd){
+          sd.textContent=LIVE.navDate;
+          const lag=Math.round((Date.now()-new Date(LIVE.navDate))/86400000);
+          if(sl){
+            if(lag<=1){ sl.textContent='数据为当日，无滞后'; sl.style.color='var(--down)'; }
+            else{ sl.textContent='滞后 '+lag+' 个交易日'; sl.style.color='var(--gold)'; }
+          }
+        }
+      }
+    }else{
+      bar.innerHTML='<span class="dot" style="background:#c99700"></span>未连接本地引擎，当前为内置演示数据（运行 app.py 可接真实数据）';
+      bar.className='livebar warn';
+    }
+  }
+  return LIVE;
+}
+loadLive();
+</script>
+</body>
+</html>

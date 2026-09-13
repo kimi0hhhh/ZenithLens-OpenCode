@@ -1,0 +1,70 @@
+{
+ "ok": true,
+ "data": {
+  "state": "no_open",
+  "as_of": "2026-09-12",
+  "monitored_count": 15,
+  "total_count": 22,
+  "days_since_last_open": 16,
+  "last_open": {
+   "date": "2026-08-20",
+   "code": "002963",
+   "name": "易方达黄金ETF联接C",
+   "gate": "E1",
+   "result": "hit",
+   "t1_real": 0.016677
+  },
+  "last_result": "hit",
+  "empty_note": "这是常态，不是故障。多数交易日不会开口。",
+  "rolling_open_assets": 11,
+  "rolling_window_days": 20,
+  "low_frequency_note": "20 交易日约 11 资产开口，多数交易日不开口是常态；空态不等于故障。",
+  "gates": [
+   {
+    "gate": "E3",
+    "gate_key": "E3",
+    "label": "无量急跌",
+    "formula": "ret < -0.02 且 vr < 0.8",
+    "role": "primary",
+    "effect_pp": 3.9,
+    "t_value": 2.33,
+    "note": "主力事件"
+   },
+   {
+    "gate": "E1",
+    "gate_key": "E1",
+    "label": "跳空",
+    "formula": "low[t] > high[t-1]",
+    "role": "secondary",
+    "effect_pp": 0.88,
+    "t_value": null,
+    "note": "辅助事件"
+   }
+  ],
+  "excluded_gates": [
+   {
+    "gate": "none",
+    "gate_key": "E2",
+    "label": "放量上涨",
+    "formula": "—",
+    "role": "excluded",
+    "effect_pp": -3.09,
+    "t_value": null,
+    "note": "已证伪，禁止并入"
+   },
+   {
+    "gate": "none",
+    "gate_key": "E4",
+    "label": "点火",
+    "formula": "—",
+    "role": "excluded",
+    "effect_pp": -2.72,
+    "t_value": null,
+    "note": "已证伪，禁止并入"
+   }
+  ],
+  "or_merge_forbidden": true
+ },
+ "error": null,
+ "as_of": "2026-09-12"
+}

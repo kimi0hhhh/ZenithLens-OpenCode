@@ -1,0 +1,107 @@
+{
+  "ok": true,
+  "data": {
+    "lift_bins": [
+      {
+        "min_lift": 1.3,
+        "k_lift": 1.0,
+        "label": "≥1.30"
+      },
+      {
+        "min_lift": 1.2,
+        "k_lift": 0.8,
+        "label": "≥1.20"
+      },
+      {
+        "min_lift": 1.1,
+        "k_lift": 0.65,
+        "label": "≥1.10"
+      },
+      {
+        "min_lift": 1.0,
+        "k_lift": 0.5,
+        "label": "≥1.00"
+      },
+      {
+        "min_lift": 0.84,
+        "k_lift": -0.8,
+        "label": "<1.00"
+      },
+      {
+        "min_lift": 0.0,
+        "k_lift": -1.3,
+        "label": "<0.84"
+      }
+    ],
+    "window_weights": [
+      {
+        "window": "d15",
+        "weight": 8,
+        "window_label": "15日"
+      },
+      {
+        "window": "d30",
+        "weight": 22,
+        "window_label": "30日"
+      },
+      {
+        "window": "d60",
+        "weight": 15,
+        "window_label": "60日"
+      },
+      {
+        "window": "m6",
+        "weight": 10,
+        "window_label": "6月"
+      },
+      {
+        "window": "m24",
+        "weight": 30,
+        "window_label": "24月"
+      },
+      {
+        "window": "full",
+        "weight": 15,
+        "window_label": "全样本"
+      }
+    ],
+    "formula_text": "每窗 lift = 命中率 ÷ 基线；k_lift 查悬崖表；得分 = k_lift × 窗权重 × 准入度；总分 = 六窗得分之和。准入度 = min(1, 独立触发日 / N_w)，N_w = 5/10/15/30/60/120。绩效与 t 一律按独立触发日聚合（不用条口径）。",
+    "bootstrap_percentiles": {
+      "p50": -10.8,
+      "p90": 38.7,
+      "p95": 48.4,
+      "p99": 61.7,
+      "p995": 64.1
+    },
+    "judges": [
+      {
+        "judge": "lift",
+        "scope": "分数裁判",
+        "metric": "lift → k_lift 悬崖",
+        "note": "决定每窗得分，越强正分越高、无效重罚"
+      },
+      {
+        "judge": "t",
+        "scope": "闸门裁判",
+        "metric": "t 值",
+        "note": "显著性未过则不放行"
+      },
+      {
+        "judge": "admission",
+        "scope": "折扣裁判",
+        "metric": "独立触发日 / N_w",
+        "note": "样本不足按比例打折"
+      },
+      {
+        "judge": "backtest",
+        "scope": "晋升裁判",
+        "metric": "实测 Δ 与 A/B",
+        "note": "最终晋升以走前回测 + A/B 为准"
+      }
+    ],
+    "floor_note": "地板说明：k_lift <1.00 → −0.80 天花板，<0.84 → −1.3；不对称惩罚即噪声抑制器，宁可错杀弱势因子。",
+    "rule_source": "docs/00-charter/00-design-reference-legacy-v2.html §评分链"
+  },
+  "error": null,
+  "as_of": "2026-09-12"
+}

@@ -1,0 +1,224 @@
+=== ledger/chain @21517 ===
+/coverage` | 持仓页覆盖度四档 | 四档只数/市值/占比 + 失效三类长文 |
+| 40 | GET | `/api/v1/holdings/risk` | 持仓页风险折叠区（按需） | Sharpe/VaR95/下行风险/最大回撤 |
+| 41 | GET | `/api/v1/signals/state` | 信号页空态/触发门卡 | 空态四要素 + E1/E3 卡 + E2/E4 剔除说明 |
+| 42 | GET | `/api/v1/meta/definitions` | 分析页口径定义 | T+1 口径 + 三条执行路径 |
+| 43 | GET | `/api/v1/ledger/chain` | 信号时间线点击展开 | 单信号六步推导链（可作数据返回） |
+| 44 | GET | `/api/v1/ledger/shadow` | 引擎页影子盘台账 | 台账行 + 连续记录进度 + 归档说明 |
+| 45 | GET | `/api/v1/engine/ddsm/cube` | 引擎页状态立方体 | 逐资产 125 格 naive/ddsm 双切片 + 对比卡 |
+| 46 | GET | `/api/v1/engine/training-status` | 引擎页训练状态卡 | 125 格/有样本格/平均样本/最少样本 + 加噪说明 + 已证伪死路 |
+| 47 | GET | `/api/v1/engine/arena` | 引擎页因子竞技场 | 矩阵：行=配置、列=六窗、格=开口/命中/配对Δ/留一法/警示 |
+| 48 | GET | `/api/v1/engine/shadow-review` | 复盘页降级审查条 | idle/ok/bad 三态 + 滚动 60 日命中率 vs 基准 |
+| 49 | GET | `/api/v1/factors/score-detail` | 因子页展开跑分表 | 每窗 lift/k_lift/权重/独立触发日/准入度/得分 + 总分 |
+| 50 | GET | `/api/v1/facto
+
+=== ledger/chain @34660 ===
+与 `written_at` 恒等；`written_at` 为兼容别名）。INSERT-ONLY |
+| `record_seq` | integer | — | 整数 | **v3**：台账内递增序号（读取时按 `(created_at, code)` 生成，仅供展示排序，非主键） |
+| `source_file` | string | — | — | **v3**：恒 `shadow_signals.jsonl`（影子盘信号层唯一来源） |
+| `chain_available` | boolean | — | — | **v3**：是否能取到六步推导链（`true` 时前端可调 `/ledger/chain` 展开） |
+
+> **v6 滚动窗口口径（影子台账 `shadow_signals.jsonl`）**：仅保留**最近 20 个交易日**；交易日历 = **监控 A/B 档代理 K 线日期的并集**（真实盘中日历，非工作日近似）。每日任务对该窗口内**每个监控资产**计算逐条记录并**追加**，同时**裁剪**窗口外最旧一天的记录；裁剪行**全量归档**至 `ledger/archive/shadow_signals_archive.jsonl`（归档清单 `ledger/archive/_manifest.jsonl`，`reason=rolling_window_trim`，含 `count/first_date/last_date/window_days`）。窗口内 `(date, code)` **INSERT-ONLY**：已存在即跳过、不覆盖；同一交易日历下重复触发**幂等**（不新增、不裁剪、条数不变，实测 200→200）。无开口日如实 `opened=false`；无可用代理行情时保持为空，**不得写入示例/演示数字**。
+ 
+#### 5.10 `ReconcileRow`
+
+在 `LedgerEntry` 基础上追加：
+
+| 字段 | 类型 | 单位 | 精度 | 口径说明 |
+|---|---|---|---|---|
+| `r
+
+=== ledger/chain @64641 ===
+ean | — | — | 两份是否一致（内容/时间任一不同即 false） |
+| `diff_fields` | array[string] | — | — | 不一致字段名清单（一致时 []） |
+| `readonly` | boolean | — | — | 固定 true（产品**不改写**源文件） |
+| `diff_note` | string | — | — | 「估值≠净值的实证」长文（旧文件会滞后数日） |
+| `checked_at` | string(timestamp) | — | 秒 | 检查时间 |
+
+#### 5.34 `LedgerChain`（`GET /ledger/chain`，UI：信号时间线点击展开六步推导链）
+
+| 字段 | 类型 | 单位 | 精度 | 口径说明 |
+|---|---|---|---|---|
+| `date` | string(date) | — | — | 开口日 |
+| `code` | string | — | — | 基金代码 |
+| `name` | string | — | — | 基金名 |
+| `gate` | enum `gate` | — | — | 触发门 |
+| `signal` | enum `signal` | — | — | 写入时信号 |
+| `p_up` | number | 概率 | 4 位 | 写入时 T+1 概率 |
+| `chain` | array[`ChainStep`] | — | — | 固定 6 步（结构同 §6.4，`key` = gate/ddsm/veto_crowd/veto_klow2/exit/output） |
+| `metrics` | object | — | — | 关键数值（键枚举同 §6.4 `metrics`） |
+| `source_ledger` | string | — | — | 恒 `shadow_signals.jsonl` |
+| `created_at` | string(timestamp) | — | — 
+
+=== ledger/chain @96784 ===
+` 恒 true。
+
+#### 6.11.4 GET /api/v1/meta/definitions
+- 调用方（消费点）：**分析页**「T+1 口径定义折叠区 + 三条执行路径」。
+- 请求参数：无。
+- 响应 200 `data`：`DefinitionCard`（§5.22）。
+- 错误：`E_IO`。
+- 口径：`formula` 固定 `up = 1 若 close[T+1] > close[T]`；`paths` 固定 3 项；`conclusion` 必须指向 `hold_existing`（B），**不得暗示当天买入**。
+
+#### 6.11.5 GET /api/v1/ledger/chain
+- 调用方（消费点）：**信号页**信号时间线 `.tl-item` 点击展开事件链 `.ev`；**分析页**可复用六步链。
+- 请求参数：`date`（date，必填）、`code`（string，必填）。
+- 响应 200 `data`：`LedgerChain`（§5.34）。
+- 错误：`E_NOT_FOUND`（无该条台账）/ `E_IO`。
+- 口径：固定 6 步（① 触发门 ② DDSM ③ 拥挤度否决 ④ KLOW2 否决 ⑤ 出口 ⑥ 输出/回填）；`metrics` 键枚举同 §6.4；出口步必返 `exit_threshold=0.5200`；任一否决层 `missing` → 该步 `status=missing` 且总 `signal=abstain`（A-05）。**禁止编造步骤数值**。
+
+#### 6.11.6 GET /api/v1/ledger/shadow
+- 调用方（消费点）：**引擎页**「影子盘台账表 + 连续记录进度条（0/60）+ 字段说明（INSERT-ONLY）」（§9.5-21）；**复盘页**逐笔对账可复用 `rows`。
+- 请求参数：`limit`（integer，默认 60）、`offset`（integer，默认 0）。
+- 响应 200 `data`：`ShadowLedger`（§5.2
+
+=== ledger/chain @102599 ===
+CRUD + `/transactions` | ✅ |
+| 手动刷新估值/预测 | `/tasks`（POST + 轮询） | ✅ |
+| Topbar 快照/陈旧/开口数 | `/runtime` | ✅ |
+| 覆盖度四档 + 失效三类 | `/holdings/coverage` | ✅ v3 |
+| 风险指标折叠区 | `/holdings/risk` | ✅ v3 |
+| 信号空态四要素 + 触发门卡 | `/signals/state` | ✅ v3 |
+| T+1 口径 + 三执行路径 | `/meta/definitions` | ✅ v3 |
+| 信号时间线六步链 | `/ledger/chain` | ✅ v3 |
+| 影子盘台账 + 连续记录进度 | `/ledger/shadow` | ✅ v3/v4 |
+| 125 格状态立方体（naive vs ddsm） | `/engine/ddsm/cube` | ✅ v3/v4 |
+| 训练状态卡 | `/engine/training-status` | ✅ v3 |
+| 因子竞技场矩阵 | `/engine/arena` | ✅ v3/v4 |
+| 影子盘降级审查条 | `/engine/shadow-review` | ✅ v3 |
+| 因子行展开跑分表 | `/factors/score-detail` | ✅ v3 |
+| 单本账本展开 | `/factors/books/{book}` | ✅ v3 |
+| 治理周期卡 | `/factors/governance-cycle` | ✅ v3 |
+| 最近挖掘记录 F1/F2/F3 | `/factors/dig-records` | ✅ v3 |
+| 设置页持仓数据卡 + 两份文件不一致 | `/settings/holdings-data` | ✅ v3 |
+| 估值徽章精度（MAE/方向命中率/样本数/trace） | `/valuations/{code}`（`Valuation` v3 追加字段） | ✅ v3 |
+| 引擎 H
+
+=== ledger/chain @104207 ===
+9） |
+| 9.1-5 | 持仓明细表（分组/列显隐/T+2/建议/未知≠持平） | `/holdings`（§5.1） |
+| 9.1-6 | 风险指标折叠区 | `/holdings/risk`（§6.11.2 / §5.20） |
+| 9.2-7 | 信号空态四要素 | `/signals/state`（§6.11.3 / §5.21） |
+| 9.2-8 | 触发门 E1/E3 卡 + E2/E4 剔除 | `/signals/state`（`gates`/`excluded_gates`） |
+| 9.2-9 | 信号时间线 + 事件链 `.ev` | `/ledger` + `/ledger/chain`（§6.11.5 / §5.34） |
+| 9.3-10 | T+1 口径 + 三执行路径 | `/meta/definitions`（§6.11.4 / §5.22） |
+| 9.3-11 | 三窗口组合预测卡 + 加权三规则 | `/portfolio/forecast`（§5.7，含 `weighting_basis`） |
+| 9.3-12 | 参与预测持仓表 | `/predictions`（§5.4） |
+| 9.3-13 | 推导链 `.chain` 六步 | `/predictions/{code}`（§6.4）+ `/ledger/chain`（§6.11.5） |
+| 9.4-14 | 因子四盘 + 因子行 + 展开跑分表 | `/factors/pans`（§5.11/§5.12）+ `/factors/score-detail`（§6.11.11 / §5.23） |
+| 9.4-15 | 四本账本 + 示例记录 | `/factors/books`（§5.13）+ `/factors/books/{book}`（§6.11.12） |
+| 9.4-16 | 评分链长文（悬崖/bootstrap/四裁判） | `/factors/score-chain`（`bootstrap_percentiles`/`judges`/`floor
+
+=== ledger/chain @104491 ===
+| `/ledger` + `/ledger/chain`（§6.11.5 / §5.34） |
+| 9.3-10 | T+1 口径 + 三执行路径 | `/meta/definitions`（§6.11.4 / §5.22） |
+| 9.3-11 | 三窗口组合预测卡 + 加权三规则 | `/portfolio/forecast`（§5.7，含 `weighting_basis`） |
+| 9.3-12 | 参与预测持仓表 | `/predictions`（§5.4） |
+| 9.3-13 | 推导链 `.chain` 六步 | `/predictions/{code}`（§6.4）+ `/ledger/chain`（§6.11.5） |
+| 9.4-14 | 因子四盘 + 因子行 + 展开跑分表 | `/factors/pans`（§5.11/§5.12）+ `/factors/score-detail`（§6.11.11 / §5.23） |
+| 9.4-15 | 四本账本 + 示例记录 | `/factors/books`（§5.13）+ `/factors/books/{book}`（§6.11.12） |
+| 9.4-16 | 评分链长文（悬崖/bootstrap/四裁判） | `/factors/score-chain`（`bootstrap_percentiles`/`judges`/`floor_note`） |
+| 9.4-17 | 治理周期卡 | `/factors/governance-cycle`（§6.11.13 / §5.30） |
+| 9.4-18 | 最近挖掘记录 F1/F2/F3 | `/factors/dig-records`（§6.11.14 / §5.31） |
+| 9.4-19 | 生命周期规则长文 + 来源 | `/factors/lifecycle`（§5.32） |
+| 9.5-20 | HUD 卡（影子盘/版本/训练资产/状态格覆盖/上次重训/数据新鲜度） | `/engine/status`（v3 追加字段） |
+|
+
+=== chain_available @34590 ===
+ |
+| `created_at` | string(timestamp) | — | 秒 | **v3**：本行**入账时刻**规范字段（与 `written_at` 恒等；`written_at` 为兼容别名）。INSERT-ONLY |
+| `record_seq` | integer | — | 整数 | **v3**：台账内递增序号（读取时按 `(created_at, code)` 生成，仅供展示排序，非主键） |
+| `source_file` | string | — | — | **v3**：恒 `shadow_signals.jsonl`（影子盘信号层唯一来源） |
+| `chain_available` | boolean | — | — | **v3**：是否能取到六步推导链（`true` 时前端可调 `/ledger/chain` 展开） |
+
+> **v6 滚动窗口口径（影子台账 `shadow_signals.jsonl`）**：仅保留**最近 20 个交易日**；交易日历 = **监控 A/B 档代理 K 线日期的并集**（真实盘中日历，非工作日近似）。每日任务对该窗口内**每个监控资产**计算逐条记录并**追加**，同时**裁剪**窗口外最旧一天的记录；裁剪行**全量归档**至 `ledger/archive/shadow_signals_archive.jsonl`（归档清单 `ledger/archive/_manifest.jsonl`，`reason=rolling_window_trim`，含 `count/first_date/last_date/window_days`）。窗口内 `(date, code)` **INSERT-ONLY**：已存在即跳过、不覆盖；同一交易日历下重复触发**幂等**（不新增、不裁剪、条数不变，实测 200→200）。无开口日如实 `opened=false`；无可用代理行情时保持为空，**不得写入示例/演示数字**。
+ 
+#### 5.10 `ReconcileRow`
+
+在 `Ledger
+
+=== chain_available @106995 ===
+的追加（字段名 → 归属对象）
+
+| 追加字段 | 归属对象 | 前端消费点 |
+|---|---|---|
+| `dir_hit_rate` / `n_test` / `accuracy_window_days` / `industry_baseline_mae_rate` / `confidence_label` / `confidence_color_class` / `trace_text` | `Valuation` §5.2 | 持仓/分析页 ValBadge 悬浮（9.1-3） |
+| `created_at` / `record_seq` / `source_file` / `chain_available` | `LedgerEntry` §5.9 | 引擎页影子盘台账（9.5-21）/ 信号页（9.2-9） |
+| `role_label` / `score`→`total_score` / `status`→枚举 / `license` / `license_label` / `lift_bars` / `independent_trigger_days` / `death_condition` / `note` / `ab_progress` | `FactorItem` §5.12 | 因子页因子行（9.4-14） |
+| `rule_text` / `pan_status` / `flow_kind` / `updated_at` / `factor_cap` / `nomination_limit` | `FactorPan` §5.11 | 因子页四盘 rule（9.4-14） |
+| `book_label` / `record_kind` / `schema_fields` | `FactorBook` §5.13 | 因子页四本账本（9.4-15） |
+| `gate_e1` / `gate_e3` / `purge_gap` / `window_weights` / `window_min_days` / `license_lin
+
+=== ChainStep @64982 ===
+类型 | 单位 | 精度 | 口径说明 |
+|---|---|---|---|---|
+| `date` | string(date) | — | — | 开口日 |
+| `code` | string | — | — | 基金代码 |
+| `name` | string | — | — | 基金名 |
+| `gate` | enum `gate` | — | — | 触发门 |
+| `signal` | enum `signal` | — | — | 写入时信号 |
+| `p_up` | number | 概率 | 4 位 | 写入时 T+1 概率 |
+| `chain` | array[`ChainStep`] | — | — | 固定 6 步（结构同 §6.4，`key` = gate/ddsm/veto_crowd/veto_klow2/exit/output） |
+| `metrics` | object | — | — | 关键数值（键枚举同 §6.4 `metrics`） |
+| `source_ledger` | string | — | — | 恒 `shadow_signals.jsonl` |
+| `created_at` | string(timestamp) | — | — | 入账时刻 |
+
+#### 5.35 `Factor`（在册因子全量记录 · v7）
+
+> `FactorItem`（§5.12）是列表投影；`Factor` 是**全量在册记录**（定义 + 状态 + 最新评估摘要），由候选转正或引擎登记后产生。
+> 机制正文见 `21-factor-governance.md` §7。
+
+| 字段 | 类型 | 单位 | 精度 | 口径说明 |
+|---|---|---|---|---|
+| `factor_id` | string | — | 8~32 位 `[a-z0-9_]` | 因子唯一 id |
+| `name` | string | — | — | 因子名 |
+| `kind` | enum `factor_kind` |
+
+=== ChainStep @82160 ===
+ray`（A-04）。**v5（SHOULD-4）**：`rows[]` 直接携带 `tier`（档位）与 `market_value`（可信市值，可为 null），前端**直读**、**禁止**再用 `/holdings` 按 `code` 跨接口拼装。
+
+##### GET /api/v1/predictions/{code}
+- 调用方：链路展开（6 步）。
+- 响应 200 `data`：在 `PredictionSummary` 基础上追加：
+
+| 字段 | 类型 | 单位 | 精度 | 口径说明 |
+|---|---|---|---|---|
+| `chain` | array[`ChainStep`] | — | — | 固定 6 步，见下 |
+
+`ChainStep`：
+
+| 字段 | 类型 | 单位 | 精度 | 口径说明 |
+|---|---|---|---|---|
+| `step` | integer | — | 整数 | 1..6 |
+| `key` | string | — | — | `gate`/`ddsm`/`veto_crowd`/`veto_klow2`/`exit`/`output` |
+| `title` | string | — | — | ①触发门…⑥输出 |
+| `status` | string | — | — | `on`（亮灯/通过）/`off`（未亮灯）/`missing`（数据缺失） |
+| `detail` | string | — | — | 可读描述 |
+| `metrics` | object | — | — | 关键数值，见下 |
+
+`metrics` 键（枚举，缺失该键表示数据缺失）：`ret_rate`（比率，小数）、`vr`（倍数，4 位）、`r2`（[0,1]，4 位）、`om`（比率，4 位）、`ddsm_state`（array[3]、整数）、`p_up`（概率，4 位）、`crowd_z`（z 值，3 位）、`crowd_quantile`（比率，4 位）、`klow2`（比率，4 位）、
+
+=== ChainStep @82196 ===
+ 直接携带 `tier`（档位）与 `market_value`（可信市值，可为 null），前端**直读**、**禁止**再用 `/holdings` 按 `code` 跨接口拼装。
+
+##### GET /api/v1/predictions/{code}
+- 调用方：链路展开（6 步）。
+- 响应 200 `data`：在 `PredictionSummary` 基础上追加：
+
+| 字段 | 类型 | 单位 | 精度 | 口径说明 |
+|---|---|---|---|---|
+| `chain` | array[`ChainStep`] | — | — | 固定 6 步，见下 |
+
+`ChainStep`：
+
+| 字段 | 类型 | 单位 | 精度 | 口径说明 |
+|---|---|---|---|---|
+| `step` | integer | — | 整数 | 1..6 |
+| `key` | string | — | — | `gate`/`ddsm`/`veto_crowd`/`veto_klow2`/`exit`/`output` |
+| `title` | string | — | — | ①触发门…⑥输出 |
+| `status` | string | — | — | `on`（亮灯/通过）/`off`（未亮灯）/`missing`（数据缺失） |
+| `detail` | string | — | — | 可读描述 |
+| `metrics` | object | — | — | 关键数值，见下 |
+
+`metrics` 键（枚举，缺失该键表示数据缺失）：`ret_rate`（比率，小数）、`vr`（倍数，4 位）、`r2`（[0,1]，4 位）、`om`（比率，4 位）、`ddsm_state`（array[3]、整数）、`p_up`（概率，4 位）、`crowd_z`（z 值，3 位）、`crowd_quantile`（比率，4 位）、`klow2`（比率，4 位）、`klow2_quantile`（比率，4 位）、`band`（概率，4
+

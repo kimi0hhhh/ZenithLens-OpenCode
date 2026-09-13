@@ -1,0 +1,64 @@
+{
+ "ok": true,
+ "data": {
+  "groups": [
+   {
+    "confidence": "unknown",
+    "count": 22,
+    "market_value": 53352.89,
+    "label": "无",
+    "weight_ratio": 1.0
+   }
+  ],
+  "weighted_mae_rate": null,
+  "industry_baseline_mae_rate": 0.008,
+  "window_days": 40,
+  "window_filled_days": 0,
+  "window_status_label": "累计 0/40 日",
+  "window_phase": "warming",
+  "estimate_quality": {
+   "groups": [
+    {
+     "confidence": "unknown",
+     "count": 5,
+     "market_value": 8289.82,
+     "label": "无",
+     "weight_ratio": 0.1554
+    }
+   ],
+   "weighted_mae_rate": null,
+   "count": 5,
+   "market_value": 8289.82,
+   "weight_ratio": 0.1554,
+   "industry_baseline_mae_rate": 0.008,
+   "window_days": 40,
+   "window_filled_days": 0,
+   "note": "估算档（intraday/holdings/proxy）质量为主指标；官方档为既成事实单列，不参与本指标（ADR-0014 / v9.1 D-1）。"
+  },
+  "official_summary": {
+   "count": 17,
+   "market_value": 45063.07,
+   "weight_ratio": 0.8446,
+   "weighted_mae_rate": null,
+   "note": "官方档 = 已发布净值的既成事实（未发布时段以最近一期净值为锚的记录照常参与全档参考统计）；不参与主指标换算。"
+  },
+  "mode_distribution": [
+   {
+    "mode": "official",
+    "mode_label": "官方净值",
+    "count": 17,
+    "market_value": 45063.07,
+    "weight_ratio": 0.8446
+   },
+   {
+    "mode": "holdings",
+    "mode_label": "重仓加权",
+    "count": 5,
+    "market_value": 8289.82,
+    "weight_ratio": 0.1554
+   }
+  ]
+ },
+ "error": null,
+ "as_of": "2026-09-13"
+}

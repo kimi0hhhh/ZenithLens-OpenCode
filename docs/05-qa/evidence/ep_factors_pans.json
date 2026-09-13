@@ -1,0 +1,61 @@
+{
+  "ok": true,
+  "data": {
+    "pans": [
+      {
+        "role": "adopted",
+        "role_label": "正式盘",
+        "description": "当前生产因子（否决位 ≤4、打分位受状态空间约束 ≤3）",
+        "factor_count": 0,
+        "factors": [],
+        "rule_text": "正式盘：仅收已过准入三项（F1 有效性 / F2 独立性 / F3 增量）AND 的因子；总数上限受否决位 ≤4、打分位 ≤3 约束；每月 1 日月榜跑留一法，移除后 Δ 升 ≥0.5pp 且持续 30 天 = 结构红线。",
+        "pan_status": "on",
+        "flow_kind": "promotion",
+        "updated_at": null,
+        "factor_cap": 3,
+        "nomination_limit": null
+      },
+      {
+        "role": "shadow_retired",
+        "role_label": "淘汰影子盘",
+        "description": "A/B 对照中的淘汰候选，等待 60 个交易日结论",
+        "factor_count": 0,
+        "factors": [],
+        "rule_text": "淘汰影子盘：正式盘因子进入淘汰流程后先降级到此做 A/B 对照（移除 vs 保留），60 个交易日内不得回生产；开口 <20 不出结论。",
+        "pan_status": "on",
+        "flow_kind": "promotion",
+        "updated_at": null,
+        "factor_cap": null,
+        "nomination_limit": null
+      },
+      {
+        "role": "shadow_effective",
+        "role_label": "有效影子盘",
+        "description": "准入三项 AND 通过、尚未晋升生产的候选",
+        "factor_count": 0,
+        "factors": [],
+        "rule_text": "有效影子盘：候选因子须同时过 F1 有效性、F2 独立性（与现役最大共线 <0.7）、F3 增量（加入后 Δ≥+0.5pp 且开口不塌方）；每周提名 ≤3，冷却 90 天；只记账不参与生产，待牌照升级。",
+        "pan_status": "on",
+        "flow_kind": "promotion",
+        "updated_at": null,
+        "factor_cap": null,
+        "nomination_limit": 3
+      },
+      {
+        "role": "frozen",
+        "role_label": "冷冻盘",
+        "description": "已退役/失守因子的冷冻区，禁止直接回生产",
+        "factor_count": 0,
+        "factors": [],
+        "rule_text": "冷冻盘：淘汰五线触发后进入冷冻；复活须重新走准入三项与 A/B 对照，**禁止直接回生产**；复活路径属机制变更，须重走六关。",
+        "pan_status": "on",
+        "flow_kind": "revival",
+        "updated_at": null,
+        "factor_cap": null,
+        "nomination_limit": null
+      }
+    ]
+  },
+  "error": null,
+  "as_of": "2026-09-12"
+}

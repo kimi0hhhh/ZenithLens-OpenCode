@@ -1,0 +1,50 @@
+{
+ "total": 9,
+ "results": [
+  {
+   "case": "C-01",
+   "status": "PASS",
+   "detail": "POST /holdings → 201"
+  },
+  {
+   "case": "C-03",
+   "status": "PASS",
+   "detail": "重复建档 → 409/E_CONFLICT"
+  },
+  {
+   "case": "C-04",
+   "status": "PASS",
+   "detail": "非法代码 → 400/E_VALIDATION"
+  },
+  {
+   "case": "C-05",
+   "status": "PASS",
+   "detail": "PUT→200 回读 shares=20.0"
+  },
+  {
+   "case": "C-07",
+   "status": "PASS",
+   "detail": "不存在 → 404"
+  },
+  {
+   "case": "C-02",
+   "status": "PASS",
+   "detail": "计数 22 → 23"
+  },
+  {
+   "case": "C-08",
+   "status": "PASS",
+   "detail": "DELETE → 200"
+  },
+  {
+   "case": "C-09",
+   "status": "PASS",
+   "detail": "还原：行数 22 == 原 22；临时码残留=False"
+  },
+  {
+   "case": "C-10",
+   "status": "PASS",
+   "detail": "重复删除 → 404"
+  }
+ ]
+}

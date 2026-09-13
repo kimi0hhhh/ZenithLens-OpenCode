@@ -1,0 +1,204 @@
+{
+  "total": 33,
+  "fail": 0,
+  "results": [
+    {
+      "path": "/runtime",
+      "file": "ep_runtime.json",
+      "http": 200,
+      "ok": true
+    },
+    {
+      "path": "/holdings",
+      "file": "ep_holdings.json",
+      "http": 200,
+      "ok": true
+    },
+    {
+      "path": "/holdings/summary",
+      "file": "ep_holdings_summary.json",
+      "http": 200,
+      "ok": true
+    },
+    {
+      "path": "/holdings/coverage",
+      "file": "ep_holdings_coverage.json",
+      "http": 200,
+      "ok": true
+    },
+    {
+      "path": "/valuations/precision",
+      "file": "ep_valuations_precision.json",
+      "http": 200,
+      "ok": true
+    },
+    {
+      "path": "/signals/state",
+      "file": "ep_signals_state.json",
+      "http": 200,
+      "ok": true
+    },
+    {
+      "path": "/engine/frozen-params",
+      "file": "ep_engine_frozen-params.json",
+      "http": 200,
+      "ok": true
+    },
+    {
+      "path": "/engine/ddsm",
+      "file": "ep_engine_ddsm.json",
+      "http": 200,
+      "ok": true
+    },
+    {
+      "path": "/engine/ddsm/cube?code=017193",
+      "file": "ep_engine_ddsm_cube_017193.json",
+      "http": 200,
+      "ok": true
+    },
+    {
+      "path": "/engine/status",
+      "file": "ep_engine_status.json",
+      "http": 200,
+      "ok": true
+    },
+    {
+      "path": "/engine/registry",
+      "file": "ep_engine_registry.json",
+      "http": 200,
+      "ok": true
+    },
+    {
+      "path": "/engine/training-status",
+      "file": "ep_engine_training-status.json",
+      "http": 200,
+      "ok": true
+    },
+    {
+      "path": "/engine/shadow-review",
+      "file": "ep_engine_shadow-review.json",
+      "http": 200,
+      "ok": true
+    },
+    {
+      "path": "/engine/inputs?code=017193",
+      "file": "ep_engine_inputs_017193.json",
+      "http": 200,
+      "ok": true
+    },
+    {
+      "path": "/engine/arena",
+      "file": "ep_engine_arena.json",
+      "http": 200,
+      "ok": true
+    },
+    {
+      "path": "/predictions",
+      "file": "ep_predictions.json",
+      "http": 200,
+      "ok": true
+    },
+    {
+      "path": "/predictions/017193",
+      "file": "ep_predictions_017193.json",
+      "http": 200,
+      "ok": true
+    },
+    {
+      "path": "/portfolio/forecast",
+      "file": "ep_portfolio_forecast.json",
+      "http": 200,
+      "ok": true
+    },
+    {
+      "path": "/ledger/shadow",
+      "file": "ep_ledger_shadow.json",
+      "http": 200,
+      "ok": true
+    },
+    {
+      "path": "/meta/definitions",
+      "file": "ep_meta_definitions.json",
+      "http": 200,
+      "ok": true
+    },
+    {
+      "path": "/factors/pans",
+      "file": "ep_factors_pans.json",
+      "http": 200,
+      "ok": true
+    },
+    {
+      "path": "/factors/books",
+      "file": "ep_factors_books.json",
+      "http": 200,
+      "ok": true
+    },
+    {
+      "path": "/factors/score-chain",
+      "file": "ep_factors_score-chain.json",
+      "http": 200,
+      "ok": true
+    },
+    {
+      "path": "/factors/governance-cycle",
+      "file": "ep_factors_governance-cycle.json",
+      "http": 200,
+      "ok": true
+    },
+    {
+      "path": "/factors/dig-records",
+      "file": "ep_factors_dig-records.json",
+      "http": 200,
+      "ok": true
+    },
+    {
+      "path": "/factors/lifecycle",
+      "file": "ep_factors_lifecycle.json",
+      "http": 200,
+      "ok": true
+    },
+    {
+      "path": "/review/scores",
+      "file": "ep_review_scores.json",
+      "http": 200,
+      "ok": true
+    },
+    {
+      "path": "/review/reconciliation",
+      "file": "ep_review_reconciliation.json",
+      "http": 200,
+      "ok": true
+    },
+    {
+      "path": "/review/cv-config",
+      "file": "ep_review_cv-config.json",
+      "http": 200,
+      "ok": true
+    },
+    {
+      "path": "/data-sources/health",
+      "file": "ep_data-sources_health.json",
+      "http": 200,
+      "ok": true
+    },
+    {
+      "path": "/settings",
+      "file": "ep_settings.json",
+      "http": 200,
+      "ok": true
+    },
+    {
+      "path": "/settings/holdings-data",
+      "file": "ep_settings_holdings-data.json",
+      "http": 200,
+      "ok": true
+    },
+    {
+      "path": "/about",
+      "file": "ep_about.json",
+      "http": 200,
+      "ok": true
+    }
+  ]
+}

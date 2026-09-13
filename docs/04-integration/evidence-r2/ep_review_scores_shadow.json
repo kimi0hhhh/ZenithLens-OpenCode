@@ -1,0 +1,71 @@
+{
+ "ok": true,
+ "data": {
+  "data_kind": "shadow_live",
+  "generated_at": "2026-09-12T23:45:23+08:00",
+  "as_of": "2026-09-12",
+  "scores": [
+   {
+    "window": "T1",
+    "formula": "gate+ddsm+veto",
+    "hit_rate": 1.0,
+    "open_count": 4,
+    "baseline_rate": 0.5559,
+    "baseline_status": "ok",
+    "delta_pp": 0.4441,
+    "cv_mode": "shadow_live",
+    "purge_gap": null,
+    "holdout_days": null,
+    "data_kind": "shadow_live",
+    "sample_window": "full",
+    "sample_period": "2026-08-17..2026-08-20",
+    "as_of": "2026-09-12"
+   },
+   {
+    "window": "T3",
+    "formula": "gate_only",
+    "hit_rate": 1.0,
+    "open_count": 4,
+    "baseline_rate": 0.5735,
+    "baseline_status": "ok",
+    "delta_pp": 0.4265,
+    "cv_mode": "shadow_live",
+    "purge_gap": null,
+    "holdout_days": null,
+    "data_kind": "shadow_live",
+    "sample_window": "full",
+    "sample_period": "2026-08-17..2026-08-20",
+    "as_of": "2026-09-12"
+   },
+   {
+    "window": "T15",
+    "formula": "gate+ddsm",
+    "hit_rate": 0.0,
+    "open_count": 4,
+    "baseline_rate": 0.7125,
+    "baseline_status": "ok",
+    "delta_pp": -0.7125,
+    "cv_mode": "shadow_live",
+    "purge_gap": null,
+    "holdout_days": null,
+    "data_kind": "shadow_live",
+    "sample_window": "full",
+    "sample_period": "2026-08-17..2026-08-20",
+    "as_of": "2026-09-12"
+   }
+  ],
+  "hero": {
+   "window": "T1",
+   "hit_rate": 1.0,
+   "baseline_rate": 0.5559,
+   "delta_pp": 0.4441,
+   "open_count": 4,
+   "sample_period": "2026-08-17..2026-08-20",
+   "data_kind": "shadow_live",
+   "label": "影子盘实测 · T+1"
+  },
+  "note": "实盘=台账合并集（主文件 ∪ 归档）+ 实测基线 max(恒涨率,恒跌率)；样本不足窗口保持待填充；回填口径=代理 ETF 日线涨跌（proxy_bar）。"
+ },
+ "error": null,
+ "as_of": "2026-09-12"
+}

@@ -1,0 +1,28 @@
+2.3 成绩位（U-01）
+- `review.js#renderHero`：命中率/基线/Δ 三段式；`hero.data_kind` 显示「回测」/「实盘」tag（沿用现有 visual 区分）；`hero.open_count`、`hero.sample_period` 以 mini 文案展示；`note` 直出。
+- 三窗口行：`baseline_status=pending` → 「待填充」样式（`.flat`），数值 null；**不得出现估计值**（负向断言）；`sample_window`（恒 `full`）以口径注展示「全样本窗」，**不得与因子页六样本窗混用**（v3.1/R-2）。
+- 立方体对比卡：`walk_forward_delta_*` 为 null → 「待复现」标注（禁止填数）；出数后按 `delta` 格式化。
+- 因子页空盘：「（当前为空）」保留，不得用 legacy 示例数字。
+
+#### 2.4 回填态（U-04）
+- 时间线 `.tl-item`：`result=hit/miss` 着色；`pending` 仅当 `t1_real=null`；`t1_real_method` 驱动 tooltip「命中判定=代理 ETF 涨跌方向」。
+- 对账表判定列同上；事件链第⑥步：`output` 步 detail 由后端给（回填值/待回填），前端不编造。
+- 刷新一致性：状态来自后端响应，不做前端缓存假象。
+
+#### 2.5 影子盘进度（U-05）
+- 进度条 `consecutive_days/target_days`（真实 x/60）；口径注「归档合并计算」当 `archive_merged=true`，否则「按主文件计算（归档不可读）」；**副文案/tooltip 展示 `history_days`**（「可用历史 X 日（含归档）」——「可达 ≥60」的唯一 UI 证据，v3.1/Q3）。
+- HUD 影子盘状态字读 `shadow_status` 进度枚举（R2 后端已切）；「达标/降级」读 `shadow_audit_status`（分离表达，沿用 engine.js 现有 PROGRESS_TAG/AUDIT_TAG）。
+- 台账表列由 `field_list` 驱动（v9 含 `t1_real_method`）；`insert_only_note` + `backfill_method_note` 展示。
+
+#### 2.6 数据源健康（U-06）
+- 失败计数展示 `fail_window_7d` + 「近 7 日失败 n 次」标签；`recent_failures` 折叠区（历史审计）；累计 `fail_count` 仅折叠区内注「累计历史」。
+- 新浪行按实测三态 + 时间戳渲染（后端 `record_source` 自然留痕）。
+- nav 滞后读 `/runtime.staleness`（≤1 交易日显示正常态）；持仓数据卡：主源状态读 `main_source`；导入按钮 `import_available=false` → 禁用 + `import_disabled_reason` 直出（不出现 E_IO 堆栈）。
+
+#### 2.7 验证状态（U-07；v3.1/R-3+D-4 修订）
+- 行内标签（`verify_status` + `verify_status_label`）：待验证（灰）/ 验证中（金，带 `verify_batch_id`）/ 已验证（绿，note 含升 B 日期）/ 验证未通过（红，`verify_note` 原因）/ **D①「暴露待定」（`not_applicable`，不读作"待验证"）**；tooltip 直读 `tier_reason`。
+- **挂档观察行**：显示 `verify_review_date`（复查日）+ 样本量；复查日同步出现在覆盖面板「待结论清单」（`pending_verification_names`）；挂档行不计入「已验证/预测覆盖增长」的展示口径。
+- 升 B 后行内档位与信号列同步（数据刷新后重渲染，不做前端推导）。
+
+#### 2.8 QDII 标注（U-08）
+- 持仓 QDII 行与信号卡：`q

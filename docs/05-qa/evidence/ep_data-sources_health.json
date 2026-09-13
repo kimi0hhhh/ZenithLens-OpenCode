@@ -1,0 +1,45 @@
+{
+  "ok": true,
+  "data": {
+    "sources": [
+      {
+        "source_id": "tencent_kline",
+        "label": "腾讯日K",
+        "status": "ok",
+        "last_ok_at": "2026-09-12T01:45:52+08:00",
+        "fail_count": 0,
+        "latency_ms": null,
+        "note": ""
+      },
+      {
+        "source_id": "tencent_rt",
+        "label": "腾讯实时",
+        "status": "ok",
+        "last_ok_at": "2026-09-12T03:57:05+08:00",
+        "fail_count": 0,
+        "latency_ms": null,
+        "note": ""
+      },
+      {
+        "source_id": "eastmoney",
+        "label": "天天基金",
+        "status": "bad",
+        "last_ok_at": null,
+        "fail_count": 359,
+        "latency_ms": null,
+        "note": "no jsonpgz"
+      },
+      {
+        "source_id": "sina_rt",
+        "label": "新浪实时",
+        "status": "unchecked",
+        "last_ok_at": null,
+        "fail_count": 0,
+        "latency_ms": null,
+        "note": ""
+      }
+    ]
+  },
+  "error": null,
+  "as_of": "2026-09-12"
+}

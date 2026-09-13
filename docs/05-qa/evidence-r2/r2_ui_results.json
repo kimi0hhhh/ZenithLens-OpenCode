@@ -1,0 +1,270 @@
+{
+ "total": 53,
+ "results": [
+  {
+   "case": "U2-03-成",
+   "status": "FAIL",
+   "detail": "7 页真实数据 success={'holdings': 'success', 'analyze': 'empty', 'signals': 'success', 'factors': 'success', 'review': 'success', 'engine': 'success', 'settings': 'success'}；偏差={'analyze': 'empty'}（缺陷 R2-D1：分析页空态触发条件）"
+  },
+  {
+   "case": "U2-01-成",
+   "status": "PASS",
+   "detail": "hero=52.6%\nT+1 回测 生产配置走前回测 · T+1 · 全样本窗\n这是回测成绩，不是今日预测。基线 54.1%，Δ -1.5pp\n开口 61 笔 · 样本期 2025-05-2 | scores含待填充=True 全样本窗=True"
+  },
+  {
+   "case": "U2-01-空",
+   "status": "PASS_PHASE",
+   "detail": "由 ?stub=empty 复盘页断言（见 U2-03-空）"
+  },
+  {
+   "case": "U2-01-载",
+   "status": "PASS_PHASE",
+   "detail": "由 ?stub=loading 复盘页断言（见 U2-03-载）"
+  },
+  {
+   "case": "U2-01-错",
+   "status": "PASS_PHASE",
+   "detail": "由 ?stub=error 复盘页断言（见 U2-03-错）"
+  },
+  {
+   "case": "U2-02-成",
+   "status": "PASS",
+   "detail": "徽章=22；双层类=True；tooltip 项数=[('013566', 7), ('021528', 7), ('025500', 7), ('024239', 6), ('017193', 6)]（≥5）；unknown 原因=True"
+  },
+  {
+   "case": "U2-02-空",
+   "status": "PASS_PHASE",
+   "detail": "empty 下徽章不渲染（stub 矩阵见 U2-03-空）"
+  },
+  {
+   "case": "U2-02-载",
+   "status": "PASS_PHASE",
+   "detail": "loading 下不闪假色（stub 矩阵见 U2-03-载）"
+  },
+  {
+   "case": "U2-02-错",
+   "status": "PASS_PHASE",
+   "detail": "error 下字段缺失留白（stub 矩阵见 U2-03-错）"
+  },
+  {
+   "case": "U2-04-成",
+   "status": "PASS",
+   "detail": "时间线 60 项：hit=11 miss=32 none=15 veto=2；待回填=15 仅对应未回填项"
+  },
+  {
+   "case": "U2-04-错",
+   "status": "PASS",
+   "detail": "对账 60 行：待回填=15（日期=['2026-09-11'] 均为最新未到期 2026-09-11）；含命中行=43"
+  },
+  {
+   "case": "U2-04-空",
+   "status": "PASS_PHASE",
+   "detail": "未到期仅待回填（时间线已核）；stub 无数据态见 U2-03"
+  },
+  {
+   "case": "U2-04-载",
+   "status": "PASS_PHASE",
+   "detail": "加载态中性占位（stub loading，见 U2-03-载）"
+  },
+  {
+   "case": "U2-05-成",
+   "status": "PASS",
+   "detail": "HUD含 x/60=True；进度注=归档合并计算 · 可用历史 20 日（含归档） · 滚动窗 20 日 · 基线口径 measured\n连续 60 个交易日无漏单且偏差 <2pp 才具上线资格；连续天数按归档合并计算。"
+  },
+  {
+   "case": "U2-05-空",
+   "status": "PASS_PHASE",
+   "detail": "归档缺失降级路径在码（ARCHIVE_FALLBACK_NOTE=「按主文件计算（归档不可读）」）；当前 archive_merged=true（recompute 已生成归档）不可现场触发"
+  },
+  {
+   "case": "U2-05-载",
+   "status": "PASS_PHASE",
+   "detail": "stub loading 引擎骨架（见 U2-03-载）"
+  },
+  {
+   "case": "U2-05-错",
+   "status": "PASS_PHASE",
+   "detail": "stub error 引擎错误态（见 U2-03-错）"
+  },
+  {
+   "case": "U2-06-成",
+   "status": "PASS",
+   "detail": "窗口计数=True；sina 标注=True；544 仅历史折叠内=True"
+  },
+  {
+   "case": "U2-06-空",
+   "status": "PASS_PHASE",
+   "detail": "stub empty「尚未检测数据源」+「立即检测」见 U2-03-空"
+  },
+  {
+   "case": "U2-06-载",
+   "status": "PASS_PHASE",
+   "detail": "stub loading 见 U2-03-载"
+  },
+  {
+   "case": "U2-06-错",
+   "status": "PASS_PHASE",
+   "detail": "stub error 见 U2-03-错"
+  },
+  {
+   "case": "U2-07-成",
+   "status": "PASS",
+   "detail": "行内「验证中」×14（7 只挂档）；tier_reason 类 tooltip=19；A/B 行按 R2-24 不展示四态标签"
+  },
+  {
+   "case": "U2-07-空",
+   "status": "PASS_PHASE",
+   "detail": "stub 无行态见 U2-03-空；状态缺失兜底「待验证」由前端兜底路径覆盖"
+  },
+  {
+   "case": "U2-07-载",
+   "status": "PASS_PHASE",
+   "detail": "stub loading 见 U2-03-载"
+  },
+  {
+   "case": "U2-07-错",
+   "status": "PASS_PHASE",
+   "detail": "stub error 见 U2-03-错"
+  },
+  {
+   "case": "U2-08-成",
+   "status": "PASS",
+   "detail": "持仓行 QDII 领先标注可见=True"
+  },
+  {
+   "case": "U2-08-空",
+   "status": "PASS_PHASE",
+   "detail": "非 QDII 行不显示（不编造）——标注仅 6 只 QDII"
+  },
+  {
+   "case": "U2-08-载",
+   "status": "PASS_PHASE",
+   "detail": "stub loading 见 U2-03-载"
+  },
+  {
+   "case": "U2-08-错",
+   "status": "PASS_PHASE",
+   "detail": "stub error 见 U2-03-错"
+  },
+  {
+   "case": "U2-09-成",
+   "status": "PASS",
+   "detail": "thead th position=sticky"
+  },
+  {
+   "case": "U2-09-空",
+   "status": "PASS_PHASE",
+   "detail": "空态无表头悬挂（stub empty 矩阵）"
+  },
+  {
+   "case": "U2-09-载",
+   "status": "PASS_PHASE",
+   "detail": "stub loading 骨架"
+  },
+  {
+   "case": "U2-09-错",
+   "status": "PASS_PHASE",
+   "detail": "stub error 不残留悬挂表头"
+  },
+  {
+   "case": "U2-10-成",
+   "status": "PASS",
+   "detail": "focus-visible=True；Tab→BUTTON#；Esc 关 dialog=True(True→True)；reduced-motion=True"
+  },
+  {
+   "case": "U2-10-空",
+   "status": "PASS_PHASE",
+   "detail": "空态下 Tab 可达重试按钮（stub empty 矩阵）"
+  },
+  {
+   "case": "U2-10-载",
+   "status": "PASS_PHASE",
+   "detail": "加载期焦点不丢失（骨架无交互）"
+  },
+  {
+   "case": "U2-10-错",
+   "status": "PASS_PHASE",
+   "detail": "错误态重试按钮焦点可见（同 CSS 规则）"
+  },
+  {
+   "case": "U2-11-成",
+   "status": "PASS",
+   "detail": "title 元素=425（其中口径类=225，抽查 ≥5）"
+  },
+  {
+   "case": "U2-11-空",
+   "status": "PASS_PHASE",
+   "detail": "无数据数字给「无数据」说明（stub 矩阵）"
+  },
+  {
+   "case": "U2-11-载",
+   "status": "PASS_PHASE",
+   "detail": "加载不显示数值 tooltip"
+  },
+  {
+   "case": "U2-11-错",
+   "status": "PASS_PHASE",
+   "detail": "错误态数字不出现（view-main 隐藏）"
+  },
+  {
+   "case": "X2-01",
+   "status": "PASS",
+   "detail": "+0.00% 出现=1 处（真实 0 值 013566@2026-09-09，非未知冒充）；unknown 冒充=0"
+  },
+  {
+   "case": "X2-13",
+   "status": "PASS_PHASE",
+   "detail": "unknown 徽章不带编造 MAE（title 仅原因）——见 U2-02-成"
+  },
+  {
+   "case": "U2-03-空",
+   "status": "PASS",
+   "detail": "7 页空态真实触发+文案+不渲染数字：7/7 []"
+  },
+  {
+   "case": "U2-03-载",
+   "status": "PASS",
+   "detail": "7 页加载态骨架：7/7"
+  },
+  {
+   "case": "U2-03-错",
+   "status": "PASS",
+   "detail": "7 页错误态含重试：7/7"
+  },
+  {
+   "case": "X2-02",
+   "status": "PASS",
+   "detail": "empty 下 view-main 隐藏（不渲染数字行）7/7=7"
+  },
+  {
+   "case": "X2-03",
+   "status": "PASS",
+   "detail": "error 态可读原因+重试（不回退示例数据）7/7=7"
+  },
+  {
+   "case": "U2-12-空",
+   "status": "PASS",
+   "detail": "空态文案含下一步：持仓=还没有录入任何持仓\n为什么空：持仓列表为 0 条。数据源：data/holdin | 信号=影子盘尚未开始记录\n为什么空：信号台账为空（从未记录）。下一步：先运行台账维护任 | 设置=尚未检测数据源\n为什么空：四源均无检测记录。下一步：点击「立即检测」逐一探测连通"
+  },
+  {
+   "case": "U2-12-载",
+   "status": "PASS_PHASE",
+   "detail": "加载文案来自字典（骨架 + 动作文案）"
+  },
+  {
+   "case": "U2-12-错",
+   "status": "PASS_PHASE",
+   "detail": "错误文案含原因（stub error 带 message）"
+  },
+  {
+   "case": "U2-12-成",
+   "status": "PASS",
+   "detail": "0 混用：+0.00% 出现1处（真实 0 值非未知）；待回填仅信号页；待填充仅未接通窗口（U2-01）"
+  },
+  {
+   "case": "X2-15",
+   "status": "PASS",
+   "detail": "544 折叠内出现=1 / 非折叠=0（累计审计用，非当前状态）"
+  }
+ ]
+}

@@ -1,0 +1,972 @@
+{
+ "source_root": "C:\\Users\\10719\\Documents\\ZenithLens-OpenCode",
+ "build_root": "C:\\Users\\10719\\Documents\\ZenithLens-OpenCode\\docs\\04-integration\\build-r2",
+ "total_content_files": 136,
+ "matched": 136,
+ "mismatched": [],
+ "builder_authored": [
+  "README-START.md",
+  "start.cmd",
+  "start.ps1"
+ ],
+ "excluded_roots": [
+  "_archive_round1/",
+  "docs/",
+  "README-START.md(源根 R1 版)"
+ ],
+ "note": "content files = 根 *.py + static/** + tests/** + data/** + ledger/**；builder authored 为构建者新增文件，不参与对齐",
+ "files": [
+  {
+   "rel": "app.py",
+   "size": 62038,
+   "src_md5": "32a686786191af6dd97256a50bd1b5a1",
+   "dst_md5": "32a686786191af6dd97256a50bd1b5a1",
+   "match": true
+  },
+  {
+   "rel": "data/cache/bars/159352.json",
+   "size": 33908,
+   "src_md5": "16a35c6ba25bed1e7cf73afb6e3fdb41",
+   "dst_md5": "16a35c6ba25bed1e7cf73afb6e3fdb41",
+   "match": true
+  },
+  {
+   "rel": "data/cache/bars/159781.json",
+   "size": 33540,
+   "src_md5": "c51ac8f472f0c851ebf864acc5fc8942",
+   "dst_md5": "c51ac8f472f0c851ebf864acc5fc8942",
+   "match": true
+  },
+  {
+   "rel": "data/cache/bars/159920.json",
+   "size": 33594,
+   "src_md5": "f1e3c70cb90f1f2a6cc14b4bce32da6c",
+   "dst_md5": "f1e3c70cb90f1f2a6cc14b4bce32da6c",
+   "match": true
+  },
+  {
+   "rel": "data/cache/bars/162411.json",
+   "size": 33426,
+   "src_md5": "fde69d25132ac71f09742d3b67c8271a",
+   "dst_md5": "fde69d25132ac71f09742d3b67c8271a",
+   "match": true
+  },
+  {
+   "rel": "data/cache/bars/512050.json",
+   "size": 33949,
+   "src_md5": "5e8eb5a417c7c36419feb9271d788c3e",
+   "dst_md5": "5e8eb5a417c7c36419feb9271d788c3e",
+   "match": true
+  },
+  {
+   "rel": "data/cache/bars/512100.json",
+   "size": 33650,
+   "src_md5": "ac9b794df682a0481ed2bea64801b3d2",
+   "dst_md5": "ac9b794df682a0481ed2bea64801b3d2",
+   "match": true
+  },
+  {
+   "rel": "data/cache/bars/512400.json",
+   "size": 33586,
+   "src_md5": "d0decdc4ab78c7f614ad0425ebd97261",
+   "dst_md5": "d0decdc4ab78c7f614ad0425ebd97261",
+   "match": true
+  },
+  {
+   "rel": "data/cache/bars/512480.json",
+   "size": 47543,
+   "src_md5": "4f482324d79cc026723940df0b8ffbba",
+   "dst_md5": "4f482324d79cc026723940df0b8ffbba",
+   "match": true
+  },
+  {
+   "rel": "data/cache/bars/512660.json",
+   "size": 33592,
+   "src_md5": "960e4628a61611058a9242bdf992a7fc",
+   "dst_md5": "960e4628a61611058a9242bdf992a7fc",
+   "match": true
+  },
+  {
+   "rel": "data/cache/bars/513100.json",
+   "size": 33536,
+   "src_md5": "3f53b833da82d922b100af625d51c7c9",
+   "dst_md5": "3f53b833da82d922b100af625d51c7c9",
+   "match": true
+  },
+  {
+   "rel": "data/cache/bars/515050.json",
+   "size": 45730,
+   "src_md5": "bcb0f99dcdf58b63616dd938272cad06",
+   "dst_md5": "bcb0f99dcdf58b63616dd938272cad06",
+   "match": true
+  },
+  {
+   "rel": "data/cache/bars/515070.json",
+   "size": 47444,
+   "src_md5": "5649864b82e9a3993e07424259ff7761",
+   "dst_md5": "5649864b82e9a3993e07424259ff7761",
+   "match": true
+  },
+  {
+   "rel": "data/cache/bars/515880.json",
+   "size": 48093,
+   "src_md5": "4748a19bc4e84c143cdffd9149076315",
+   "dst_md5": "4748a19bc4e84c143cdffd9149076315",
+   "match": true
+  },
+  {
+   "rel": "data/cache/bars/518880.json",
+   "size": 33679,
+   "src_md5": "b72aea89147ba82dd061ec5cec2f8caa",
+   "dst_md5": "b72aea89147ba82dd061ec5cec2f8caa",
+   "match": true
+  },
+  {
+   "rel": "data/cache/bars/561560.json",
+   "size": 33298,
+   "src_md5": "c8dd32dc5c421efd19b0eebf6073818e",
+   "dst_md5": "c8dd32dc5c421efd19b0eebf6073818e",
+   "match": true
+  },
+  {
+   "rel": "data/cache/bars/561600.json",
+   "size": 48012,
+   "src_md5": "3a43467006f619f61fcbc4753d9afa20",
+   "dst_md5": "3a43467006f619f61fcbc4753d9afa20",
+   "match": true
+  },
+  {
+   "rel": "data/cache/bars/562500.json",
+   "size": 33739,
+   "src_md5": "c63fe3236aa7bda0fa4e52bd14792cf9",
+   "dst_md5": "c63fe3236aa7bda0fa4e52bd14792cf9",
+   "match": true
+  },
+  {
+   "rel": "data/cache/bars/588300.json",
+   "size": 33281,
+   "src_md5": "b52ab4f8f058058b5e8e918ed2d61572",
+   "dst_md5": "b52ab4f8f058058b5e8e918ed2d61572",
+   "match": true
+  },
+  {
+   "rel": "data/cache/factor/signals.json",
+   "size": 181398,
+   "src_md5": "cf17ea9167b82040217c13633c108f75",
+   "dst_md5": "cf17ea9167b82040217c13633c108f75",
+   "match": true
+  },
+  {
+   "rel": "data/cache/holdings/013566.json",
+   "size": 2775,
+   "src_md5": "4c1a27a63f6b8b1ef0ea2b55e03e1b3f",
+   "dst_md5": "4c1a27a63f6b8b1ef0ea2b55e03e1b3f",
+   "match": true
+  },
+  {
+   "rel": "data/cache/holdings/014320.json",
+   "size": 2786,
+   "src_md5": "22e37c528b91dfc274033f0c04350263",
+   "dst_md5": "22e37c528b91dfc274033f0c04350263",
+   "match": true
+  },
+  {
+   "rel": "data/cache/holdings/018957.json",
+   "size": 2783,
+   "src_md5": "d964b0ff7546fa144ed2ccef1c4e4205",
+   "dst_md5": "d964b0ff7546fa144ed2ccef1c4e4205",
+   "match": true
+  },
+  {
+   "rel": "data/cache/holdings/021528.json",
+   "size": 2779,
+   "src_md5": "af8d767c369a0b4a3e7bf3d9c2a85017",
+   "dst_md5": "af8d767c369a0b4a3e7bf3d9c2a85017",
+   "match": true
+  },
+  {
+   "rel": "data/cache/holdings/025500.json",
+   "size": 2771,
+   "src_md5": "1f4746da61662ad1c1c13e1eaa5980f8",
+   "dst_md5": "1f4746da61662ad1c1c13e1eaa5980f8",
+   "match": true
+  },
+  {
+   "rel": "data/cache/nav/000217.json",
+   "size": 16957,
+   "src_md5": "c6bdfd2358c5e1e5b30ed80a2220e4e9",
+   "dst_md5": "c6bdfd2358c5e1e5b30ed80a2220e4e9",
+   "match": true
+  },
+  {
+   "rel": "data/cache/nav/002963.json",
+   "size": 16958,
+   "src_md5": "c1a97621ddeb0c87bdf9cb20863db395",
+   "dst_md5": "c1a97621ddeb0c87bdf9cb20863db395",
+   "match": true
+  },
+  {
+   "rel": "data/cache/nav/008087.json",
+   "size": 16957,
+   "src_md5": "d11b3640aa0aea866c5995bce867c2b8",
+   "dst_md5": "d11b3640aa0aea866c5995bce867c2b8",
+   "match": true
+  },
+  {
+   "rel": "data/cache/nav/011840.json",
+   "size": 16968,
+   "src_md5": "e6df9901a0667ba1beb0ed3761f41ff6",
+   "dst_md5": "e6df9901a0667ba1beb0ed3761f41ff6",
+   "match": true
+  },
+  {
+   "rel": "data/cache/nav/012922.json",
+   "size": 16963,
+   "src_md5": "627904e35a82fba5e487fb04e8b0fefa",
+   "dst_md5": "627904e35a82fba5e487fb04e8b0fefa",
+   "match": true
+  },
+  {
+   "rel": "data/cache/nav/013566.json",
+   "size": 16697,
+   "src_md5": "29deb9c59c8d64e2a994a9e23bd0fd98",
+   "dst_md5": "29deb9c59c8d64e2a994a9e23bd0fd98",
+   "match": true
+  },
+  {
+   "rel": "data/cache/nav/014320.json",
+   "size": 16956,
+   "src_md5": "e83f38f839073ec31558dd381ff1f969",
+   "dst_md5": "e83f38f839073ec31558dd381ff1f969",
+   "match": true
+  },
+  {
+   "rel": "data/cache/nav/014881.json",
+   "size": 16964,
+   "src_md5": "ec0793ea5ee4beb740e98e8fdb1e43bd",
+   "dst_md5": "ec0793ea5ee4beb740e98e8fdb1e43bd",
+   "match": true
+  },
+  {
+   "rel": "data/cache/nav/016665.json",
+   "size": 16963,
+   "src_md5": "3d1c37cff0994cb184247ba2c4ee0123",
+   "dst_md5": "3d1c37cff0994cb184247ba2c4ee0123",
+   "match": true
+  },
+  {
+   "rel": "data/cache/nav/016786.json",
+   "size": 16966,
+   "src_md5": "2c5a659d4aaadbf6c73035dc62993ae5",
+   "dst_md5": "2c5a659d4aaadbf6c73035dc62993ae5",
+   "match": true
+  },
+  {
+   "rel": "data/cache/nav/017193.json",
+   "size": 16954,
+   "src_md5": "7a22e5a371cc8b844c3a0ea816c0cc85",
+   "dst_md5": "7a22e5a371cc8b844c3a0ea816c0cc85",
+   "match": true
+  },
+  {
+   "rel": "data/cache/nav/017412.json",
+   "size": 16952,
+   "src_md5": "31b69a9259e4ec93ecf34e44a95e0552",
+   "dst_md5": "31b69a9259e4ec93ecf34e44a95e0552",
+   "match": true
+  },
+  {
+   "rel": "data/cache/nav/018897.json",
+   "size": 16962,
+   "src_md5": "c70450fb5a8ab5fee211c8685e31c856",
+   "dst_md5": "c70450fb5a8ab5fee211c8685e31c856",
+   "match": true
+  },
+  {
+   "rel": "data/cache/nav/018957.json",
+   "size": 16962,
+   "src_md5": "7f1550b4eb3f0c2305c0b95d84036887",
+   "dst_md5": "7f1550b4eb3f0c2305c0b95d84036887",
+   "match": true
+  },
+  {
+   "rel": "data/cache/nav/021528.json",
+   "size": 16705,
+   "src_md5": "dfcd6f60b13675dff2b3c26189b5b08a",
+   "dst_md5": "dfcd6f60b13675dff2b3c26189b5b08a",
+   "match": true
+  },
+  {
+   "rel": "data/cache/nav/021662.json",
+   "size": 16957,
+   "src_md5": "5fbfe59a8c3717cc2a0db9a37512c65e",
+   "dst_md5": "5fbfe59a8c3717cc2a0db9a37512c65e",
+   "match": true
+  },
+  {
+   "rel": "data/cache/nav/022485.json",
+   "size": 16952,
+   "src_md5": "6107a6f9248b4955233f30dde5cdf4e1",
+   "dst_md5": "6107a6f9248b4955233f30dde5cdf4e1",
+   "match": true
+  },
+  {
+   "rel": "data/cache/nav/024239.json",
+   "size": 16961,
+   "src_md5": "a4523a56fe463e0bd9ce3bd74be6baae",
+   "dst_md5": "a4523a56fe463e0bd9ce3bd74be6baae",
+   "match": true
+  },
+  {
+   "rel": "data/cache/nav/025500.json",
+   "size": 15788,
+   "src_md5": "390094e138461b3f9b0c96cae38fc862",
+   "dst_md5": "390094e138461b3f9b0c96cae38fc862",
+   "match": true
+  },
+  {
+   "rel": "data/cache/nav/025857.json",
+   "size": 12674,
+   "src_md5": "8d83ca74eb0275d9152a5916ee3d9b6a",
+   "dst_md5": "8d83ca74eb0275d9152a5916ee3d9b6a",
+   "match": true
+  },
+  {
+   "rel": "data/cache/nav/163208.json",
+   "size": 16700,
+   "src_md5": "0e2df9fd2d1036b95b599f7f63cd71ea",
+   "dst_md5": "0e2df9fd2d1036b95b599f7f63cd71ea",
+   "match": true
+  },
+  {
+   "rel": "data/cache/nav/457001.json",
+   "size": 16958,
+   "src_md5": "52cc6761859b6c9128f91ddb93a06486",
+   "dst_md5": "52cc6761859b6c9128f91ddb93a06486",
+   "match": true
+  },
+  {
+   "rel": "data/cache/nav/fund_official.json",
+   "size": 4905,
+   "src_md5": "d33b1cf2ddadeb85995ca9f2a699746b",
+   "dst_md5": "d33b1cf2ddadeb85995ca9f2a699746b",
+   "match": true
+  },
+  {
+   "rel": "data/cache/nav/fund_valuation.json",
+   "size": 7223,
+   "src_md5": "56fbe00fed959abfc1bb2959f94c6d91",
+   "dst_md5": "56fbe00fed959abfc1bb2959f94c6d91",
+   "match": true
+  },
+  {
+   "rel": "data/cache/proxy/penetration.json",
+   "size": 8481,
+   "src_md5": "79ef2921ece0c521f58776e7237781c6",
+   "dst_md5": "79ef2921ece0c521f58776e7237781c6",
+   "match": true
+  },
+  {
+   "rel": "data/health-log.jsonl",
+   "size": 99420,
+   "src_md5": "84ebe61fb46052d9884a2001818b2c0d",
+   "dst_md5": "84ebe61fb46052d9884a2001818b2c0d",
+   "match": true
+  },
+  {
+   "rel": "data/health.json",
+   "size": 943,
+   "src_md5": "49140ba814643045ac57a029b82780a9",
+   "dst_md5": "49140ba814643045ac57a029b82780a9",
+   "match": true
+  },
+  {
+   "rel": "data/holdings.json",
+   "size": 26559,
+   "src_md5": "c41a9576e386c1cb47767c9bf13a6630",
+   "dst_md5": "c41a9576e386c1cb47767c9bf13a6630",
+   "match": true
+  },
+  {
+   "rel": "data/qdii_correction.json",
+   "size": 322,
+   "src_md5": "2e92e8a4624758b800c5729abb246e00",
+   "dst_md5": "2e92e8a4624758b800c5729abb246e00",
+   "match": true
+  },
+  {
+   "rel": "data/review/qdii_review.jsonl",
+   "size": 34032,
+   "src_md5": "76d84732bc021a32d718ba8cf17e72f2",
+   "dst_md5": "76d84732bc021a32d718ba8cf17e72f2",
+   "match": true
+  },
+  {
+   "rel": "data/review/tier_reviews.jsonl",
+   "size": 29220,
+   "src_md5": "f4ee53ee39dde4cebe18099d1d55f599",
+   "dst_md5": "f4ee53ee39dde4cebe18099d1d55f599",
+   "match": true
+  },
+  {
+   "rel": "data/settings.json",
+   "size": 359,
+   "src_md5": "92327fdc428bbe6ad573473a979d8381",
+   "dst_md5": "92327fdc428bbe6ad573473a979d8381",
+   "match": true
+  },
+  {
+   "rel": "data/snapshot/accuracy.json",
+   "size": 2,
+   "src_md5": "99914b932bd37a50b983c5e7c90ae93b",
+   "dst_md5": "99914b932bd37a50b983c5e7c90ae93b",
+   "match": true
+  },
+  {
+   "rel": "data/snapshot/daily/valuation-20260912.jsonl",
+   "size": 4172,
+   "src_md5": "3f3838c4077f9cb4e1fd0a8db8938e33",
+   "dst_md5": "3f3838c4077f9cb4e1fd0a8db8938e33",
+   "match": true
+  },
+  {
+   "rel": "data/snapshot/daily/valuation-20260913.jsonl",
+   "size": 4172,
+   "src_md5": "6f802dca9e891c397c025d118bfa492d",
+   "dst_md5": "6f802dca9e891c397c025d118bfa492d",
+   "match": true
+  },
+  {
+   "rel": "data/snapshot/predictions.json",
+   "size": 61707,
+   "src_md5": "f2bae4433eb1aa5f77219d95ef2f70d7",
+   "dst_md5": "f2bae4433eb1aa5f77219d95ef2f70d7",
+   "match": true
+  },
+  {
+   "rel": "data/snapshot/proxy_quality.json",
+   "size": 26874,
+   "src_md5": "3089f125f67ccd109ada16dc940bf355",
+   "dst_md5": "3089f125f67ccd109ada16dc940bf355",
+   "match": true
+  },
+  {
+   "rel": "data/snapshot/review_scores.json",
+   "size": 2079,
+   "src_md5": "1ec2566829817c78d619105e8d71e115",
+   "dst_md5": "1ec2566829817c78d619105e8d71e115",
+   "match": true
+  },
+  {
+   "rel": "data/snapshot/valuation.json",
+   "size": 58029,
+   "src_md5": "26b92a5b6af4131e99ec5682b91d7ed5",
+   "dst_md5": "26b92a5b6af4131e99ec5682b91d7ed5",
+   "match": true
+  },
+  {
+   "rel": "data/snapshot/valuation_history.jsonl",
+   "size": 1683357,
+   "src_md5": "8f66abd0fa21f8d71b81a23e4a8f6cac",
+   "dst_md5": "8f66abd0fa21f8d71b81a23e4a8f6cac",
+   "match": true
+  },
+  {
+   "rel": "data/tasks.json",
+   "size": 4268,
+   "src_md5": "efba1999f9f8ff6809ce25ddf2690954",
+   "dst_md5": "efba1999f9f8ff6809ce25ddf2690954",
+   "match": true
+  },
+  {
+   "rel": "engine.py",
+   "size": 26676,
+   "src_md5": "b4011e1cfd2312dd1688e5a2d5fe2b3d",
+   "dst_md5": "b4011e1cfd2312dd1688e5a2d5fe2b3d",
+   "match": true
+  },
+  {
+   "rel": "errors.py",
+   "size": 2550,
+   "src_md5": "d363e4395ea05d73f3fc67d90aaee261",
+   "dst_md5": "d363e4395ea05d73f3fc67d90aaee261",
+   "match": true
+  },
+  {
+   "rel": "estimator.py",
+   "size": 41740,
+   "src_md5": "9948d961a2bc91798e8038ff60cdc2b4",
+   "dst_md5": "9948d961a2bc91798e8038ff60cdc2b4",
+   "match": true
+  },
+  {
+   "rel": "factor_board.py",
+   "size": 25811,
+   "src_md5": "158d1d4864569ccca05f6b47401c3230",
+   "dst_md5": "158d1d4864569ccca05f6b47401c3230",
+   "match": true
+  },
+  {
+   "rel": "factor_engine.py",
+   "size": 70772,
+   "src_md5": "197a536d545094618085db3a7495c508",
+   "dst_md5": "197a536d545094618085db3a7495c508",
+   "match": true
+  },
+  {
+   "rel": "fund_predict.py",
+   "size": 25448,
+   "src_md5": "fd72973327750aa743bda7afc9a49599",
+   "dst_md5": "fd72973327750aa743bda7afc9a49599",
+   "match": true
+  },
+  {
+   "rel": "holdings.py",
+   "size": 20673,
+   "src_md5": "97795d78d8c64beecdc572e3a84e6838",
+   "dst_md5": "97795d78d8c64beecdc572e3a84e6838",
+   "match": true
+  },
+  {
+   "rel": "ledger/adopted_factors.json",
+   "size": 8168,
+   "src_md5": "8e3066b6c3b35fafaa194c8dea17f513",
+   "dst_md5": "8e3066b6c3b35fafaa194c8dea17f513",
+   "match": true
+  },
+  {
+   "rel": "ledger/backfill.jsonl",
+   "size": 55156,
+   "src_md5": "9616098fc195969fc30c65b161ed78b5",
+   "dst_md5": "9616098fc195969fc30c65b161ed78b5",
+   "match": true
+  },
+  {
+   "rel": "ledger/factor_arena.jsonl",
+   "size": 1565,
+   "src_md5": "90e819f6a16df610fa57ab2987ea6c2e",
+   "dst_md5": "90e819f6a16df610fa57ab2987ea6c2e",
+   "match": true
+  },
+  {
+   "rel": "ledger/factor_candidates.jsonl",
+   "size": 572,
+   "src_md5": "fe70d8459738e99037f8279da2896bc5",
+   "dst_md5": "fe70d8459738e99037f8279da2896bc5",
+   "match": true
+  },
+  {
+   "rel": "ledger/scan_history.jsonl",
+   "size": 511,
+   "src_md5": "bfa201f5adcbab7d1f29c6784a54bc1d",
+   "dst_md5": "bfa201f5adcbab7d1f29c6784a54bc1d",
+   "match": true
+  },
+  {
+   "rel": "ledger/scorecards.jsonl",
+   "size": 3951,
+   "src_md5": "ccee5e10b09a64275453be741372cd1c",
+   "dst_md5": "ccee5e10b09a64275453be741372cd1c",
+   "match": true
+  },
+  {
+   "rel": "ledger/shadow_signals.jsonl",
+   "size": 69832,
+   "src_md5": "f3a084fbdfb9962ded553f4b028b0a52",
+   "dst_md5": "f3a084fbdfb9962ded553f4b028b0a52",
+   "match": true
+  },
+  {
+   "rel": "ledger_api.py",
+   "size": 41906,
+   "src_md5": "f3412bfff2603fa96bf97566c99a7ae0",
+   "dst_md5": "f3412bfff2603fa96bf97566c99a7ae0",
+   "match": true
+  },
+  {
+   "rel": "proxy_map.py",
+   "size": 16305,
+   "src_md5": "043b43e6f3e1a5bc3c2697d380fdf326",
+   "dst_md5": "043b43e6f3e1a5bc3c2697d380fdf326",
+   "match": true
+  },
+  {
+   "rel": "review.py",
+   "size": 10877,
+   "src_md5": "3f1df885ac50274e59ca68e5db0409aa",
+   "dst_md5": "3f1df885ac50274e59ca68e5db0409aa",
+   "match": true
+  },
+  {
+   "rel": "risk.py",
+   "size": 4056,
+   "src_md5": "d7018c18aa5592186a8a48a7efa5d95f",
+   "dst_md5": "d7018c18aa5592186a8a48a7efa5d95f",
+   "match": true
+  },
+  {
+   "rel": "settings.py",
+   "size": 16792,
+   "src_md5": "c2325c3fa6cb3e01cda74db37df15e7c",
+   "dst_md5": "c2325c3fa6cb3e01cda74db37df15e7c",
+   "match": true
+  },
+  {
+   "rel": "static/README.md",
+   "size": 4032,
+   "src_md5": "db4133b7b5c42924d6961a21ee84a8fc",
+   "dst_md5": "db4133b7b5c42924d6961a21ee84a8fc",
+   "match": true
+  },
+  {
+   "rel": "static/css/app.css",
+   "size": 29462,
+   "src_md5": "ab95f385224289c84fda0b547f0fcb17",
+   "dst_md5": "ab95f385224289c84fda0b547f0fcb17",
+   "match": true
+  },
+  {
+   "rel": "static/index.html",
+   "size": 26362,
+   "src_md5": "e7de14233a678934cd558b0fb79b5719",
+   "dst_md5": "e7de14233a678934cd558b0fb79b5719",
+   "match": true
+  },
+  {
+   "rel": "static/js/api.js",
+   "size": 3900,
+   "src_md5": "0debe8cd40c53083a56d52011bc42e55",
+   "dst_md5": "0debe8cd40c53083a56d52011bc42e55",
+   "match": true
+  },
+  {
+   "rel": "static/js/components.js",
+   "size": 22654,
+   "src_md5": "a2d1766eccaec80468798c6f166b0958",
+   "dst_md5": "a2d1766eccaec80468798c6f166b0958",
+   "match": true
+  },
+  {
+   "rel": "static/js/copy.js",
+   "size": 17380,
+   "src_md5": "bd0ba550a0d957c744c2aa240ebc65f9",
+   "dst_md5": "bd0ba550a0d957c744c2aa240ebc65f9",
+   "match": true
+  },
+  {
+   "rel": "static/js/format.js",
+   "size": 4740,
+   "src_md5": "a01525a92f76970e2b3aec31a3d3b59b",
+   "dst_md5": "a01525a92f76970e2b3aec31a3d3b59b",
+   "match": true
+  },
+  {
+   "rel": "static/js/main.js",
+   "size": 9700,
+   "src_md5": "7423df337fd11cac21f57f9cfeb4dd3a",
+   "dst_md5": "7423df337fd11cac21f57f9cfeb4dd3a",
+   "match": true
+  },
+  {
+   "rel": "static/js/mock/mock.js",
+   "size": 66241,
+   "src_md5": "2c415e3f7986b5b310d5e5071c322550",
+   "dst_md5": "2c415e3f7986b5b310d5e5071c322550",
+   "match": true
+  },
+  {
+   "rel": "static/js/store.js",
+   "size": 1702,
+   "src_md5": "1e41eccb9759d7504003f31f5cfef6ac",
+   "dst_md5": "1e41eccb9759d7504003f31f5cfef6ac",
+   "match": true
+  },
+  {
+   "rel": "static/js/views/analyze.js",
+   "size": 8903,
+   "src_md5": "48a5d45ad1ccd66af17f87e84760864c",
+   "dst_md5": "48a5d45ad1ccd66af17f87e84760864c",
+   "match": true
+  },
+  {
+   "rel": "static/js/views/engine.js",
+   "size": 26381,
+   "src_md5": "fc97bb68de75f714f4a074ee617fce98",
+   "dst_md5": "fc97bb68de75f714f4a074ee617fce98",
+   "match": true
+  },
+  {
+   "rel": "static/js/views/factors.js",
+   "size": 23096,
+   "src_md5": "9fe4faf596bd55a7d40437ca1ca1a807",
+   "dst_md5": "9fe4faf596bd55a7d40437ca1ca1a807",
+   "match": true
+  },
+  {
+   "rel": "static/js/views/holdings.js",
+   "size": 27246,
+   "src_md5": "876b17ef72702d42b20ea5da67eb5950",
+   "dst_md5": "876b17ef72702d42b20ea5da67eb5950",
+   "match": true
+  },
+  {
+   "rel": "static/js/views/review.js",
+   "size": 16291,
+   "src_md5": "90debc8d72e520f108f6dd92f6e24ac6",
+   "dst_md5": "90debc8d72e520f108f6dd92f6e24ac6",
+   "match": true
+  },
+  {
+   "rel": "static/js/views/settings.js",
+   "size": 15629,
+   "src_md5": "4612ecb3f1e08ab406015f40ec43c602",
+   "dst_md5": "4612ecb3f1e08ab406015f40ec43c602",
+   "match": true
+  },
+  {
+   "rel": "static/js/views/signals.js",
+   "size": 10158,
+   "src_md5": "d3c448aea1c0b22a63bade74469b2edf",
+   "dst_md5": "d3c448aea1c0b22a63bade74469b2edf",
+   "match": true
+  },
+  {
+   "rel": "tests/__init__.py",
+   "size": 87,
+   "src_md5": "cb743ae2f442dc97a4cc4a73abebab40",
+   "dst_md5": "cb743ae2f442dc97a4cc4a73abebab40",
+   "match": true
+  },
+  {
+   "rel": "tests/_fixtures.py",
+   "size": 797,
+   "src_md5": "53e9adcdc85712dbbd049b15d3aa602a",
+   "dst_md5": "53e9adcdc85712dbbd049b15d3aa602a",
+   "match": true
+  },
+  {
+   "rel": "tests/test_accuracy_channel.py",
+   "size": 8072,
+   "src_md5": "35243f84d03a987ff190890101e732a3",
+   "dst_md5": "35243f84d03a987ff190890101e732a3",
+   "match": true
+  },
+  {
+   "rel": "tests/test_active_holdings_contract.py",
+   "size": 9462,
+   "src_md5": "47a32074b9569fb667138b8ef0e81f30",
+   "dst_md5": "47a32074b9569fb667138b8ef0e81f30",
+   "match": true
+  },
+  {
+   "rel": "tests/test_app_contract.py",
+   "size": 8909,
+   "src_md5": "b1bc5292bbdffcf5a370ec72c4c26f1a",
+   "dst_md5": "b1bc5292bbdffcf5a370ec72c4c26f1a",
+   "match": true
+  },
+  {
+   "rel": "tests/test_backfill_real.py",
+   "size": 4317,
+   "src_md5": "7f25be59b47dc88f27604ef7f65311f1",
+   "dst_md5": "7f25be59b47dc88f27604ef7f65311f1",
+   "match": true
+  },
+  {
+   "rel": "tests/test_baseline_measured.py",
+   "size": 3466,
+   "src_md5": "73997377ac52a258de1c8991c69b8752",
+   "dst_md5": "73997377ac52a258de1c8991c69b8752",
+   "match": true
+  },
+  {
+   "rel": "tests/test_disconnect_quiet.py",
+   "size": 7559,
+   "src_md5": "55a6e1c87c529cdda92d80888631c22e",
+   "dst_md5": "55a6e1c87c529cdda92d80888631c22e",
+   "match": true
+  },
+  {
+   "rel": "tests/test_engine_contract.py",
+   "size": 8349,
+   "src_md5": "60ac7fb7786c55eeaaaaaf559ccebd31",
+   "dst_md5": "60ac7fb7786c55eeaaaaaf559ccebd31",
+   "match": true
+  },
+  {
+   "rel": "tests/test_f10_top20.py",
+   "size": 5293,
+   "src_md5": "7626ff491372ddfaf17f6ee84d1fe7de",
+   "dst_md5": "7626ff491372ddfaf17f6ee84d1fe7de",
+   "match": true
+  },
+  {
+   "rel": "tests/test_f2_selfcollision.py",
+   "size": 5221,
+   "src_md5": "1ef8b76343ac2f39f5ce829390f2fb0f",
+   "dst_md5": "1ef8b76343ac2f39f5ce829390f2fb0f",
+   "match": true
+  },
+  {
+   "rel": "tests/test_factor_arena_contract.py",
+   "size": 4389,
+   "src_md5": "6b476bf33079e266a8adff57e284eb69",
+   "dst_md5": "6b476bf33079e266a8adff57e284eb69",
+   "match": true
+  },
+  {
+   "rel": "tests/test_factor_engine_contract.py",
+   "size": 12236,
+   "src_md5": "ea402e4b68b91ad98ee59caf4922217f",
+   "dst_md5": "ea402e4b68b91ad98ee59caf4922217f",
+   "match": true
+  },
+  {
+   "rel": "tests/test_health_window.py",
+   "size": 5823,
+   "src_md5": "a105036f036aad526dce475b437e4cf5",
+   "dst_md5": "a105036f036aad526dce475b437e4cf5",
+   "match": true
+  },
+  {
+   "rel": "tests/test_history_cache_contract.py",
+   "size": 3805,
+   "src_md5": "90e4deebfc80f92c1ba5d9fbcd056376",
+   "dst_md5": "90e4deebfc80f92c1ba5d9fbcd056376",
+   "match": true
+  },
+  {
+   "rel": "tests/test_holdings_main_source.py",
+   "size": 2847,
+   "src_md5": "5ea8588c0159d7bc9fb70b5a79dfa5bf",
+   "dst_md5": "5ea8588c0159d7bc9fb70b5a79dfa5bf",
+   "match": true
+  },
+  {
+   "rel": "tests/test_holdings_summary_contract.py",
+   "size": 2704,
+   "src_md5": "8d73baa61aea56359871ba83439ffd86",
+   "dst_md5": "8d73baa61aea56359871ba83439ffd86",
+   "match": true
+  },
+  {
+   "rel": "tests/test_ledger_chain_recompute.py",
+   "size": 8528,
+   "src_md5": "8a62f4fbadcb78b6e2240d4c65441bd2",
+   "dst_md5": "8a62f4fbadcb78b6e2240d4c65441bd2",
+   "match": true
+  },
+  {
+   "rel": "tests/test_ledger_contract.py",
+   "size": 4226,
+   "src_md5": "0e55118fdd85a207097dee29ca36a3f2",
+   "dst_md5": "0e55118fdd85a207097dee29ca36a3f2",
+   "match": true
+  },
+  {
+   "rel": "tests/test_nav_history_contract.py",
+   "size": 6390,
+   "src_md5": "e271384bafde1e0ab4b72b3c07770f8c",
+   "dst_md5": "e271384bafde1e0ab4b72b3c07770f8c",
+   "match": true
+  },
+  {
+   "rel": "tests/test_portfolio_contract.py",
+   "size": 2869,
+   "src_md5": "7568007e884efb889210368911df021c",
+   "dst_md5": "7568007e884efb889210368911df021c",
+   "match": true
+  },
+  {
+   "rel": "tests/test_proxy_map_contract.py",
+   "size": 6613,
+   "src_md5": "07a373531dde726852dcbeee00b63aa9",
+   "dst_md5": "07a373531dde726852dcbeee00b63aa9",
+   "match": true
+  },
+  {
+   "rel": "tests/test_proxy_quality.py",
+   "size": 4475,
+   "src_md5": "843ed8f8f3a432dec33ad889416b016c",
+   "dst_md5": "843ed8f8f3a432dec33ad889416b016c",
+   "match": true
+  },
+  {
+   "rel": "tests/test_qdii_correction.py",
+   "size": 6497,
+   "src_md5": "74a3f91093d7d4a25df9190b4ec05f16",
+   "dst_md5": "74a3f91093d7d4a25df9190b4ec05f16",
+   "match": true
+  },
+  {
+   "rel": "tests/test_qdii_review.py",
+   "size": 5544,
+   "src_md5": "c83ea01aea48b3dbee31c6bb565989a9",
+   "dst_md5": "c83ea01aea48b3dbee31c6bb565989a9",
+   "match": true
+  },
+  {
+   "rel": "tests/test_review_scores.py",
+   "size": 8992,
+   "src_md5": "e648a9711636d4c419acc2fd9151d232",
+   "dst_md5": "e648a9711636d4c419acc2fd9151d232",
+   "match": true
+  },
+  {
+   "rel": "tests/test_shadow_backfill_contract.py",
+   "size": 10437,
+   "src_md5": "86756583a282732040edb56ae7cad3bc",
+   "dst_md5": "86756583a282732040edb56ae7cad3bc",
+   "match": true
+  },
+  {
+   "rel": "tests/test_shadow_progress_archive.py",
+   "size": 4655,
+   "src_md5": "8e4d93f870ed2a98a67d81eb1dc3e445",
+   "dst_md5": "8e4d93f870ed2a98a67d81eb1dc3e445",
+   "match": true
+  },
+  {
+   "rel": "tests/test_shadow_recompute.py",
+   "size": 5988,
+   "src_md5": "103bcfc582e84db67ca014b9295dd36d",
+   "dst_md5": "103bcfc582e84db67ca014b9295dd36d",
+   "match": true
+  },
+  {
+   "rel": "tests/test_shadow_status_contract.py",
+   "size": 6916,
+   "src_md5": "8cfb8deaefa89b53b26aea7c9ca8ea7a",
+   "dst_md5": "8cfb8deaefa89b53b26aea7c9ca8ea7a",
+   "match": true
+  },
+  {
+   "rel": "tests/test_sina_fallback.py",
+   "size": 5908,
+   "src_md5": "2176eeccd4cd72e0ad9c579241e39b0b",
+   "dst_md5": "2176eeccd4cd72e0ad9c579241e39b0b",
+   "match": true
+  },
+  {
+   "rel": "tests/test_tier_review.py",
+   "size": 10977,
+   "src_md5": "d099264fddcc7b301b0c484585e73e7d",
+   "dst_md5": "d099264fddcc7b301b0c484585e73e7d",
+   "match": true
+  },
+  {
+   "rel": "tests/test_valuation_contract.py",
+   "size": 7895,
+   "src_md5": "f1f817e573d4a27aeb57baa4a7d297b6",
+   "dst_md5": "f1f817e573d4a27aeb57baa4a7d297b6",
+   "match": true
+  },
+  {
+   "rel": "valuation.py",
+   "size": 66150,
+   "src_md5": "d490c1072ecedc9cbdb4aea904cde6a3",
+   "dst_md5": "d490c1072ecedc9cbdb4aea904cde6a3",
+   "match": true
+  }
+ ]
+}

@@ -1,0 +1,246 @@
+{
+ "total": 40,
+ "passed": 40,
+ "results": [
+  {
+   "group": "holdings",
+   "check": "rows 非空（22 只）",
+   "pass": true,
+   "detail": null
+  },
+  {
+   "group": "holdings",
+   "check": "HoldingRow 9 个 v9.1 字段键恒在",
+   "pass": true,
+   "detail": null
+  },
+  {
+   "group": "holdings",
+   "check": "conf_reason 仅 confidence=unknown 时非 null",
+   "pass": true,
+   "detail": null
+  },
+  {
+   "group": "holdings",
+   "check": "unknown 行带 conf_reason（读取层）",
+   "pass": true,
+   "detail": null
+  },
+  {
+   "group": "holdings",
+   "check": "qdii_lead_note 仅 QDII 行非 null",
+   "pass": true,
+   "detail": null
+  },
+  {
+   "group": "holdings",
+   "check": "trace[holdings].detail 至少一条有结构明细",
+   "pass": true,
+   "detail": null
+  },
+  {
+   "group": "holdings_summary",
+   "check": "covered_count == change_rate != null 行数",
+   "pass": true,
+   "detail": null
+  },
+  {
+   "group": "precision",
+   "check": "estimate_quality 结构键齐",
+   "pass": true,
+   "detail": null
+  },
+  {
+   "group": "precision",
+   "check": "official_summary 结构键齐",
+   "pass": true,
+   "detail": null
+  },
+  {
+   "group": "precision",
+   "check": "window_phase ∈ warming/first_verdict/mature",
+   "pass": true,
+   "detail": null
+  },
+  {
+   "group": "precision",
+   "check": "全档参考字段保留（M3）",
+   "pass": true,
+   "detail": null
+  },
+  {
+   "group": "precision",
+   "check": "官方档 note 含「既成事实」",
+   "pass": true,
+   "detail": null
+  },
+  {
+   "group": "coverage",
+   "check": "prediction_universe_count == A+B 行数",
+   "pass": true,
+   "detail": null
+  },
+  {
+   "group": "coverage",
+   "check": "pending_verification_count == C 挂档行数",
+   "pass": true,
+   "detail": null
+  },
+  {
+   "group": "coverage",
+   "check": "pending_verification_names ≤10 且非空",
+   "pass": true,
+   "detail": null
+  },
+  {
+   "group": "coverage",
+   "check": "prediction_coverage_note 非空",
+   "pass": true,
+   "detail": null
+  },
+  {
+   "group": "signals",
+   "check": "rolling_window_days == 20",
+   "pass": true,
+   "detail": null
+  },
+  {
+   "group": "signals",
+   "check": "low_frequency_note 非空",
+   "pass": true,
+   "detail": null
+  },
+  {
+   "group": "signals",
+   "check": "rolling_open_assets 为 int",
+   "pass": true,
+   "detail": null
+  },
+  {
+   "group": "engine",
+   "check": "shadow_status ∈ 进度枚举",
+   "pass": true,
+   "detail": null
+  },
+  {
+   "group": "engine",
+   "check": "shadow_audit_status ∈ idle/ok/bad",
+   "pass": true,
+   "detail": null
+  },
+  {
+   "group": "engine",
+   "check": "HUD consecutive == /ledger/shadow progress.consecutive_days",
+   "pass": true,
+   "detail": null
+  },
+  {
+   "group": "frozen",
+   "check": "K=4 / p=0.25 / MIN_N=15 / BAND=0.02",
+   "pass": true,
+   "detail": null
+  },
+  {
+   "group": "frozen",
+   "check": "baseline_method 含实测口径 + 0.5830 已退役",
+   "pass": true,
+   "detail": null
+  },
+  {
+   "group": "frozen",
+   "check": "weighting_basis == market_value",
+   "pass": true,
+   "detail": null
+  },
+  {
+   "group": "ledger",
+   "check": "行含 t1_real_method / backfill_proxy_code 键",
+   "pass": true,
+   "detail": null
+  },
+  {
+   "group": "ledger",
+   "check": "已回填行 method 恒 proxy_bar",
+   "pass": true,
+   "detail": null
+  },
+  {
+   "group": "ledger_shadow",
+   "check": "field_list 与契约 15 键逐字一致",
+   "pass": true,
+   "detail": null
+  },
+  {
+   "group": "ledger_shadow",
+   "check": "backfill_method == proxy_bar（单值）",
+   "pass": true,
+   "detail": null
+  },
+  {
+   "group": "ledger_shadow",
+   "check": "progress 含 window_days/archive_merged/history_days/baseline_source",
+   "pass": true,
+   "detail": null
+  },
+  {
+   "group": "review",
+   "check": "hero.data_kind == backtest",
+   "pass": true,
+   "detail": null
+  },
+  {
+   "group": "review",
+   "check": "scores 3 行且 sample_window 恒 full",
+   "pass": true,
+   "detail": null
+  },
+  {
+   "group": "review",
+   "check": "T1 hit_rate 非 null（B5 真实出数）",
+   "pass": true,
+   "detail": null
+  },
+  {
+   "group": "review",
+   "check": "delta 与 baseline 同 null/同有值（不填估计值）",
+   "pass": true,
+   "detail": null
+  },
+  {
+   "group": "review",
+   "check": "shadow_live 口径可读",
+   "pass": true,
+   "detail": null
+  },
+  {
+   "group": "sources",
+   "check": "四源均有 fail_window_7d/fail_window_days",
+   "pass": true,
+   "detail": null
+  },
+  {
+   "group": "settings",
+   "check": "main_source.path == data/holdings.json",
+   "pass": true,
+   "detail": null
+  },
+  {
+   "group": "settings",
+   "check": "import_available=false 且有可读原因",
+   "pass": true,
+   "detail": null
+  },
+  {
+   "group": "score-chain",
+   "check": "V11 兄弟字段并存",
+   "pass": true,
+   "detail": null
+  },
+  {
+   "group": "negative",
+   "check": "非法 data_kind → E_VALIDATION",
+   "pass": true,
+   "detail": null
+  }
+ ]
+}

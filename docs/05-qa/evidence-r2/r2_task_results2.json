@@ -1,0 +1,35 @@
+{
+ "total": 6,
+ "results": [
+  {
+   "case": "C2-01",
+   "status": "PASS",
+   "detail": "maintain_nav_history done（净值史维护：22 只 / 新增 0 点 / accuracy v2 0 条）；既有日期覆盖=0；新增点=0；22 只"
+  },
+  {
+   "case": "G2-D02",
+   "status": "PASS",
+   "detail": "复跑幂等（points 集全等）=True；第二次 净值史维护：22 只 / 新增 0 点 / accuracy v2 0 条；失败保留旧值 + 滞后标注（并发异常场景见观察项）"
+  },
+  {
+   "case": "G2-B05",
+   "status": "PASS",
+   "detail": "recompute①:影子台账重算：300 条 / 2026-08-17~2026-09-11（新增 0，移除 20，归档 320）；recompute②:影子台账重算：结果不变，零写入（幂等）；归档=320 行；重生成=300 行；码∈持仓=True；manifest={'reason': 'recompute_by_current_tier', 'count': 320, 'added_count': 0, 'removed_count': 20}"
+  },
+  {
+   "case": "C2-03",
+   "status": "PASS",
+   "detail": "二次 recompute 零写入幂等（task summary=影子台账重算：结果不变，零写入（幂等））；归档先写后重生成；created_at 继承（同 (date,code) 集合）"
+  },
+  {
+   "case": "C2-06",
+   "status": "PASS",
+   "detail": "归档复读：320 行（含首轮 320 行）；INSERT-ONLY 记录级语义未破"
+  },
+  {
+   "case": "C2-02",
+   "status": "PASS",
+   "detail": "verify_tiers targets=['022485'] → 验证批次 vb_20260913_0104：1 只（升 B 0 / 挂档 1 / 降档 0）；tier_reviews=23 行（append-only +1）"
+  }
+ ]
+}

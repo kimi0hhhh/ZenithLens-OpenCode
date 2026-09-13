@@ -1,0 +1,29 @@
+{
+ "ok": true,
+ "data": {
+  "primary_path": "C:\\Users\\10719\\Desktop\\基金监控项目\\app_data\\funds_data.json",
+  "primary_exists": false,
+  "primary_modified_at": null,
+  "primary_count": 0,
+  "legacy_path": "C:\\Users\\10719\\Desktop\\基金监控项目\\app_data\\funds_data.json.bak",
+  "legacy_exists": false,
+  "legacy_modified_at": null,
+  "legacy_count": 0,
+  "consistent": true,
+  "diff_fields": [],
+  "readonly": true,
+  "main_source": {
+   "path": "C:\\Users\\10719\\Documents\\ZenithLens-OpenCode\\data\\holdings.json",
+   "exists": true,
+   "modified_at": "2026-09-12T23:20:27+08:00",
+   "count": 22,
+   "readonly": false
+  },
+  "import_available": false,
+  "import_disabled_reason": "源文件不存在：C:\\Users\\10719\\Desktop\\基金监控项目\\app_data\\funds_data.json；可用 CSV/手工录入",
+  "diff_note": "两份 funds_data.json 不同步：旧位置那份会滞后数日；同一标的的 pend_gz 估算值与官方净值可差 ~0.73%，证明估值≠净值，必须标注来源。产品只读 app_data/ 源文件，启动时做一致性校验。",
+  "checked_at": "2026-09-12T23:45:30+08:00"
+ },
+ "error": null,
+ "as_of": "2026-09-12"
+}

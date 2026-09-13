@@ -1,0 +1,30 @@
+{
+  "ok": true,
+  "data": {
+    "status": "online",
+    "pid": 19492,
+    "port": 8791,
+    "version": "oc-s3-v1",
+    "active_engine_version": "oc-s3-v1",
+    "started_at": "2026-09-12T04:04:13+08:00",
+    "last_heartbeat_at": "2026-09-12T04:07:06+08:00",
+    "last_success_at": "2026-09-12",
+    "snapshot_as_of": "2026-09-12",
+    "shadow_status": "idle",
+    "shadow_consecutive_days": 0,
+    "shadow_target_days": 60,
+    "training_assets": 9,
+    "index_only_assets": 0,
+    "state_grid_total_cells": 125,
+    "state_grid_filled_cells": 125,
+    "state_grid_coverage_pct": 1.0,
+    "avg_samples_per_cell": 21.168,
+    "min_samples_cell": 10,
+    "last_retrain_at": null,
+    "next_retrain_at": "2026-10-01",
+    "data_freshness_snapshot_date": "2026-09-11",
+    "data_freshness_days_behind": 1
+  },
+  "error": null,
+  "as_of": "2026-09-12"
+}

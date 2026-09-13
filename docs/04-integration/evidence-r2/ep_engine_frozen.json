@@ -1,0 +1,96 @@
+{
+ "ok": true,
+ "data": {
+  "k_noise": 4,
+  "p_perturb": 0.25,
+  "min_n": 15,
+  "shrink": 10,
+  "band": 0.02,
+  "veto_crowd_quantile": 0.6,
+  "veto_klow2_quantile": 0.4,
+  "min_coverage_ratio": 0.3,
+  "min_open_count": 3,
+  "weighting_basis": "market_value",
+  "baseline_method": "max(恒涨率,恒跌率)，按台账 universe（全部资产-日）实测；0.5830 已退役",
+  "gate_e1": "low[t] > high[t-1]",
+  "gate_e3": "ret < -0.02 且 vr < 0.8",
+  "purge_gap": "H+2",
+  "window_weights": [
+   {
+    "window": "d15",
+    "weight": 8
+   },
+   {
+    "window": "d30",
+    "weight": 22
+   },
+   {
+    "window": "d60",
+    "weight": 15
+   },
+   {
+    "window": "m6",
+    "weight": 10
+   },
+   {
+    "window": "m24",
+    "weight": 30
+   },
+   {
+    "window": "full",
+    "weight": 15
+   }
+  ],
+  "window_min_days": [
+   {
+    "window": "d15",
+    "n_w": 5
+   },
+   {
+    "window": "d30",
+    "n_w": 10
+   },
+   {
+    "window": "d60",
+    "n_w": 15
+   },
+   {
+    "window": "m6",
+    "n_w": 30
+   },
+   {
+    "window": "m24",
+    "n_w": 60
+   },
+   {
+    "window": "full",
+    "n_w": 120
+   }
+  ],
+  "license_lines": [
+   {
+    "license": "candidate",
+    "min_independent_days": 50,
+    "window_k": null
+   },
+   {
+    "license": "probation",
+    "min_independent_days": 60,
+    "window_k": 0.5
+   },
+   {
+    "license": "renew_t2",
+    "min_independent_days": 70,
+    "window_k": 0.7
+   },
+   {
+    "license": "full_t3",
+    "min_independent_days": 80,
+    "window_k": 0.7
+   }
+  ],
+  "change_policy": "任何一项改动必须重走六关"
+ },
+ "error": null,
+ "as_of": "2026-09-12"
+}

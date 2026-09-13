@@ -1,0 +1,67 @@
+## 13. 修复记录（v9.5 影子盘窗口 60 · 用户指令 · 2026-09-13）
+
+> 依据：用户指令「影子盘直接补满 60 天，来一天换一天」；`10-arch-review-r2.md` v7 §13（改动点 B-1..B-8 + 计算量评估 + qualified 语义）、`09-api-contract-r2.md` v9.5 §13、`08-backend-arch-r2.md` v3.2。
+> 范围：只改 `ledger_api.py` / `app.py` / `fund_predict.py` 与 `tests/**` 与本报告；契约/前端/QA 工件未改；`runtime/**` 未触；无清单外重构。
+
+#### 13.1 B-1..B-8 逐条结果
+
+| # | 项 | 实现 | 断言/证据 |
+|---|---|---|---|
+| B-1 | 常量 20→60 | `SHADOW_WINDOW_DAYS = 60`（唯一常量源；注释引 v9.5 §13） | `WindowConstantTest.test_constant_is_60` |
+| B-2 | app 引用核验（271/284/1375） | 启动回填/重算/任务全走常量；backfill 任务 step 文案动态 `%d` 常量 | 负向测试 + 源码 grep：无 `days=20`、无「20 交易日」（§13.4） |
+| B-3 | fund_predict 默认回退 | 顶层 `import ledger_api`；`rolling_window_days` 默认与回退均引用常量；`low_frequency_note` 改 60 日口径（不含静态基线数字，旧「20 交易日约 11 资产」零残留） | `inspect.getsource` 断言 + 旧文案负向断言 |
+| B-4 | 统计窗随 60 | `rolling_open_stats()` 默认常量；`signal_state.rolling_window_days=60` | 单测 + 实测（§13.2/§13.3） |
+| B-5 | 启动回填深度 60 | 首启一次补满（首填 = 全窗日期 × 资产）；warmup/任务/重算统一常量 | 沙箱首填 900 条 / 12.57s；临时副本首启 `total=920`（600 新行 + 既有 20 日行按 INSERT-ONLY 保留） |
+| B-6 | 测试更新 + 新增 | `test_shadow_backfill_contract`（窗口 60 / 深度默认 / 幂等 / 一进一出 / 常量零残留 9 条）、`test_shadow_progress_archive`（window 60 + qualified 可达 + 走前口径披露）、`test_shadow_status_contract`（60 日 seed → qualified）、`test_shadow_recompute`（默认深度） | **217/217 ×2 全绿**；滚动用例 `written=15/trimmed=15` 与副本实测一致 |
+| B-7 | 归档/裁剪/manifest | `window_days` 随 60；`reason`/幂等/`created_at` 继承不变；先归档后重写 | 沙箱 manifest `window_days=60 / count=15`、archive 首行=被裁日 2026-06-22；既有重算测试 0 冲突 |
+| B-8 | 计算量实测与打点（含增量模式） | 10-r2 §13.4 认可的**增量模式**：仅缺键日期×资产做走前单点计算；快路径保留 | 每日滚动 **13.22s→0.26s**；冷启动复验见 §13.3 |
+
+#### 13.2 计算量实测（沙箱：真实 bars 只读 + 临时 ledger，不污染产线）
+
+| 场景 | 实测 | 说明 |
+|---|---|---|
+| 首填 60 日（15 资产） | **12.57s**（样本 12.57/13.27s；900 条） | 优于架构预估 15–17s |
+| 快路径重跑（窗口齐备） | **0.01s** | 零训练零写入 |
+| 每日滚动「来一天换一天」（增量） | **0.26s**（written=15 / trimmed=15 / total=900） | 优化前全量重算 13.22s → 约 50× |
+| 进度口径 | `status=qualified`、`consecutive_days=60`、`window_days=60`、`gap_days=0`、`history_days=60` | 滚动后 consec=61（归档合并自然增长，目标 60 不变） |
+
+- **增量等价性**：既有 `(date,code)` 行原样保留（全量路径本就不覆盖它们），新增行同源公式（`bars[:t-1]`、H=1、purge=H+2）；幂等 / INSERT-ONLY / 归档语义逐条不变。
+- **文案诚实性（v9.5 §13.3）**：`shadow_progress.note` 更新为「窗口 60 交易日；记录按走前口径回算补全（非自然积累）；上线资格建议结合实盘观察另行评估」；`shadow_audit.note` 同步标注走前回算；`low_frequency_note` 不含静态基线数字（PM 重定稿可替换，接口字段直读）。
+
+#### 13.3 冷启动复验（临时副本双启；跑后删除，产线零改动）
+
+| 启动 | /holdings +1s | +6s | +15s | +25s | 预热 done |
+|---|---|---|---|---|---|
+| 首启（一次性补满 60 日） | 0.54s | 0.49s | **4.88s**（补满 CPU 窗内） | 0.25s | +22.95s |
+| 二启（快路径 + 增量） | 0.40s | 0.43s | 0.32s | 0.27s | +7.12s（滚动阶段 0.39s） |
+
+- **稳态（二启及以后）≤0.43s，不劣化于 S3 基线**（0.32–0.45s）；每日滚动走增量（0.26s）→ 无每日 CPU 争抢。
+- **残留（登记）**：升级后**首次启动**存在一次性 ~5s 的 `/holdings` 瞬时时延（补满 60 日 CPU 窗）；属一次性迁移成本，非稳态行为。
+
+#### 13.4 旧 20 值零残留与回归
+
+- 产线 `app.py / ledger_api.py / fund_predict.py`：`SHADOW_WINDOW_DAYS=60`；无 `days=20`、无 `rolling_window_days": 20`、无「20 交易日约 11 资产」文案（负向测试 `test_no_stale_20_in_shadow_call_chain` + 源码 grep）。
+- 全量 **217/217 × 2 全绿**（R1 117 + R2 轮次新增 100；v9.5 轮净增 4：窗口/常量负向 3 + qualified 可达 1）；`proxy_quality.json`（sha256 `98b94d43dec81a67…`）与 12 个产线文件两轮前后零差异。
+
+### 14. 冻结纪律与红线核对
+
+| 红线 | R2 状态 |
+|---|---|
+| E2/E4 禁复活、禁 OR 合并 | 未触碰（门仍 E1/E3） |
+| K=4/p=0.25/MIN_N=15/SHRINK=10/BAND=0.02/双否决分位 | `engine.frozen_params` 未改值；仅追加 `baseline_method` 口径文本 |
+| 永不做空 | 未触碰 |
+| INSERT-ONLY | 保持；重算=先归档后重生成；回填独立文件；修正行只追加不改 |
+| 组合权重 = 可信市值 | `weighting_basis` 恒 `market_value`；黑名单新增 `baseline_method` |
+| `0.5830` | 产线计算零引用；仅契约固定文本含 token（D-9/§5） |
+| T+3/T+15 未验证不出 up | 未触碰（`/review/scores` 属复盘展示，不产信号） |
+
+### 15. 启动与健康检查
+
+- 启动：`cd C:\Users\10719\Documents\ZenithLens-OpenCode && python app.py`（默认 `127.0.0.1:8791`，可用 `--port` 覆盖；Python 3.8+）。
+- 健康：`GET /api/v1/health`、`GET /api/v1/runtime`（`trade_session`/`staleness`）、`GET /api/v1/engine/status`（进度/审查分离）。
+- 新任务：`POST /api/v1/tasks {"type":"maintain_nav_history"}`、`{"type":"verify_tiers","params":{"targets":[...]}}`、`{"type":"backfill_ledger","params":{"mode":"recompute"}}`。
+
+## 自验收
+
+- [x] 契约 v9.1 每个新增/变更条目都已实现，无遗漏（§2 机器核对表逐项）—— 44 + 9 + B1~B9 + 枚举 9 + 任务 3 + 注记 2；**v9.2 注记按 §9.1 落地**
+- [x] 逐字段比对：字段名/类型/单位/精度/枚举值一致；无 camelCase；`snake_case` 全项目统一；`baseline_status` 枚举 `filled/pending`（禁 `ok`，§9.1-

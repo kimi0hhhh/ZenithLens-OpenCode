@@ -1,0 +1,218 @@
+{
+ "holdings_n": 22,
+ "valuation_modes": {
+  "holdings": 5,
+  "official": 17
+ },
+ "unknown_rows": [
+  "025500",
+  "018957",
+  "024239",
+  "025857",
+  "021528",
+  "017193",
+  "016786",
+  "457001",
+  "013566",
+  "014881",
+  "163208",
+  "018897",
+  "022485",
+  "014320",
+  "011840",
+  "008087",
+  "017412",
+  "016665",
+  "012922",
+  "021662",
+  "000217",
+  "002963"
+ ],
+ "unknown_reasons": {
+  "025500": "nav_missing",
+  "018957": "nav_missing",
+  "024239": "nav_missing",
+  "025857": "nav_missing",
+  "021528": "nav_missing",
+  "017193": "nav_missing",
+  "016786": "nav_missing",
+  "457001": "nav_missing",
+  "013566": "nav_missing",
+  "014881": "nav_missing",
+  "163208": "nav_missing",
+  "018897": "nav_missing",
+  "022485": "nav_missing",
+  "014320": "nav_missing",
+  "011840": "nav_missing",
+  "008087": "nav_missing",
+  "017412": "nav_missing",
+  "016665": "nav_missing",
+  "012922": "nav_missing",
+  "021662": "nav_missing",
+  "000217": "nav_missing",
+  "002963": "nav_missing"
+ },
+ "qdii_lead_rows": [
+  "024239",
+  "457001",
+  "163208",
+  "016665",
+  "012922",
+  "021662"
+ ],
+ "verify_status_dist": {
+  "validated": 15,
+  "validating": 7
+ },
+ "precision": {
+  "window_filled_days": 0,
+  "window_status_label": "累计 0/40 日",
+  "window_phase": "warming",
+  "eq_weighted_mae": null,
+  "eq_count": 5,
+  "eq_note": "估算档（intraday/holdings/proxy）质量为主指标；官方档为既成事实单列，不参与本指标（ADR-0014 / v9.1 D-1）。",
+  "off_count": 17,
+  "off_weight_ratio": 0.8444,
+  "off_mae": null,
+  "full_ref_mae": null
+ },
+ "coverage": {
+  "universe": 15,
+  "pending": 7,
+  "note": "预测覆盖 15/22（+7 待结论）",
+  "names": [
+   "东方阿尔法科技智选混合发起C",
+   "中航机遇领航混合发起C",
+   "财通成长优选混合C",
+   "国富亚洲机会股票(QDII)A",
+   "诺安油气能源(QDII-FOF-LOF)",
+   "国金中证A500指数增强A",
+   "国富亚洲机会股票(QDII)C"
+  ]
+ },
+ "signals": {
+  "rolling": 11,
+  "state": "no_open"
+ },
+ "engine": {
+  "shadow_status": "recording",
+  "audit": "bad",
+  "consec": 20,
+  "target": 60
+ },
+ "review": {
+  "hero": {
+   "window": "T1",
+   "hit_rate": 0.5263,
+   "baseline_rate": 0.5415,
+   "delta_pp": -0.0152,
+   "open_count": 61,
+   "sample_period": "2025-05-26..2026-06-22",
+   "data_kind": "backtest",
+   "label": "生产配置走前回测 · T+1 · 全样本窗"
+  },
+  "t1": {
+   "window": "T1",
+   "formula": "gate+ddsm+veto",
+   "hit_rate": 0.5263,
+   "open_count": 61,
+   "baseline_rate": 0.5415,
+   "baseline_status": "ok",
+   "delta_pp": -0.0152,
+   "cv_mode": "walk_forward",
+   "purge_gap": "H+2",
+   "holdout_days": 60,
+   "data_kind": "backtest",
+   "sample_window": "full",
+   "sample_period": "2025-05-26..2026-06-22",
+   "as_of": "2026-09-12"
+  },
+  "t3": {
+   "window": "T3",
+   "formula": "gate_only",
+   "hit_rate": 0.6857,
+   "open_count": 54,
+   "baseline_rate": 0.5824,
+   "baseline_status": "ok",
+   "delta_pp": 0.1033,
+   "cv_mode": "walk_forward",
+   "purge_gap": "H+2",
+   "holdout_days": 60,
+   "data_kind": "backtest",
+   "sample_window": "full",
+   "sample_period": "2025-05-26..2026-06-22",
+   "as_of": "2026-09-12"
+  },
+  "t15": {
+   "window": "T15",
+   "formula": "gate+ddsm",
+   "hit_rate": 0.5517,
+   "open_count": 81,
+   "baseline_rate": 0.6422,
+   "baseline_status": "ok",
+   "delta_pp": -0.0904,
+   "cv_mode": "walk_forward",
+   "purge_gap": "H+2",
+   "holdout_days": 60,
+   "data_kind": "backtest",
+   "sample_window": "full",
+   "sample_period": "2025-05-26..2026-06-22",
+   "as_of": "2026-09-12"
+  }
+ },
+ "sources": [
+  {
+   "id": "tencent_kline",
+   "status": "ok",
+   "fail7": 0,
+   "fail_count": 0
+  },
+  {
+   "id": "tencent_rt",
+   "status": "ok",
+   "fail7": 0,
+   "fail_count": 0
+  },
+  {
+   "id": "eastmoney",
+   "status": "ok",
+   "fail7": 0,
+   "fail_count": 544
+  },
+  {
+   "id": "sina_rt",
+   "status": "bad",
+   "fail7": 5,
+   "fail_count": 5
+  }
+ ],
+ "ledger_shadow_progress": {
+  "status": "recording",
+  "consecutive_days": 20,
+  "target_days": 60,
+  "progress_ratio": 0.33,
+  "start_date": "2026-08-17",
+  "target_date": "2026-11-09",
+  "gap_days": 0,
+  "hit_rate": 1.0,
+  "baseline_rate": 0.5559,
+  "baseline_source": "measured",
+  "deviation_pp": 0.4441,
+  "window_days": 20,
+  "archive_merged": false,
+  "history_days": 20,
+  "calendar_source": "monitored_bar_union",
+  "note": "连续 60 个交易日无漏单且偏差 <2pp 才具上线资格；连续天数按归档合并计算。 归档缺失或不可读，本值按主文件计算（口径降级）。"
+ },
+ "main_source": {
+  "path": "C:\\Users\\10719\\Documents\\ZenithLens-OpenCode\\data\\holdings.json",
+  "exists": true,
+  "modified_at": "2026-09-12T23:20:27+08:00",
+  "count": 22,
+  "readonly": false
+ },
+ "import": {
+  "available": false,
+  "reason": "源文件不存在：C:\\Users\\10719\\Desktop\\基金监控项目\\app_data\\funds_data.json；可用 CSV/手工录入"
+ }
+}

@@ -1,0 +1,162 @@
+{
+  "holdings": {
+    "ok": true,
+    "data": {
+      "route": "#/holdings",
+      "pa_total": "¥53,092.77",
+      "pa_today": "¥-290.25",
+      "pa_pnl": "¥5,771.70",
+      "pa_ret": "+12.20%",
+      "pa_today_sub": "可信估值覆盖 22/22 只（全部覆盖）；无未知行按成本计 · 覆盖 22/22 只",
+      "vsum_vb": 2,
+      "vsum_text": "高10 只 · ¥25,531.90 · 占 48.1%\n无12 只 · ¥27,560.86 · 占 51.9%\n代理近似 10 只\n未知 12 只\n市值加权平均误差 0.20% ／ 行业基准 0.80%\n口径：近 40 个交易日回测 · 估算涨跌 vs 官方净值涨跌",
+      "forecast_cards": 3,
+      "forecast_text": "T+1\n不表态\n—\n门 + DDSM + 双否决\n无开口，不表态 · 今日无开口\n覆盖 0.0% 市值 · 0 只开口 · 权重 market_value\nT+3\n不表态\n—\n仅触发做多\n该窗口无概率定式 · 今日无开口\n覆盖 0.0% 市值 · 0 只开口 · 权重 market_value\nT+15\n不表态\n—\n门 + DDSM\n无开口，不表态 · 今日无开口\n覆盖 0.0% 市值 · 0 只开口 · 权重 market_value",
+      "cov_tiers": 4,
+      "cov_bar_html": true,
+      "cov_note_len": 116,
+      "rows": 26,
+      "group_rows": 4,
+      "valbadges": 22,
+      "badge_classes": [
+        "ch",
+        "ch",
+        "ch",
+        "cu",
+        "ch",
+        "ch",
+        "ch",
+        "ch",
+        "ch",
+        "cu",
+        "cu",
+        "cu",
+        "cu",
+        "cu",
+        "cu",
+        "cu",
+        "cu",
+        "cu",
+        "cu",
+        "cu",
+        "ch",
+        "ch"
+      ],
+      "unknown_cells": 24,
+      "plus_zero_zero": 0,
+      "masked": false,
+      "fold_risk": true,
+      "pop": true,
+      "toast": true,
+      "dialogs": 3
+    }
+  },
+  "analyze": {
+    "ok": true,
+    "data": {
+      "route": "#/analyze",
+      "defs_len": 279,
+      "defs_text": "up = 1 若 close[T+1] > close[T]场外基金申购 15:00 截止，而信号 15:30 才生成：T 日信号最早只能用于 T+1 日申购，无法当天买入。信号生成时点：T 日 15:30 收盘后A 新建仓位T+1 开盘后申购；吃晚一拍的净值，非信号段时序上错过 T 日 15:00 截止B 已持有仓位 可执行T+1 日 15:00 前决定继续持有或赎回与信号时点匹配，最现实的用法C 场内 ETFT+1 开盘买入 / 收盘卖出open→close 口径与场外净值不同对场外基金最现实的用法是 B（持有/赎回决策），本系统不暗示当天可买入。",
+      "forecast_cards": 3,
+      "weighting_len": 189,
+      "weighting_text": "权重口径 market_value（冻结，变更须版本 +1）：按可信市值加权；灰（未开口）从分子分母同剔；未采用置信度加权（未经方法论验证，ADR-0005 拒绝）。加权规则（三条缺一不可）：① 只有开口仓位计入（分子分母同时剔除灰）· ② C/D 档不参与 · ③ 必须显示覆盖市值占比。组合方向需同时满足出口阈值 0.52 与最小覆盖门槛（覆盖 ≥30%、开口 ≥3 只）。",
+      "body_rows": 10
+    }
+  },
+  "signals": {
+    "ok": true,
+    "data": {
+      "route": "#/signals",
+      "empty_text": "今日无信号\n这是常态，不是故障。多数交易日不会开口。\n已在监控\n10/22 只\n距上次开口\n—\n上次开口\n—\n上次结果\n待回填",
+      "empty_facts": 0,
+      "empty_html_len": 591,
+      "gates": 2,
+      "gates_text": "无量急跌 主力\nret < -0.02 且 vr < 0.8\n主力事件 纯事件效应 +3.90pp（t=+2.33）\n跳空\nlow[t] > high[t-1]\n辅助事件 纯事件效应 +0.88pp",
+      "excl_len": 72,
+      "excl_text": "已剔除：放量上涨（已证伪，禁止并入，-3.09pp）；点火（已证伪，禁止并入，-2.72pp）。四类事件禁止 OR 合并 —— 合并后互相抵消。",
+      "excl_pp": true,
+      "tl_items": 0,
+      "tl_text": "近 60 天无信号"
+    }
+  },
+  "factors": {
+    "ok": true,
+    "data": {
+      "route": "#/factors",
+      "pans": 0,
+      "pan_roles": [],
+      "pans_text": "正式盘\n0 个\n上限 3\n当前生产因子（否决位 ≤4、打分位受状态空间约束 ≤3）\n（当前为空）\n正式盘：仅收已过准入三项（F1 有效性 / F2 独立性 / F3 增量）AND 的因子；总数上限受否决位 ≤4、打分位 ≤3 约束；每月 1 日月榜跑留一法，移除后 Δ 升 ≥0.5pp 且持续 30 天 = 结构红线。\n淘汰影子盘\n0 个\nA/B 对照中的淘汰候选，等待 60 个交易日结论\n（当前为空）\n淘汰影子盘：正式盘因子进入淘汰流程后先降级到此做 A/B 对照（移除 vs 保留），60 个交易日内不得回生产；开口 <20 不出结论。\n有效影子盘\n0 个\n每周提名 ≤3\n准入三项 AND 通过、尚未晋升生产的候选\n（当前为空）\n有效影子盘：候选因子须同时过 F1 有效性、F2 独立性（与现役最大共线 <0.7）、F3 增量（加入后 Δ≥+0.5pp 且开口不塌方）；每周提名 ≤3，冷却 90 天；只记账不参与生产，待牌照升级。\n冷冻盘\n0 个\n已退役/失守因子的冷冻区，禁止直接回生产\n（当前为空）\n冷冻盘：淘汰五线触发后进入冷冻；复活须重新走准入三项与 A/B 对照，**禁止直接回",
+      "books": 4,
+      "books_text": "adopted_factors.json\n采纳登记表\n0 条\n展开最近记录\n记录已采纳因子的角色、死亡条件与牌照\n待写入\nscan_history.jsonl\n挖掘台账\n0 条\n展开最近记录\n记录每周挖掘扫描的 F1/F2/F3 判定\n待写入\nfactor_health.jsonl\n体检台账\n0 条\n展开最近记录\n记录因子周期性体检与分数失守告警\n待写入\nretired_log.jsonl\n淘汰台账\n0 条\n展开最近记录\n记录淘汰原因与冷冻/复活路径\n待写入",
+      "score_len": 556,
+      "cycle": 6,
+      "scan_rows": 1,
+      "life_len": 693,
+      "scorechain_text": "每窗 lift = 命中率 ÷ 基线；k_lift 查悬崖表；得分 = k_lift × 窗权重 × 准入度；总分 = 六窗得分之和。准入度 = min(1, 独立触发日 / N_w)，N_w = 5/10/15/30/60/120。绩效与 t 一律按独立触发日聚合（不用条口径）。\nk_lift 悬崖：≥1.30→1.00 / ≥1.20→0.80 / ≥1.10→0.65 / ≥1.00→0.50 / ≥0.84→-0.80 / ≥0.00→-1.30\n窗权重：8/22/15/10/30/15\n地板说明：k_lift <1.00 → −0.80 天花板，<0.84 → −1.3；不对称惩罚即噪声抑制器，宁可错杀弱势因子。\nbootstrap 500 校准：P50 -10.8 / P90 38.7 / P95 48.4 / P99 61.7 / P99.5 64.1\n四个裁判：lift 管分数裁判（lift → k_lift 悬崖） · t 管闸门裁判（t 值） · admission 管折扣裁判（独立触发日 / N_w） · backtest 管晋升裁判（实测 Δ 与 A/B）\n来源"
+    }
+  },
+  "review": {
+    "ok": true,
+    "data": {
+      "route": "#/review",
+      "hero_len": 44,
+      "hero_text": "—\nT+1 回测待产出（不填估计值）\n这是回测/实盘成绩，不是今日预测。基线 —，Δ —",
+      "scores_rows": 3,
+      "scores_text": "T+1\tgate+ddsm+veto 回测\t—\t0\t待填充\t—\nT+3\tgate_only 回测\t—\t0\t待填充\t—\nT+15\tgate+ddsm 回测\t—\t0\t待填充\t—",
+      "score_note_len": 78,
+      "degrade_text": "影子盘尚未启动，先积累连续记录再评估上线资格。",
+      "degrade_class": "degrade idle",
+      "recon_rows": 1
+    }
+  },
+  "engine": {
+    "ok": true,
+    "data": {
+      "route": "#/engine",
+      "hud": 6,
+      "hud_text": "影子盘\n未启动\n0 / 60 日\n引擎版本\noc-s3-v1\n在线\n训练资产\n9\n仅作特征 0 只\n状态格覆盖\n100.0%\n125 / 125 有样本\n上次重训\n—\n下次 2026-10-01\n数据新鲜度\n滞后 1 日\n2026-09-11",
+      "ledger_state": "未启动 连续 60 个交易日无漏单且偏差 <2pp 才具上线资格；台账尚未启动。",
+      "ledger_rows": 0,
+      "prg_width": "0%",
+      "arena_head": 7,
+      "arena_rows": 1,
+      "arena_legend": 6,
+      "train_len": 267,
+      "frozen_rows": 15,
+      "frozen_text": "加噪 K / p\n4 / 0.25\nMIN_N / SHRINK / BAND\n15 / 10 / 0.02\n双否决阈值\n拥挤 0.60 / KLOW2 0.40\n最小覆盖门槛\n覆盖 ≥0.30 · 开口 ≥3\nE1 跳空\nlow[t] > high[t-1]\nE3 无量急跌\nret < -0.02 且 vr < 0.8\npurge gap\nH+2\n窗权重\n8 / 22 / 15 / 10 / 30 / 15\n准入度分母 N_w\n5 / 10 / 15 / 30 / 60 / 120\n权重口径 weighting_basis\nmarket_value\n牌照线 · candidate\n≥50\n牌照线 · probation\n≥60 · k≥0.5\n牌照线 · renew_t2\n≥70 · k≥0.7\n牌照线 · full_t3\n≥80 · k≥0.7\n任何一项改动必须重走六关",
+      "d3_bars": 3,
+      "d6_bars": 6,
+      "dim_asset_opts": 10,
+      "cube_prod_cells": 25,
+      "cube_prod_pct": 23,
+      "cube_research_cells": 25,
+      "cube_layers": 5,
+      "cube_legend": 6,
+      "cmp_len": 70,
+      "cmp_text": "有效覆盖\n92.00% → 100.00%\nP 标准差\n0.352 → 0.103\n极端格数\n54 → 0 格\n走前 Δ\n待复现 → 待复现",
+      "dualnote_len": 93,
+      "registry_rows": 1
+    }
+  },
+  "settings": {
+    "ok": true,
+    "data": {
+      "route": "#/settings",
+      "sw_hide": true,
+      "sw_hide_holdings": true,
+      "llm_provider": true,
+      "llm_url": true,
+      "llm_key": true,
+      "llm_model": true,
+      "llm_status_len": 31,
+      "src_rows": 4,
+      "src_text": "腾讯日K\n正常\n09-12 01:45\n失败 0\n腾讯实时\n正常\n09-12 03:57\n失败 0\n天天基金\n不通\n—\n失败 359\n新浪实时\n未检测\n—\n失败 0",
+      "hd_data_len": 175,
+      "hd_diff_len": 140,
+      "hd_diff_text": "两份 funds_data.json 不同步：旧位置那份会滞后数日；同一标的的 pend_gz 估算值与官方净值可差 ~0.73%，证明估值≠净值，必须标注来源。产品只读 app_data/ 源文件，启动时做一致性校验。\n检查于 2026-09-12T04:01:30+08:00",
+      "st_registry_rows": 1,
+      "about_len": 109,
+      "about_text": "产品\n极境 ZenithLens 0.1.0\n引擎\nPython 3.8+ 纯标准库\n部署\nlocal_single_user\n存储\n全部本地存储，数据不出本机\n审计\n台账 INSERT-ONLY\n免责\n不构成投资建议"
+    }
+  }
+}

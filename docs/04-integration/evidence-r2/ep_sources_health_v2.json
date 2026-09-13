@@ -1,0 +1,82 @@
+{
+ "ok": true,
+ "data": {
+  "sources": [
+   {
+    "source_id": "tencent_kline",
+    "label": "腾讯日K",
+    "status": "ok",
+    "last_ok_at": "2026-09-13T00:50:56+08:00",
+    "fail_count": 0,
+    "latency_ms": null,
+    "note": "",
+    "fail_window_7d": 0,
+    "fail_window_days": 7,
+    "recent_failures": []
+   },
+   {
+    "source_id": "tencent_rt",
+    "label": "腾讯实时",
+    "status": "ok",
+    "last_ok_at": "2026-09-13T00:50:57+08:00",
+    "fail_count": 0,
+    "latency_ms": null,
+    "note": "rt batch",
+    "fail_window_7d": 0,
+    "fail_window_days": 7,
+    "recent_failures": []
+   },
+   {
+    "source_id": "eastmoney",
+    "label": "天天基金",
+    "status": "ok",
+    "last_ok_at": "2026-09-13T00:50:57+08:00",
+    "fail_count": 544,
+    "latency_ms": null,
+    "note": "fundvaluation",
+    "fail_window_7d": 0,
+    "fail_window_days": 7,
+    "recent_failures": []
+   },
+   {
+    "source_id": "sina_rt",
+    "label": "新浪实时",
+    "status": "ok",
+    "last_ok_at": "2026-09-13T00:47:45+08:00",
+    "fail_count": 6,
+    "latency_ms": 147,
+    "note": "仅探测·非主链（近 7 日失败 6 次）",
+    "fail_window_7d": 6,
+    "fail_window_days": 7,
+    "recent_failures": [
+     {
+      "at": "2026-09-12T23:47:44+08:00",
+      "note": "sina batch unreachable"
+     },
+     {
+      "at": "2026-09-12T23:25:31+08:00",
+      "note": "sina batch unreachable"
+     },
+     {
+      "at": "2026-09-12T23:24:00+08:00",
+      "note": "sina batch unreachable"
+     },
+     {
+      "at": "2026-09-12T23:22:44+08:00",
+      "note": "sina batch unreachable"
+     },
+     {
+      "at": "2026-09-12T23:09:53+08:00",
+      "note": "sina batch unreachable"
+     },
+     {
+      "at": "2026-09-12T23:06:54+08:00",
+      "note": "sina batch unreachable"
+     }
+    ]
+   }
+  ]
+ },
+ "error": null,
+ "as_of": "2026-09-13"
+}
